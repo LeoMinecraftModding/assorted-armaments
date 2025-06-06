@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.integration.eternal_starlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
 import team.leomc.assortedarmaments.registry.AAItems;
 
 import java.util.ArrayList;

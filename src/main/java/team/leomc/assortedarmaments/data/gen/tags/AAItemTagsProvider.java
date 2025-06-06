@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.integration.eternal_starlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
 import team.leomc.assortedarmaments.registry.AAItems;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 

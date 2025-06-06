@@ -5,7 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.event.AAClientSetupEvents;
-import team.leomc.assortedarmaments.integration.eternal_starlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 

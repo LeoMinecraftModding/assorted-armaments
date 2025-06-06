@@ -10,7 +10,7 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.integration.eternal_starlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
 import team.leomc.assortedarmaments.registry.AAItems;
 
 public class AAItemModelProvider extends ItemModelProvider {

@@ -35,7 +35,7 @@ import org.lwjgl.glfw.GLFW;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.renderer.entity.ThrownFlailRenderer;
 import team.leomc.assortedarmaments.client.renderer.entity.ThrownJavelinRenderer;
-import team.leomc.assortedarmaments.integration.eternal_starlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 import team.leomc.assortedarmaments.tags.AAItemTags;
@@ -158,8 +158,6 @@ public class AAClientSetupEvents {
 		ModelResourceLocation.standalone(AssortedArmaments.id("item/netherite_javelin_thrown"))
 	);
 
-	public static final Map<ModelResourceLocation, BakedModel> BAKED_MODELS = new HashMap<>();
-
 	public static final String KEY_CATEGORY_ASSORTED_ARMAMENTS = "key.categories.assorted_armaments";
 
 	public static final KeyMapping KEY_MAPPING_REMOVE_JAVELIN = new KeyMapping(Util.makeDescriptionId("key", AssortedArmaments.id("remove_javelin")), InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, KEY_CATEGORY_ASSORTED_ARMAMENTS);
@@ -173,6 +171,8 @@ public class AAClientSetupEvents {
 			ItemProperties.register(AAItems.GOLDEN_CLAYMORE.get(), AssortedArmaments.id("blocking"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
 			ItemProperties.register(AAItems.DIAMOND_CLAYMORE.get(), AssortedArmaments.id("blocking"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
 			ItemProperties.register(AAItems.NETHERITE_CLAYMORE.get(), AssortedArmaments.id("blocking"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
+
+			EternalStarlightHelper.registerItemProperties();
 
 			ItemProperties.register(AAItems.WOODEN_FLAIL.get(), AssortedArmaments.id("spinning"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
 			ItemProperties.register(AAItems.STONE_FLAIL.get(), AssortedArmaments.id("spinning"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
@@ -260,8 +260,6 @@ public class AAClientSetupEvents {
 
 	@SubscribeEvent
 	private static void onModifyBakingResult(ModelEvent.ModifyBakingResult event) {
-		BAKED_MODELS.clear();
-		BAKED_MODELS.putAll(event.getModels());
 		for (ModelResourceLocation location : event.getModels().keySet()) {
 			if (ITEMS_WITH_SPECIAL_MODELS.containsKey(location)) {
 				BakedModel model = event.getModels().get(location);
@@ -272,7 +270,7 @@ public class AAClientSetupEvents {
 							@Override
 							public BakedModel applyTransform(ItemDisplayContext cameraTransformType, PoseStack poseStack, boolean applyLeftHandTransform) {
 								if (ITEMS_WITH_SPECIAL_MODELS.get(location).containsKey(cameraTransformType)) {
-									return BAKED_MODELS.get(ITEMS_WITH_SPECIAL_MODELS.get(location).get(cameraTransformType)).applyTransform(cameraTransformType, poseStack, applyLeftHandTransform);
+									return event.getModels().get(ITEMS_WITH_SPECIAL_MODELS.get(location).get(cameraTransformType)).applyTransform(cameraTransformType, poseStack, applyLeftHandTransform);
 								}
 								return super.applyTransform(cameraTransformType, poseStack, applyLeftHandTransform);
 							}
@@ -283,7 +281,7 @@ public class AAClientSetupEvents {
 					@Override
 					public BakedModel applyTransform(ItemDisplayContext cameraTransformType, PoseStack poseStack, boolean applyLeftHandTransform) {
 						if (ITEMS_WITH_SPECIAL_MODELS.get(location).containsKey(cameraTransformType)) {
-							return BAKED_MODELS.get(ITEMS_WITH_SPECIAL_MODELS.get(location).get(cameraTransformType)).applyTransform(cameraTransformType, poseStack, applyLeftHandTransform);
+							return event.getModels().get(ITEMS_WITH_SPECIAL_MODELS.get(location).get(cameraTransformType)).applyTransform(cameraTransformType, poseStack, applyLeftHandTransform);
 						}
 						return super.applyTransform(cameraTransformType, poseStack, applyLeftHandTransform);
 					}

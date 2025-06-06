@@ -2,6 +2,7 @@ package team.leomc.assortedarmaments.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import team.leomc.assortedarmaments.client.event.AAClientSetupEvents;
 import team.leomc.assortedarmaments.entity.ThrownJavelin;
 
 @OnlyIn(Dist.CLIENT)
@@ -59,8 +59,8 @@ public class ThrownJavelinRenderer extends EntityRenderer<ThrownJavelin> {
 		poseStack.translate(0, 0.4375, -offset);
 		ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(entity.getItem().getItem());
 		ModelResourceLocation model = ModelResourceLocation.standalone(itemId.withPrefix("item/").withSuffix("_thrown"));
-		if (AAClientSetupEvents.BAKED_MODELS.containsKey(model)) {
-			this.itemRenderer.render(entity.getItem(), ItemDisplayContext.GROUND, false, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, AAClientSetupEvents.BAKED_MODELS.get(model));
+		if (Minecraft.getInstance().getModelManager().getModelBakery().getBakedTopLevelModels().containsKey(model)) {
+			this.itemRenderer.render(entity.getItem(), ItemDisplayContext.GROUND, false, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, Minecraft.getInstance().getModelManager().getModelBakery().getBakedTopLevelModels().get(model));
 		}
 		poseStack.popPose();
 		super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
