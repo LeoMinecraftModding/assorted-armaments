@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,14 +20,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.providers.VanillaEnchantmentProviders;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
@@ -49,31 +50,30 @@ public class AACommonEvents {
 	public static final String TAG_BLOCKING_DISABLED_TIME = "blocking_disabled_time";
 
 	@SubscribeEvent
-	private static void onJoinLevel(EntityJoinLevelEvent event) {
-		if (!event.getLevel().isClientSide && event.getEntity() instanceof LivingEntity living) {
-			Level level = event.getLevel();
-			RandomSource random = level.getRandom();
-			DifficultyInstance difficulty = level.getCurrentDifficultyAt(living.blockPosition());
-			double enchantChance = 0.25 * difficulty.getSpecialMultiplier();
-			if (living.getType().is(AAEntityTypeTags.ZOMBIES) && living.getRandom().nextFloat() < AACommonConfig.zombieUseWeaponChance) {
-				Optional<Holder<Item>> weapon = BuiltInRegistries.ITEM.getRandomElementOf(AAItemTags.ZOMBIES_CAN_USE, living.getRandom());
-				if (weapon.isPresent() && weapon.get().isBound()) {
-					ItemStack stack = weapon.get().value().getDefaultInstance();
-					if (!stack.isEmpty() && random.nextFloat() < enchantChance) {
-						EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
-					}
-					living.setItemInHand(InteractionHand.MAIN_HAND, stack);
+	private static void onJoinLevel(FinalizeSpawnEvent event) {
+		Mob living = event.getEntity();
+		ServerLevelAccessor level = event.getLevel();
+		RandomSource random = level.getRandom();
+		DifficultyInstance difficulty = level.getCurrentDifficultyAt(living.blockPosition());
+		double enchantChance = 0.25 * difficulty.getSpecialMultiplier();
+		if (living.getType().is(AAEntityTypeTags.ZOMBIES) && living.getRandom().nextFloat() < AACommonConfig.zombieUseWeaponChance) {
+			Optional<Holder<Item>> weapon = BuiltInRegistries.ITEM.getRandomElementOf(AAItemTags.ZOMBIES_CAN_USE, living.getRandom());
+			if (weapon.isPresent() && weapon.get().isBound()) {
+				ItemStack stack = weapon.get().value().getDefaultInstance();
+				if (!stack.isEmpty() && random.nextFloat() < enchantChance) {
+					EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
 				}
+				living.setItemInHand(InteractionHand.MAIN_HAND, stack);
 			}
-			if (living.getType().is(AAEntityTypeTags.PIGLINS) && living.getRandom().nextFloat() < AACommonConfig.piglinUseWeaponChance) {
-				Optional<Holder<Item>> weapon = BuiltInRegistries.ITEM.getRandomElementOf(AAItemTags.PIGLINS_CAN_USE, living.getRandom());
-				if (weapon.isPresent() && weapon.get().isBound()) {
-					ItemStack stack = weapon.get().value().getDefaultInstance();
-					if (!stack.isEmpty() && random.nextFloat() < enchantChance) {
-						EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
-					}
-					living.setItemInHand(InteractionHand.MAIN_HAND, stack);
+		}
+		if (living.getType().is(AAEntityTypeTags.PIGLINS) && living.getRandom().nextFloat() < AACommonConfig.piglinUseWeaponChance) {
+			Optional<Holder<Item>> weapon = BuiltInRegistries.ITEM.getRandomElementOf(AAItemTags.PIGLINS_CAN_USE, living.getRandom());
+			if (weapon.isPresent() && weapon.get().isBound()) {
+				ItemStack stack = weapon.get().value().getDefaultInstance();
+				if (!stack.isEmpty() && random.nextFloat() < enchantChance) {
+					EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
 				}
+				living.setItemInHand(InteractionHand.MAIN_HAND, stack);
 			}
 		}
 	}
