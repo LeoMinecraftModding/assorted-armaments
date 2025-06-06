@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/pike_sprinting",
+  "textures": {
+    "layer0": "assorted_armaments:item/netherite_halberd"
+  }
+}

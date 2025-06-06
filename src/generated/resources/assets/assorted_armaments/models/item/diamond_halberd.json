@@ -1,0 +1,21 @@
+{
+  "parent": "assorted_armaments:item/pike",
+  "overrides": [
+    {
+      "model": "assorted_armaments:item/diamond_halberd_blocking",
+      "predicate": {
+        "assorted_armaments:blocking": 1.0
+      }
+    },
+    {
+      "model": "assorted_armaments:item/diamond_halberd_sprinting",
+      "predicate": {
+        "assorted_armaments:blocking": 0.0,
+        "assorted_armaments:sprinting": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "assorted_armaments:item/diamond_halberd"
+  }
+}

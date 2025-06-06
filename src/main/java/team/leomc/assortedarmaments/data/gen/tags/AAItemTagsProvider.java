@@ -75,15 +75,26 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.DIAMOND_RAPIER.get(),
 			AAItems.NETHERITE_RAPIER.get()
 		);
+		tag(AAItemTags.HALBERDS).add(
+			AAItems.WOODEN_HALBERD.get(),
+			AAItems.STONE_HALBERD.get(),
+			AAItems.IRON_HALBERD.get(),
+			AAItems.GOLDEN_HALBERD.get(),
+			AAItems.DIAMOND_HALBERD.get(),
+			AAItems.NETHERITE_HALBERD.get()
+		);
 		tag(AAItemTags.TWO_HANDED)
 			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.FLAILS)
-			.addTag(AAItemTags.PIKES);
+			.addTag(AAItemTags.PIKES)
+			.addTag(AAItemTags.HALBERDS);
 		tag(AAItemTags.CAN_BLOCK)
 			.addTag(AAItemTags.CLAYMORES)
-			.addTag(AAItemTags.PIKES);
+			.addTag(AAItemTags.PIKES)
+			.addTag(AAItemTags.HALBERDS);
 		tag(AAItemTags.STRONG_SWEEP)
-			.addTag(AAItemTags.CLAYMORES);
+			.addTag(AAItemTags.CLAYMORES)
+			.addTag(AAItemTags.HALBERDS);
 		tag(AAItemTags.ARMOR_BASED_DAMAGE)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS);
@@ -98,14 +109,16 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			.addTag(AAItemTags.FLAILS);
 		tag(AAItemTags.SPEED_BASED_DAMAGE)
 			.addTag(AAItemTags.PIKES)
-			.addTag(AAItemTags.RAPIERS);
+			.addTag(AAItemTags.RAPIERS)
+			.addTag(AAItemTags.HALBERDS);
 		tag(AAItemTags.ZOMBIES_CAN_USE).add(
 			AAItems.IRON_CLAYMORE.get(),
 			AAItems.IRON_MACE.get(),
 			AAItems.IRON_FLAIL.get(),
 			AAItems.IRON_JAVELIN.get(),
 			AAItems.IRON_PIKE.get(),
-			AAItems.IRON_RAPIER.get()
+			AAItems.IRON_RAPIER.get(),
+			AAItems.IRON_HALBERD.get()
 		);
 		tag(AAItemTags.PIGLINS_CAN_USE).add(
 			AAItems.GOLDEN_CLAYMORE.get(),
@@ -113,11 +126,14 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_FLAIL.get(),
 			AAItems.GOLDEN_JAVELIN.get(),
 			AAItems.GOLDEN_PIKE.get(),
-			AAItems.GOLDEN_RAPIER.get()
+			AAItems.GOLDEN_RAPIER.get(),
+			AAItems.GOLDEN_HALBERD.get()
 		);
 		tag(ItemTags.SWORDS)
 			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.RAPIERS);
+		tag(ItemTags.AXES)
+			.addTag(AAItemTags.HALBERDS);
 		tag(ItemTags.SHARP_WEAPON_ENCHANTABLE)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
@@ -127,7 +143,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.JAVELINS)
-			.addTag(AAItemTags.PIKES);
+			.addTag(AAItemTags.PIKES)
+			.addTag(AAItemTags.HALBERDS);
 		tag(ItemTags.DURABILITY_ENCHANTABLE)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
@@ -139,7 +156,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_FLAIL.get(),
 			AAItems.GOLDEN_JAVELIN.get(),
 			AAItems.GOLDEN_PIKE.get(),
-			AAItems.GOLDEN_RAPIER.get()
+			AAItems.GOLDEN_RAPIER.get(),
+			AAItems.GOLDEN_HALBERD.get()
 		);
 		EternalStarlightHelper.addTags(this);
 	}

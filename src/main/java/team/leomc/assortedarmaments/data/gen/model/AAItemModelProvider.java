@@ -92,6 +92,19 @@ public class AAItemModelProvider extends ItemModelProvider {
 		rapier(AAItems.DIAMOND_RAPIER.get());
 		rapier(AAItems.NETHERITE_RAPIER.get());
 
+		pike(AAItems.WOODEN_HALBERD.get());
+		inventoryHandheld(AAItems.WOODEN_HALBERD.get());
+		pike(AAItems.STONE_HALBERD.get());
+		inventoryHandheld(AAItems.STONE_HALBERD.get());
+		pike(AAItems.IRON_HALBERD.get());
+		inventoryHandheld(AAItems.IRON_HALBERD.get());
+		pike(AAItems.GOLDEN_HALBERD.get());
+		inventoryHandheld(AAItems.GOLDEN_HALBERD.get());
+		pike(AAItems.DIAMOND_HALBERD.get());
+		inventoryHandheld(AAItems.DIAMOND_HALBERD.get());
+		pike(AAItems.NETHERITE_HALBERD.get());
+		inventoryHandheld(AAItems.NETHERITE_HALBERD.get());
+
 		EternalStarlightHelper.registerModels(this);
 	}
 

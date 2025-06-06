@@ -90,6 +90,13 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add(AAItems.DIAMOND_RAPIER.get(), "钻石刺剑");
 		add(AAItems.NETHERITE_RAPIER.get(), "下界合金刺剑");
 
+		add(AAItems.WOODEN_HALBERD.get(), "木长戟");
+		add(AAItems.STONE_HALBERD.get(), "石长戟");
+		add(AAItems.IRON_HALBERD.get(), "铁长戟");
+		add(AAItems.GOLDEN_HALBERD.get(), "金长戟");
+		add(AAItems.DIAMOND_HALBERD.get(), "钻石长戟");
+		add(AAItems.NETHERITE_HALBERD.get(), "下界合金长戟");
+
 		EternalStarlightHelper.addTranslations(this, false);
 	}
 }

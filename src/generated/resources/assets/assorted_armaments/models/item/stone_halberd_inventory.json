@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "assorted_armaments:item/stone_halberd_inventory"
+  }
+}

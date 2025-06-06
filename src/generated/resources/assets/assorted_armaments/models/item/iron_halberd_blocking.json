@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/pike_blocking",
+  "textures": {
+    "layer0": "assorted_armaments:item/iron_halberd"
+  }
+}

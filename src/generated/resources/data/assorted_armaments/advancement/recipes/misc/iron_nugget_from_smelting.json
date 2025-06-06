@@ -21,6 +21,16 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_iron_halberd": {
+      "conditions": {
+        "items": [
+          {
+            "items": "assorted_armaments:iron_halberd"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_iron_javelin": {
       "conditions": {
         "items": [
@@ -76,7 +86,8 @@
       "has_iron_flail",
       "has_iron_javelin",
       "has_iron_pike",
-      "has_iron_rapier"
+      "has_iron_rapier",
+      "has_iron_halberd"
     ]
   ],
   "rewards": {

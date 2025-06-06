@@ -23,6 +23,7 @@ public class AAItemTags {
 	public static final TagKey<Item> JAVELINS = create("javelins");
 	public static final TagKey<Item> PIKES = create("pikes");
 	public static final TagKey<Item> RAPIERS = create("rapiers");
+	public static final TagKey<Item> HALBERDS = create("halberds");
 
 	public static final TagKey<Item> ZOMBIES_CAN_USE = create("zombies_can_use");
 	public static final TagKey<Item> PIGLINS_CAN_USE = create("piglins_can_use");

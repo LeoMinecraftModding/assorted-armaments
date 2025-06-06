@@ -62,4 +62,12 @@ public class AAItems {
 	public static final DeferredItem<RapierItem> GOLDEN_RAPIER = ITEMS.register("golden_rapier", () -> new RapierItem(Tiers.GOLD, new Item.Properties().attributes(RapierItem.createAttributes(Tiers.GOLD, 2f, -2f))));
 	public static final DeferredItem<RapierItem> DIAMOND_RAPIER = ITEMS.register("diamond_rapier", () -> new RapierItem(Tiers.DIAMOND, new Item.Properties().attributes(RapierItem.createAttributes(Tiers.DIAMOND, 1f, -2f))));
 	public static final DeferredItem<RapierItem> NETHERITE_RAPIER = ITEMS.register("netherite_rapier", () -> new RapierItem(Tiers.NETHERITE, new Item.Properties().attributes(RapierItem.createAttributes(Tiers.NETHERITE, 1f, -2f))));
+
+	// halberds
+	public static final DeferredItem<HalberdItem> WOODEN_HALBERD = ITEMS.register("wooden_halberd", () -> new HalberdItem(Tiers.WOOD, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.WOOD, 5f, -3.2f, 1.5f))));
+	public static final DeferredItem<HalberdItem> STONE_HALBERD = ITEMS.register("stone_halberd", () -> new HalberdItem(Tiers.STONE, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.STONE, 5.5f, -3.2f, 1.5f))));
+	public static final DeferredItem<HalberdItem> IRON_HALBERD = ITEMS.register("iron_halberd", () -> new HalberdItem(Tiers.IRON, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.IRON, 6f, -3.2f, 1.5f))));
+	public static final DeferredItem<HalberdItem> GOLDEN_HALBERD = ITEMS.register("golden_halberd", () -> new HalberdItem(Tiers.GOLD, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.GOLD, 5f, -3.2f, 1.5f))));
+	public static final DeferredItem<HalberdItem> DIAMOND_HALBERD = ITEMS.register("diamond_halberd", () -> new HalberdItem(Tiers.DIAMOND, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.DIAMOND, 6.5f, -3.2f, 1.5f))));
+	public static final DeferredItem<HalberdItem> NETHERITE_HALBERD = ITEMS.register("netherite_halberd", () -> new HalberdItem(Tiers.NETHERITE, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.NETHERITE, 7f, -3.2f, 1.5f))));
 }

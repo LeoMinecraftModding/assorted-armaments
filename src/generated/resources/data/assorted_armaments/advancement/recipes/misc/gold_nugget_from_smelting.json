@@ -21,6 +21,16 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_golden_halberd": {
+      "conditions": {
+        "items": [
+          {
+            "items": "assorted_armaments:golden_halberd"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_golden_javelin": {
       "conditions": {
         "items": [
@@ -76,7 +86,8 @@
       "has_golden_flail",
       "has_golden_javelin",
       "has_golden_pike",
-      "has_golden_rapier"
+      "has_golden_rapier",
+      "has_golden_halberd"
     ]
   ],
   "rewards": {
