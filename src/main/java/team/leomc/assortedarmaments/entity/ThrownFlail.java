@@ -14,7 +14,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -24,8 +23,14 @@ import team.leomc.assortedarmaments.registry.AAItems;
 
 public class ThrownFlail extends ThrowableItemProjectile {
 	private static final String TAG_HIT_TARGET = "hit_target";
+	private static final String TAG_POWER = "power";
 
 	private boolean hitTarget;
+	private int power = 1;
+
+	public void setPower(int power) {
+		this.power = power;
+	}
 
 	public ThrownFlail(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
 		super(entityType, level);
@@ -46,7 +51,7 @@ public class ThrownFlail extends ThrowableItemProjectile {
 		super.tick();
 		Entity owner = getOwner();
 		if (owner != null) {
-			if (owner.distanceTo(this) > 8 || tickCount > 200) {
+			if (owner.distanceTo(this) > Math.max(power * 2, 5) || tickCount > 200) {
 				hitTarget = true;
 			}
 			if (hitTarget) {
@@ -55,12 +60,15 @@ public class ThrownFlail extends ThrowableItemProjectile {
 				this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.045, this.getZ());
 				this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(0.15)));
 			}
+			if (!level().isClientSide && getPlayerOwner() == null) {
+				discard();
+			}
 		}
 	}
 
 	@Override
 	public void playerTouch(Player player) {
-		if (hitTarget) {
+		if (hitTarget && player == getPlayerOwner()) {
 			discard();
 		}
 	}
@@ -75,18 +83,19 @@ public class ThrownFlail extends ThrowableItemProjectile {
 	protected void onHit(HitResult result) {
 		super.onHit(result);
 		hitTarget = true;
+		setDeltaMovement(Vec3.ZERO);
 	}
 
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		super.onHitEntity(result);
 		Entity entity = result.getEntity();
-		if (entity != getOwner()) {
+		if (entity != getOwner() && !hitTarget) {
 			DamageSource source = getPlayerOwner() != null ? this.damageSources().playerAttack(this.getPlayerOwner()) : (getOwner() instanceof LivingEntity living ? this.damageSources().mobAttack(living) : this.damageSources().thrown(this, getOwner()));
 			float damage = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE) ? (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) : 5;
 			float knockback = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_KNOCKBACK) ? living.getKnockback(entity, source) : 1;
-			damage *= 2;
-			knockback *= 2;
+			damage *= (0.5f * power);
+			knockback *= (0.5f * power);
 			if (level() instanceof ServerLevel serverLevel && getWeaponItem() != null) {
 				damage = EnchantmentHelper.modifyDamage(serverLevel, getWeaponItem(), entity, source, damage);
 			}
@@ -101,14 +110,6 @@ public class ThrownFlail extends ThrowableItemProjectile {
 					living.knockback(knockback * 0.5F, x / d, z / d);
 				}
 			}
-		}
-	}
-
-	@Override
-	protected void onHitBlock(BlockHitResult result) {
-		super.onHitBlock(result);
-		if (!hitTarget) {
-			setDeltaMovement(Vec3.ZERO);
 		}
 	}
 
@@ -154,11 +155,13 @@ public class ThrownFlail extends ThrowableItemProjectile {
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 		this.hitTarget = compound.getBoolean(TAG_HIT_TARGET);
+		this.power = compound.getInt(TAG_POWER);
 	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
 		compound.putBoolean(TAG_HIT_TARGET, this.hitTarget);
+		compound.putInt(TAG_POWER, this.power);
 	}
 }

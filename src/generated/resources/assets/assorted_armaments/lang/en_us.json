@@ -1,11 +1,10 @@
 {
   "assorted_armaments.configuration.armorBasedAttackDamagePercentage": "Armor Based Attack Damage Percentage",
   "assorted_armaments.configuration.blockWalkSpeedModifier": "Block Walk Speed Modifier",
-  "assorted_armaments.configuration.flailMaxUseDuration": "Maximum Flail Use Duration",
-  "assorted_armaments.configuration.flailSpinCooldown": "Flail Spin Cooldown",
+  "assorted_armaments.configuration.claymoreSweepAttackCooldown": "Claymore Sweep Attack Cooldown",
   "assorted_armaments.configuration.flailSpinDamageFactor": "Flail Spin Damage Factor",
   "assorted_armaments.configuration.flailSpinKnockbackFactor": "Flail Spin Knockback Factor",
-  "assorted_armaments.configuration.flailThrowMinUseDuration": "Minimum Use Duration to Throw a Flail",
+  "assorted_armaments.configuration.flailTimePerPowerLevel": "Time Required for each Power Increase of a Flail",
   "assorted_armaments.configuration.piglinUseWeaponChance": "Chance of a Piglin Using a Modded Weapon",
   "assorted_armaments.configuration.speedBasedAttackDamagePercentage": "Speed Based Attack Damage Modifier",
   "assorted_armaments.configuration.zombieUseWeaponChance": "Chance of a Zombie Using a Modded Weapon",

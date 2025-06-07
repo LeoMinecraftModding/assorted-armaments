@@ -25,9 +25,8 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add(AssortedArmaments.ID + ".configuration.blockWalkSpeedModifier", "格挡行走速度因数");
 		add(AssortedArmaments.ID + ".configuration.armorBasedAttackDamagePercentage", "基于盔甲的伤害百分比");
 		add(AssortedArmaments.ID + ".configuration.speedBasedAttackDamageModifier", "基于速度的伤害因数");
-		add(AssortedArmaments.ID + ".configuration.flailMaxUseDuration", "流星锤最长使用时间");
-		add(AssortedArmaments.ID + ".configuration.flailThrowMinUseDuration", "投掷流星锤最短所需时间");
-		add(AssortedArmaments.ID + ".configuration.flailSpinCooldown", "流星锤旋转冷却");
+		add(AssortedArmaments.ID + ".configuration.claymoreSweepAttackCooldown", "大剑横扫攻击冷却");
+		add(AssortedArmaments.ID + ".configuration.flailTimePerPowerLevel", "流星锤强度级数增加时间");
 		add(AssortedArmaments.ID + ".configuration.flailSpinDamageFactor", "流星锤旋转伤害因数");
 		add(AssortedArmaments.ID + ".configuration.flailSpinKnockbackFactor", "流星锤旋转击退因数");
 		add(AssortedArmaments.ID + ".configuration.zombieUseWeaponChance", "僵尸使用模组武器几率");

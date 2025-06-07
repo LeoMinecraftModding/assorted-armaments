@@ -1,7 +1,6 @@
 package team.leomc.assortedarmaments.item;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -27,7 +26,6 @@ import net.neoforged.neoforge.common.ItemAbility;
 import team.leomc.assortedarmaments.AACommonConfig;
 import team.leomc.assortedarmaments.entity.FlailOwner;
 import team.leomc.assortedarmaments.entity.ThrownFlail;
-import team.leomc.assortedarmaments.tags.AAItemTags;
 
 import java.util.List;
 
@@ -49,7 +47,7 @@ public class FlailItem extends TieredItem {
 
 	@Override
 	public int getUseDuration(ItemStack stack, LivingEntity entity) {
-		return AACommonConfig.flailMaxUseDuration;
+		return 72000;
 	}
 
 	@Override
@@ -61,33 +59,31 @@ public class FlailItem extends TieredItem {
 	}
 
 	@Override
-	public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
-		if (!entity.level().isClientSide && entity instanceof Player player) {
-			BuiltInRegistries.ITEM.getTagOrEmpty(AAItemTags.FLAILS).forEach(holder -> {
-				if (holder.isBound()) {
-					player.getCooldowns().addCooldown(holder.value(), AACommonConfig.flailSpinCooldown);
-				}
-			});
+	public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
+		int time = this.getUseDuration(stack, livingEntity) - timeLeft;
+		if (!livingEntity.level().isClientSide && livingEntity instanceof Player player && time >= AACommonConfig.flailTimePerPowerLevel && !(player instanceof FlailOwner owner && owner.getFlail() != null)) {
+			player.stopUsingItem();
+			ThrownFlail flail = new ThrownFlail(level, player);
+			flail.setPower(Math.min(time / AACommonConfig.flailTimePerPowerLevel, 5));
+			flail.setItem(stack);
+			flail.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 1.8f, 0.5f);
+			level.addFreshEntity(flail);
 		}
+		super.releaseUsing(stack, level, livingEntity, timeLeft);
 	}
 
 	@Override
 	public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
-		if (livingEntity instanceof Player player) {
-			float damageFactor = (float) (AACommonConfig.flailSpinDamageFactor * Math.min((player.getTicksUsingItem() / 20f), 5));
-			float knockbackFactor = (float) (AACommonConfig.flailSpinKnockbackFactor * Math.min((player.getTicksUsingItem() / 20f), 5));
+		if (livingEntity instanceof Player player && !level.isClientSide) {
 			for (LivingEntity living : livingEntity.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
 				DamageSource source = living.damageSources().playerAttack(player);
 
-				float damage = (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
-				float knockback = player.getKnockback(living, source);
+				float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) * AACommonConfig.flailSpinDamageFactor);
+				float knockback = (float) (player.getKnockback(living, source) * AACommonConfig.flailSpinKnockbackFactor);
 
 				if (player.level() instanceof ServerLevel serverLevel) {
 					damage = EnchantmentHelper.modifyDamage(serverLevel, player.getWeaponItem(), living, source, damage);
 				}
-
-				damage *= damageFactor;
-				knockback *= knockbackFactor;
 
 				if (living.hurt(source, damage) && player.level() instanceof ServerLevel serverLevel) {
 					EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, living, source, stack);
@@ -96,13 +92,6 @@ public class FlailItem extends TieredItem {
 				if (knockback > 0.0F) {
 					living.knockback(knockback * 0.5F, Mth.sin(player.getYRot() * Mth.DEG_TO_RAD), -Mth.cos(player.getYRot() * Mth.DEG_TO_RAD));
 				}
-			}
-			if (player.getTicksUsingItem() >= AACommonConfig.flailThrowMinUseDuration && !player.isCrouching() && !(player instanceof FlailOwner owner && owner.getFlail() != null)) {
-				player.stopUsingItem();
-				ThrownFlail flail = new ThrownFlail(level, player);
-				flail.setItem(stack);
-				flail.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 1.8f, 0.5f);
-				level.addFreshEntity(flail);
 			}
 		}
 	}

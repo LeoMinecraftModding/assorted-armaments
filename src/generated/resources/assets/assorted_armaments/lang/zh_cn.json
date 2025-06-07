@@ -1,11 +1,10 @@
 {
   "assorted_armaments.configuration.armorBasedAttackDamagePercentage": "基于盔甲的伤害百分比",
   "assorted_armaments.configuration.blockWalkSpeedModifier": "格挡行走速度因数",
-  "assorted_armaments.configuration.flailMaxUseDuration": "流星锤最长使用时间",
-  "assorted_armaments.configuration.flailSpinCooldown": "流星锤旋转冷却",
+  "assorted_armaments.configuration.claymoreSweepAttackCooldown": "大剑横扫攻击冷却",
   "assorted_armaments.configuration.flailSpinDamageFactor": "流星锤旋转伤害因数",
   "assorted_armaments.configuration.flailSpinKnockbackFactor": "流星锤旋转击退因数",
-  "assorted_armaments.configuration.flailThrowMinUseDuration": "投掷流星锤最短所需时间",
+  "assorted_armaments.configuration.flailTimePerPowerLevel": "流星锤强度级数增加时间",
   "assorted_armaments.configuration.piglinUseWeaponChance": "猪灵使用模组武器几率",
   "assorted_armaments.configuration.speedBasedAttackDamageModifier": "基于速度的伤害因数",
   "assorted_armaments.configuration.zombieUseWeaponChance": "僵尸使用模组武器几率",

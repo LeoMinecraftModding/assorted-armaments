@@ -44,6 +44,7 @@ public class HalberdItem extends SwordItem {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		player.startUsingItem(hand);
+		player.setSprinting(false);
 		return InteractionResultHolder.consume(stack);
 	}
 

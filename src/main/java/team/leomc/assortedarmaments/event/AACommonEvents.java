@@ -32,6 +32,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import team.leomc.assortedarmaments.AACommonConfig;
@@ -48,6 +49,7 @@ import java.util.Optional;
 public class AACommonEvents {
 	public static final String TAG_BLOCKING_ABILITY_DISABLED = "blocking_ability_disabled";
 	public static final String TAG_BLOCKING_DISABLED_TIME = "blocking_disabled_time";
+	public static final String TAG_NO_INTENTIONAL_SWEEP_ATTACK = "no_intentional_sweep_attack";
 
 	@SubscribeEvent
 	private static void onJoinLevel(FinalizeSpawnEvent event) {
@@ -88,10 +90,14 @@ public class AACommonEvents {
 			if (living.getWeaponItem().is(AAItemTags.SPEED_BASED_DAMAGE) && living.isSprinting() && living.onGround()) {
 				event.setAmount((float) (event.getAmount() + living.getKnownMovement().length() * AACommonConfig.speedBasedAttackDamageModifier));
 			}
-			if (living.isUsingItem() && living.getUseItem().is(AAItemTags.FLAILS)) {
-				event.setAmount(event.getAmount() * 0.1f * Math.min((living.getTicksUsingItem() / 20f), 5));
-			}
 			MaterialsComponent.applyMaterials(living.getWeaponItem(), material -> material.onIncomingDamage(event));
+		}
+	}
+
+	@SubscribeEvent
+	private static void onSweepAttack(SweepAttackEvent event) {
+		if (event.isSweeping()) {
+			event.getEntity().getPersistentData().putBoolean(TAG_NO_INTENTIONAL_SWEEP_ATTACK, true);
 		}
 	}
 
@@ -132,6 +138,7 @@ public class AACommonEvents {
 					PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(false));
 				}
 				living.getPersistentData().putInt(TAG_BLOCKING_DISABLED_TIME, Math.max(living.getPersistentData().getInt(TAG_BLOCKING_DISABLED_TIME) - 1, 0));
+				living.getPersistentData().putBoolean(TAG_NO_INTENTIONAL_SWEEP_ATTACK, false);
 			}
 			AttributeInstance speedInstance = living.getAttribute(Attributes.MOVEMENT_SPEED);
 			if (speedInstance != null) {

@@ -28,9 +28,8 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add(AssortedArmaments.ID + ".configuration.blockWalkSpeedModifier", "Block Walk Speed Modifier");
 		add(AssortedArmaments.ID + ".configuration.armorBasedAttackDamagePercentage", "Armor Based Attack Damage Percentage");
 		add(AssortedArmaments.ID + ".configuration.speedBasedAttackDamagePercentage", "Speed Based Attack Damage Modifier");
-		add(AssortedArmaments.ID + ".configuration.flailMaxUseDuration", "Maximum Flail Use Duration");
-		add(AssortedArmaments.ID + ".configuration.flailThrowMinUseDuration", "Minimum Use Duration to Throw a Flail");
-		add(AssortedArmaments.ID + ".configuration.flailSpinCooldown", "Flail Spin Cooldown");
+		add(AssortedArmaments.ID + ".configuration.claymoreSweepAttackCooldown", "Claymore Sweep Attack Cooldown");
+		add(AssortedArmaments.ID + ".configuration.flailTimePerPowerLevel", "Time Required for each Power Increase of a Flail");
 		add(AssortedArmaments.ID + ".configuration.flailSpinDamageFactor", "Flail Spin Damage Factor");
 		add(AssortedArmaments.ID + ".configuration.flailSpinKnockbackFactor", "Flail Spin Knockback Factor");
 		add(AssortedArmaments.ID + ".configuration.zombieUseWeaponChance", "Chance of a Zombie Using a Modded Weapon");

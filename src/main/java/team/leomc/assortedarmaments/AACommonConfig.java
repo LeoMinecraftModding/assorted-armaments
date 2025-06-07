@@ -21,32 +21,28 @@ public class AACommonConfig {
 		.comment("Damage caused when attacking with a weapon that deals damage according to the attacker's movement speed = original damage + speedBasedAttackDamageModifier * attacker's movement speed")
 		.defineInRange("speedBasedAttackDamageModifier", 10, 0, Double.MAX_VALUE);
 
-	private static final ModConfigSpec.IntValue FLAIL_MAX_USE_DURATION = BUILDER
-		.comment("How long can the player use a flail? (in ticks, 20 tick = 1 second)")
-		.defineInRange("flailMaxUseDuration", 150, 0, Integer.MAX_VALUE);
+	private static final ModConfigSpec.IntValue CLAYMORE_SWEEP_ATTACK_COOLDOWN = BUILDER
+		.comment("Claymores' intentional sweep attack cooldown (in ticks, 20 ticks = 1 second)")
+		.defineInRange("claymoreSweepAttackCooldown", 100, 0, Integer.MAX_VALUE);
 
-	private static final ModConfigSpec.IntValue FLAIL_THROW_MIN_USE_DURATION = BUILDER
-		.comment("What is the minimum amount of time the player have to use the flail to throw it? (in ticks, 20 tick = 1 second)")
-		.defineInRange("flailThrowMinUseDuration", 100, 0, Integer.MAX_VALUE);
-
-	private static final ModConfigSpec.IntValue FLAIL_SPIN_COOLDOWN = BUILDER
-		.comment("How long is the cooldown after using a flail? (in ticks, 20 tick = 1 second)")
-		.defineInRange("flailSpinCooldown", 40, 0, Integer.MAX_VALUE);
+	private static final ModConfigSpec.IntValue FLAIL_TIME_PER_POWER_LEVEL = BUILDER
+		.comment("When using a flail, every flailTimePerPowerLevel ticks, the power level of the flail increases. This is also the minimum time a player needs to use a flail in order to throw it (in ticks, 20 ticks = 1 second)")
+		.defineInRange("flailTimePerPowerLevel", 20, 0, Integer.MAX_VALUE);
 
 	private static final ModConfigSpec.DoubleValue FLAIL_SPIN_DAMAGE_FACTOR = BUILDER
 		.comment("Damage caused when attacking with a spinning flail = original damage * flailSpinDamageFactor")
-		.defineInRange("flailSpinDamageFactor", 0.1, 0, 1);
+		.defineInRange("flailSpinDamageFactor", 0.25, 0, 1);
 
 	private static final ModConfigSpec.DoubleValue FLAIL_SPIN_KNOCKBACK_FACTOR = BUILDER
 		.comment("Knockback caused when attacking with a spinning flail = original knockback * flailSpinKnockbackFactor")
-		.defineInRange("flailSpinKnockbackFactor", 0.1, 0, 1);
+		.defineInRange("flailSpinKnockbackFactor", 0.25, 0, 1);
 
 	private static final ModConfigSpec.DoubleValue ZOMBIE_USE_WEAPON_CHANCE = BUILDER
-		.comment("What is the probability that a zombie will use a weapon from assorted armaments?")
+		.comment("What is the probability that a zombie will use a weapon from Assorted Armaments?")
 		.defineInRange("zombieUseWeaponChance", 0.1, 0, 1);
 
 	private static final ModConfigSpec.DoubleValue PIGLIN_USE_WEAPON_CHANCE = BUILDER
-		.comment("What is the probability that a piglin will use a weapon from assorted armaments?")
+		.comment("What is the probability that a piglin will use a weapon from Assorted Armaments?")
 		.defineInRange("piglinUseWeaponChance", 0.1, 0, 1);
 
 	public static final ModConfigSpec SPEC = BUILDER.build();
@@ -54,9 +50,8 @@ public class AACommonConfig {
 	public static double blockWalkSpeedModifier;
 	public static double armorBasedAttackDamagePercentage;
 	public static double speedBasedAttackDamageModifier;
-	public static int flailMaxUseDuration;
-	public static int flailThrowMinUseDuration;
-	public static int flailSpinCooldown;
+	public static int claymoreSweepAttackCooldown;
+	public static int flailTimePerPowerLevel;
 	public static double flailSpinDamageFactor;
 	public static double flailSpinKnockbackFactor;
 	public static double zombieUseWeaponChance;
@@ -67,9 +62,8 @@ public class AACommonConfig {
 		blockWalkSpeedModifier = BLOCK_WALK_SPEED_MODIFIER.get();
 		armorBasedAttackDamagePercentage = ARMOR_BASED_ATTACK_DAMAGE_PERCENTAGE.get();
 		speedBasedAttackDamageModifier = SPEED_BASED_ATTACK_DAMAGE_MODIFIER.get();
-		flailMaxUseDuration = FLAIL_MAX_USE_DURATION.get();
-		flailThrowMinUseDuration = FLAIL_THROW_MIN_USE_DURATION.get();
-		flailSpinCooldown = FLAIL_SPIN_COOLDOWN.get();
+		claymoreSweepAttackCooldown = CLAYMORE_SWEEP_ATTACK_COOLDOWN.get();
+		flailTimePerPowerLevel = FLAIL_TIME_PER_POWER_LEVEL.get();
 		flailSpinDamageFactor = FLAIL_SPIN_DAMAGE_FACTOR.get();
 		flailSpinKnockbackFactor = FLAIL_SPIN_KNOCKBACK_FACTOR.get();
 		zombieUseWeaponChance = ZOMBIE_USE_WEAPON_CHANCE.get();
