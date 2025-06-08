@@ -24,12 +24,12 @@ public class AAItems {
 	}
 
 	// maces
-	public static final DeferredItem<MaceItem> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new MaceItem(Tiers.WOOD, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.WOOD, 4f, -3f))));
-	public static final DeferredItem<MaceItem> STONE_MACE = ITEMS.register("stone_mace", () -> new MaceItem(Tiers.STONE, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.STONE, 4f, -3f))));
-	public static final DeferredItem<MaceItem> IRON_MACE = ITEMS.register("iron_mace", () -> new MaceItem(Tiers.IRON, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.IRON, 4f, -3f))));
-	public static final DeferredItem<MaceItem> GOLDEN_MACE = ITEMS.register("golden_mace", () -> new MaceItem(Tiers.GOLD, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.GOLD, 4f, -3f))));
-	public static final DeferredItem<MaceItem> DIAMOND_MACE = ITEMS.register("diamond_mace", () -> new MaceItem(Tiers.DIAMOND, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.DIAMOND, 4.5f, -3f))));
-	public static final DeferredItem<MaceItem> NETHERITE_MACE = ITEMS.register("netherite_mace", () -> new MaceItem(Tiers.NETHERITE, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.NETHERITE, 4.5f, -3f))));
+	public static final DeferredItem<MaceItem> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new MaceItem(Tiers.WOOD, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.WOOD, 4f, -2.9f))));
+	public static final DeferredItem<MaceItem> STONE_MACE = ITEMS.register("stone_mace", () -> new MaceItem(Tiers.STONE, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.STONE, 4f, -2.9f))));
+	public static final DeferredItem<MaceItem> IRON_MACE = ITEMS.register("iron_mace", () -> new MaceItem(Tiers.IRON, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.IRON, 4f, -2.9f))));
+	public static final DeferredItem<MaceItem> GOLDEN_MACE = ITEMS.register("golden_mace", () -> new MaceItem(Tiers.GOLD, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.GOLD, 4f, -2.9f))));
+	public static final DeferredItem<MaceItem> DIAMOND_MACE = ITEMS.register("diamond_mace", () -> new MaceItem(Tiers.DIAMOND, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.DIAMOND, 4.5f, -2.9f))));
+	public static final DeferredItem<MaceItem> NETHERITE_MACE = ITEMS.register("netherite_mace", () -> new MaceItem(Tiers.NETHERITE, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.NETHERITE, 4.5f, -2.9f))));
 
 	// flails
 	public static final DeferredItem<FlailItem> WOODEN_FLAIL = ITEMS.register("wooden_flail", () -> new FlailItem(Tiers.WOOD, new Item.Properties().attributes(FlailItem.createAttributes(Tiers.WOOD, 4.5f, -3.2f))));
@@ -70,4 +70,12 @@ public class AAItems {
 	public static final DeferredItem<HalberdItem> GOLDEN_HALBERD = ITEMS.register("golden_halberd", () -> new HalberdItem(Tiers.GOLD, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.GOLD, 5f, -3.2f, 1.5f))));
 	public static final DeferredItem<HalberdItem> DIAMOND_HALBERD = ITEMS.register("diamond_halberd", () -> new HalberdItem(Tiers.DIAMOND, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.DIAMOND, 6.5f, -3.2f, 1.5f))));
 	public static final DeferredItem<HalberdItem> NETHERITE_HALBERD = ITEMS.register("netherite_halberd", () -> new HalberdItem(Tiers.NETHERITE, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.NETHERITE, 7f, -3.2f, 1.5f))));
+
+	// heavy shields
+	public static final DeferredItem<HeavyShieldItem> WOODEN_HEAVY_SHIELD = ITEMS.register("wooden_heavy_shield", () -> new HeavyShieldItem(Tiers.WOOD, new Item.Properties().attributes(HeavyShieldItem.createAttributes(Tiers.WOOD, 2f, -2.8f))));
+	public static final DeferredItem<HeavyShieldItem> STONE_HEAVY_SHIELD = ITEMS.register("stone_heavy_shield", () -> new HeavyShieldItem(Tiers.STONE, new Item.Properties().attributes(HeavyShieldItem.createAttributes(Tiers.STONE, 2f, -2.8f))));
+	public static final DeferredItem<HeavyShieldItem> IRON_HEAVY_SHIELD = ITEMS.register("iron_heavy_shield", () -> new HeavyShieldItem(Tiers.IRON, new Item.Properties().attributes(HeavyShieldItem.createAttributes(Tiers.IRON, 2f, -2.8f))));
+	public static final DeferredItem<HeavyShieldItem> GOLDEN_HEAVY_SHIELD = ITEMS.register("golden_heavy_shield", () -> new HeavyShieldItem(Tiers.GOLD, new Item.Properties().attributes(HeavyShieldItem.createAttributes(Tiers.GOLD, 2f, -2.8f))));
+	public static final DeferredItem<HeavyShieldItem> DIAMOND_HEAVY_SHIELD = ITEMS.register("diamond_heavy_shield", () -> new HeavyShieldItem(Tiers.DIAMOND, new Item.Properties().attributes(HeavyShieldItem.createAttributes(Tiers.DIAMOND, 1.5f, -2.8f))));
+	public static final DeferredItem<HeavyShieldItem> NETHERITE_HEAVY_SHIELD = ITEMS.register("netherite_heavy_shield", () -> new HeavyShieldItem(Tiers.NETHERITE, new Item.Properties().attributes(HeavyShieldItem.createAttributes(Tiers.NETHERITE, 1.5f, -2.8f))));
 }

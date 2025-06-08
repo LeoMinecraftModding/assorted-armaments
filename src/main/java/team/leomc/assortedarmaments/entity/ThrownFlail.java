@@ -18,6 +18,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 
@@ -60,9 +61,8 @@ public class ThrownFlail extends ThrowableItemProjectile {
 				this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.045, this.getZ());
 				this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(0.15)));
 			}
-			if (!level().isClientSide && getPlayerOwner() == null) {
-				discard();
-			}
+		} else {
+			discard();
 		}
 	}
 
@@ -140,8 +140,12 @@ public class ThrownFlail extends ThrowableItemProjectile {
 
 	private void updateOwnerInfo(@Nullable ThrownFlail flail) {
 		Player player = this.getPlayerOwner();
-		if (player instanceof FlailOwner owner) {
-			owner.setFlail(flail);
+		if (player != null) {
+			if (flail != null) {
+				player.setData(AADataAttachments.FLAIL, flail);
+			} else {
+				player.removeData(AADataAttachments.FLAIL);
+			}
 		}
 	}
 

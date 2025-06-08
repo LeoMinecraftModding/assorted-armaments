@@ -27,11 +27,16 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 
 		add(AssortedArmaments.ID + ".configuration.blockWalkSpeedModifier", "Block Walk Speed Modifier");
 		add(AssortedArmaments.ID + ".configuration.armorBasedAttackDamagePercentage", "Armor Based Attack Damage Percentage");
-		add(AssortedArmaments.ID + ".configuration.speedBasedAttackDamagePercentage", "Speed Based Attack Damage Modifier");
+		add(AssortedArmaments.ID + ".configuration.sprintExtraAttackDamagePercentage", "Sprint Extra Attack Damage Percentage");
 		add(AssortedArmaments.ID + ".configuration.claymoreSweepAttackCooldown", "Claymore Sweep Attack Cooldown");
 		add(AssortedArmaments.ID + ".configuration.flailTimePerPowerLevel", "Time Required for each Power Increase of a Flail");
 		add(AssortedArmaments.ID + ".configuration.flailSpinDamageFactor", "Flail Spin Damage Factor");
 		add(AssortedArmaments.ID + ".configuration.flailSpinKnockbackFactor", "Flail Spin Knockback Factor");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockWalkSpeedModifier", "Heavy Shield Block Walk Speed Modifier");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockAttackDamageModifier", "Heavy Shield Block Attack Damage Modifier");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldFastBlockTime", "Heavy Shield Fast Block Time");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldFastBlockDamageReflectionPercentage", "Heavy Shield Fast Block Damage Reflection Percentage");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldFastCounterattackTime", "Heavy Shield Fast Counterattack Time");
 		add(AssortedArmaments.ID + ".configuration.zombieUseWeaponChance", "Chance of a Zombie Using a Modded Weapon");
 		add(AssortedArmaments.ID + ".configuration.piglinUseWeaponChance", "Chance of a Piglin Using a Modded Weapon");
 
@@ -42,11 +47,13 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("desc." + AssortedArmaments.ID + ".armor_based_damage", "Deals extra damage to enemies with armor");
 		add("desc." + AssortedArmaments.ID + ".disables_blocking_on_attack", "Disables the target's ability to block");
 		add("desc." + AssortedArmaments.ID + ".extra_knockback", "Deals extra knockback");
-		add("desc." + AssortedArmaments.ID + ".speed_based_damage", "Increases damage based on speed when sprinting");
+		add("desc." + AssortedArmaments.ID + ".extra_damage_when_sprinting", "Increases damage when sprinting");
 
+		add("desc." + AssortedArmaments.ID + ".maces", "Critical attack deals more damage and temporarily stuns the target");
 		add("desc." + AssortedArmaments.ID + ".flails", "Can be thrown");
 		add("desc." + AssortedArmaments.ID + ".javelins", "Can be thrown and plunged into an enemy, will also deal damage when removed from the victim");
 		add("desc." + AssortedArmaments.ID + ".rapiers", "Continuously attacking the same target gradually increases the damage");
+		add("desc." + AssortedArmaments.ID + ".heavy_shields", "Can still attack while blocking; Blocking a melee attack within a short time of starting to use a heavy shield will deal some damage back to the attacker; Using it to block damage and then using it to damage the attacker a short time later allows the blocked damage to be returned to the attacker");
 
 		AAItems.ITEMS.getEntries().forEach(item -> add(item.get(), toTitleCase(item.getId().getPath())));
 		AAEntityTypes.ENTITY_TYPES.getEntries().forEach(entityType -> add(entityType.get(), toTitleCase(entityType.getId().getPath())));

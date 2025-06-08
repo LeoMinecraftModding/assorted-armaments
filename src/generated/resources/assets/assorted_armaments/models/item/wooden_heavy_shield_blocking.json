@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/heavy_shield_blocking",
+  "textures": {
+    "layer0": "assorted_armaments:item/wooden_heavy_shield"
+  }
+}

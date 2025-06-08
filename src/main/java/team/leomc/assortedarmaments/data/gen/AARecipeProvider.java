@@ -82,6 +82,13 @@ public class AARecipeProvider extends RecipeProvider {
 		halberd(recipeOutput, AAItems.DIAMOND_HALBERD.get(), Tags.Items.GEMS_DIAMOND);
 		netheriteSmithing(recipeOutput, AAItems.DIAMOND_HALBERD.get(), RecipeCategory.COMBAT, AAItems.NETHERITE_HALBERD.get());
 
+		heavyShield(recipeOutput, AAItems.WOODEN_HEAVY_SHIELD.get(), ItemTags.PLANKS);
+		heavyShield(recipeOutput, AAItems.STONE_HEAVY_SHIELD.get(), ItemTags.STONE_TOOL_MATERIALS);
+		heavyShield(recipeOutput, AAItems.IRON_HEAVY_SHIELD.get(), Tags.Items.INGOTS_IRON);
+		heavyShield(recipeOutput, AAItems.GOLDEN_HEAVY_SHIELD.get(), Tags.Items.INGOTS_GOLD);
+		heavyShield(recipeOutput, AAItems.DIAMOND_HEAVY_SHIELD.get(), Tags.Items.GEMS_DIAMOND);
+		netheriteSmithing(recipeOutput, AAItems.DIAMOND_HEAVY_SHIELD.get(), RecipeCategory.COMBAT, AAItems.NETHERITE_HEAVY_SHIELD.get());
+
 		SimpleCookingRecipeBuilder.smelting(Ingredient.of(
 				AAItems.GOLDEN_CLAYMORE.get(),
 				AAItems.GOLDEN_MACE.get(),
@@ -89,7 +96,8 @@ public class AARecipeProvider extends RecipeProvider {
 				AAItems.GOLDEN_JAVELIN.get(),
 				AAItems.GOLDEN_PIKE.get(),
 				AAItems.GOLDEN_RAPIER.get(),
-				AAItems.GOLDEN_HALBERD.get()
+				AAItems.GOLDEN_HALBERD.get(),
+				AAItems.GOLDEN_HEAVY_SHIELD.get()
 			), RecipeCategory.MISC, Items.GOLD_NUGGET, 0.1F, 200)
 			.unlockedBy("has_golden_claymore", has(AAItems.GOLDEN_CLAYMORE.get()))
 			.unlockedBy("has_golden_mace", has(AAItems.GOLDEN_MACE.get()))
@@ -98,6 +106,7 @@ public class AARecipeProvider extends RecipeProvider {
 			.unlockedBy("has_golden_pike", has(AAItems.GOLDEN_PIKE.get()))
 			.unlockedBy("has_golden_rapier", has(AAItems.GOLDEN_RAPIER.get()))
 			.unlockedBy("has_golden_halberd", has(AAItems.GOLDEN_HALBERD.get()))
+			.unlockedBy("has_golden_heavy_shield", has(AAItems.GOLDEN_HEAVY_SHIELD.get()))
 			.save(recipeOutput, AssortedArmaments.id(getSmeltingRecipeName(Items.GOLD_NUGGET)));
 		SimpleCookingRecipeBuilder.smelting(Ingredient.of(
 				AAItems.IRON_CLAYMORE.get(),
@@ -106,7 +115,8 @@ public class AARecipeProvider extends RecipeProvider {
 				AAItems.IRON_JAVELIN.get(),
 				AAItems.IRON_PIKE.get(),
 				AAItems.IRON_RAPIER.get(),
-				AAItems.IRON_HALBERD.get()
+				AAItems.IRON_HALBERD.get(),
+				AAItems.IRON_HEAVY_SHIELD.get()
 			), RecipeCategory.MISC, Items.IRON_NUGGET, 0.1F, 200)
 			.unlockedBy("has_iron_claymore", has(AAItems.IRON_CLAYMORE.get()))
 			.unlockedBy("has_iron_mace", has(AAItems.IRON_MACE.get()))
@@ -115,6 +125,7 @@ public class AARecipeProvider extends RecipeProvider {
 			.unlockedBy("has_iron_pike", has(AAItems.IRON_PIKE.get()))
 			.unlockedBy("has_iron_rapier", has(AAItems.IRON_RAPIER.get()))
 			.unlockedBy("has_iron_halberd", has(AAItems.IRON_HALBERD.get()))
+			.unlockedBy("has_iron_heavy_shield", has(AAItems.IRON_HEAVY_SHIELD.get()))
 			.save(recipeOutput, AssortedArmaments.id(getSmeltingRecipeName(Items.IRON_NUGGET)));
 
 		EternalStarlightHelper.buildRecipes(jsons);
@@ -197,6 +208,17 @@ public class AARecipeProvider extends RecipeProvider {
 			.pattern("  X")
 			.pattern(" #X")
 			.pattern("#  ")
+			.unlockedBy("has_item", has(input))
+			.save(recipeOutput);
+	}
+
+	protected void heavyShield(RecipeOutput recipeOutput, ItemLike output, TagKey<Item> input) {
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, output)
+			.define('X', input)
+			.define('#', ItemTags.PLANKS)
+			.pattern("X#X")
+			.pattern("XXX")
+			.pattern("XXX")
 			.unlockedBy("has_item", has(input))
 			.save(recipeOutput);
 	}

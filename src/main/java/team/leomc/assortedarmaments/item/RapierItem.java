@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import team.leomc.assortedarmaments.entity.ConcentratedAttacker;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 
 public class RapierItem extends SwordItem {
 	public RapierItem(Tier tier, Properties properties) {
@@ -26,26 +26,23 @@ public class RapierItem extends SwordItem {
 
 	@Override
 	public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		if (attacker instanceof ConcentratedAttacker concentrated) {
-			if (target == concentrated.getConcentratedTarget() && stack == concentrated.getConcentratedWeapon()) {
-				concentrated.setLastConcentratedAttackTime(attacker.tickCount);
-				concentrated.setConcentrationLevel(Math.min(concentrated.getConcentrationLevel() + 1, 4));
-			} else {
-				concentrated.setConcentratedTarget(target);
-				concentrated.setConcentratedWeapon(stack);
-				concentrated.setLastConcentratedAttackTime(attacker.tickCount);
-				concentrated.setConcentrationLevel(0);
-			}
+		if (target == attacker.getData(AADataAttachments.CONCENTRATED_TARGET) && stack == attacker.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
+			attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
+			attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, Math.min(attacker.getData(AADataAttachments.CONCENTRATION_LEVEL) + 1, 4));
+		} else {
+			attacker.setData(AADataAttachments.CONCENTRATED_TARGET, target);
+			attacker.setData(AADataAttachments.CONCENTRATED_WEAPON, stack);
+			attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
+			attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, 0);
 		}
 		super.postHurtEnemy(stack, target, attacker);
 	}
 
-
 	@Override
 	public float getAttackDamageBonus(Entity target, float damage, DamageSource damageSource) {
 		Entity directEntity = damageSource.getDirectEntity();
-		if (directEntity instanceof ConcentratedAttacker concentrated && concentrated.getConcentratedTarget() == target) {
-			return concentrated.getConcentrationLevel() * 0.5f;
+		if (directEntity != null && directEntity.getData(AADataAttachments.CONCENTRATED_TARGET) == target) {
+			return directEntity.getData(AADataAttachments.CONCENTRATION_LEVEL) * 0.5f;
 		}
 		return super.getAttackDamageBonus(target, damage, damageSource);
 	}

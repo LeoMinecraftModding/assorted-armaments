@@ -14,6 +14,7 @@
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
     "client.LocalPlayerMixin",
+    "client.MinecraftMixin",
     "client.PlayerRendererMixin"
   ],
   "injectors": {

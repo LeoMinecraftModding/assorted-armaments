@@ -83,11 +83,20 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.DIAMOND_HALBERD.get(),
 			AAItems.NETHERITE_HALBERD.get()
 		);
+		tag(AAItemTags.HEAVY_SHIELDS).add(
+			AAItems.WOODEN_HEAVY_SHIELD.get(),
+			AAItems.STONE_HEAVY_SHIELD.get(),
+			AAItems.IRON_HEAVY_SHIELD.get(),
+			AAItems.GOLDEN_HEAVY_SHIELD.get(),
+			AAItems.DIAMOND_HEAVY_SHIELD.get(),
+			AAItems.NETHERITE_HEAVY_SHIELD.get()
+		);
 		tag(AAItemTags.TWO_HANDED)
 			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.PIKES)
-			.addTag(AAItemTags.HALBERDS);
+			.addTag(AAItemTags.HALBERDS)
+			.addTag(AAItemTags.HEAVY_SHIELDS);
 		tag(AAItemTags.CAN_BLOCK)
 			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.PIKES)
@@ -103,11 +112,12 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			.addTag(AAItemTags.FLAILS);
 		tag(AAItemTags.DISABLED_WHEN_DISABLING_BLOCKING)
 			.addTag(AAItemTags.CAN_BLOCK)
+			.addTag(AAItemTags.HEAVY_SHIELDS)
 			.addTag(Tags.Items.TOOLS_SHIELD);
 		tag(AAItemTags.EXTRA_KNOCKBACK)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS);
-		tag(AAItemTags.SPEED_BASED_DAMAGE)
+		tag(AAItemTags.EXTRA_DAMAGE_WHEN_SPRINTING)
 			.addTag(AAItemTags.PIKES)
 			.addTag(AAItemTags.RAPIERS)
 			.addTag(AAItemTags.HALBERDS);
@@ -118,7 +128,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.IRON_JAVELIN.get(),
 			AAItems.IRON_PIKE.get(),
 			AAItems.IRON_RAPIER.get(),
-			AAItems.IRON_HALBERD.get()
+			AAItems.IRON_HALBERD.get(),
+			AAItems.IRON_HEAVY_SHIELD.get()
 		);
 		tag(AAItemTags.PIGLINS_CAN_USE).add(
 			AAItems.GOLDEN_CLAYMORE.get(),
@@ -127,7 +138,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_JAVELIN.get(),
 			AAItems.GOLDEN_PIKE.get(),
 			AAItems.GOLDEN_RAPIER.get(),
-			AAItems.GOLDEN_HALBERD.get()
+			AAItems.GOLDEN_HALBERD.get(),
+			AAItems.GOLDEN_HEAVY_SHIELD.get()
 		);
 		tag(ItemTags.SWORDS)
 			.addTag(AAItemTags.CLAYMORES)
@@ -138,18 +150,21 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.JAVELINS)
-			.addTag(AAItemTags.PIKES);
+			.addTag(AAItemTags.PIKES)
+			.addTag(AAItemTags.HEAVY_SHIELDS);
 		tag(ItemTags.SWORD_ENCHANTABLE)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.JAVELINS)
 			.addTag(AAItemTags.PIKES)
-			.addTag(AAItemTags.HALBERDS);
+			.addTag(AAItemTags.HALBERDS)
+			.addTag(AAItemTags.HEAVY_SHIELDS);
 		tag(ItemTags.DURABILITY_ENCHANTABLE)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.JAVELINS)
-			.addTag(AAItemTags.PIKES);
+			.addTag(AAItemTags.PIKES)
+			.addTag(AAItemTags.HEAVY_SHIELDS);
 		tag(ItemTags.PIGLIN_LOVED).add(
 			AAItems.GOLDEN_CLAYMORE.get(),
 			AAItems.GOLDEN_MACE.get(),
@@ -157,7 +172,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_JAVELIN.get(),
 			AAItems.GOLDEN_PIKE.get(),
 			AAItems.GOLDEN_RAPIER.get(),
-			AAItems.GOLDEN_HALBERD.get()
+			AAItems.GOLDEN_HALBERD.get(),
+			AAItems.GOLDEN_HEAVY_SHIELD.get()
 		);
 		EternalStarlightHelper.addTags(this);
 	}

@@ -21,9 +21,10 @@ public abstract class LocalPlayerMixin {
 	@Shadow
 	public abstract boolean isUsingItem();
 
-	@Inject(method = "aiStep", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I", ordinal = 3, shift = At.Shift.BEFORE))
-	private void modifyClaymoreWalkSpeed(CallbackInfo ci) {
-		if (isUsingItem() && ((Player) (Object) this).getUseItem().is(AAItemTags.CAN_BLOCK)) {
+	@Inject(method = "aiStep", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I", ordinal = 3, shift = At.Shift.AFTER))
+	private void modifyBlockingWalkSpeed(CallbackInfo ci) {
+		Player player = ((Player) (Object) this);
+		if (isUsingItem() && (player.getUseItem().is(AAItemTags.CAN_BLOCK) || player.getUseItem().is(AAItemTags.HEAVY_SHIELDS))) {
 			input.forwardImpulse *= 5;
 			input.leftImpulse *= 5;
 		}

@@ -105,6 +105,13 @@ public class AAItemModelProvider extends ItemModelProvider {
 		pike(AAItems.NETHERITE_HALBERD.get());
 		inventoryHandheld(AAItems.NETHERITE_HALBERD.get());
 
+		heavyShield(AAItems.WOODEN_HEAVY_SHIELD.get());
+		heavyShield(AAItems.STONE_HEAVY_SHIELD.get());
+		heavyShield(AAItems.IRON_HEAVY_SHIELD.get());
+		heavyShield(AAItems.GOLDEN_HEAVY_SHIELD.get());
+		heavyShield(AAItems.DIAMOND_HEAVY_SHIELD.get());
+		heavyShield(AAItems.NETHERITE_HEAVY_SHIELD.get());
+
 		EternalStarlightHelper.registerModels(this);
 	}
 
@@ -195,6 +202,14 @@ public class AAItemModelProvider extends ItemModelProvider {
 		withExistingParent(name(item), "item/handheld")
 			.texture("layer0", itemTexture(item))
 			.override().predicate(AssortedArmaments.id("sprinting"), 1).model(sprinting).end();
+	}
+
+	private void heavyShield(Item item) {
+		ModelFile blocking = withExistingParent(name(item) + "_blocking", AssortedArmaments.id("item/heavy_shield_blocking"))
+			.texture("layer0", itemTexture(item));
+		withExistingParent(name(item), AssortedArmaments.id("item/heavy_shield"))
+			.texture("layer0", itemTexture(item))
+			.override().predicate(AssortedArmaments.id("blocking"), 1).model(blocking).end();
 	}
 
 	public ResourceLocation texture(ResourceLocation key, String prefix) {

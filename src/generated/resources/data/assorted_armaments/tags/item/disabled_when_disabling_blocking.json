@@ -1,6 +1,7 @@
 {
   "values": [
     "#assorted_armaments:can_block",
+    "#assorted_armaments:heavy_shields",
     "#c:tools/shield"
   ]
 }

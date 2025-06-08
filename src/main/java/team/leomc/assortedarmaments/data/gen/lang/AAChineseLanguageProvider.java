@@ -24,11 +24,16 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 
 		add(AssortedArmaments.ID + ".configuration.blockWalkSpeedModifier", "格挡行走速度因数");
 		add(AssortedArmaments.ID + ".configuration.armorBasedAttackDamagePercentage", "基于盔甲的伤害百分比");
-		add(AssortedArmaments.ID + ".configuration.speedBasedAttackDamageModifier", "基于速度的伤害因数");
+		add(AssortedArmaments.ID + ".configuration.sprintExtraAttackDamagePercentage", "疾跑额外伤害百分比");
 		add(AssortedArmaments.ID + ".configuration.claymoreSweepAttackCooldown", "大剑横扫攻击冷却");
 		add(AssortedArmaments.ID + ".configuration.flailTimePerPowerLevel", "流星锤强度级数增加时间");
 		add(AssortedArmaments.ID + ".configuration.flailSpinDamageFactor", "流星锤旋转伤害因数");
 		add(AssortedArmaments.ID + ".configuration.flailSpinKnockbackFactor", "流星锤旋转击退因数");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockWalkSpeedModifier", "重型战盾格挡行走速度因数");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockAttackDamageModifier", "重型战盾格挡攻击伤害因数");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldFastBlockTime", "重型战盾快速格挡时间");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldFastBlockDamageReflectionPercentage", "重型战盾快速格挡伤害反弹百分比");
+		add(AssortedArmaments.ID + ".configuration.heavyShieldFastCounterattackTime", "重型战盾快速反击时间");
 		add(AssortedArmaments.ID + ".configuration.zombieUseWeaponChance", "僵尸使用模组武器几率");
 		add(AssortedArmaments.ID + ".configuration.piglinUseWeaponChance", "猪灵使用模组武器几率");
 
@@ -39,11 +44,13 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("desc." + AssortedArmaments.ID + ".armor_based_damage", "对有护甲的敌人造成额外伤害");
 		add("desc." + AssortedArmaments.ID + ".disables_blocking_on_attack", "攻击被格挡时使目标失去格挡能力");
 		add("desc." + AssortedArmaments.ID + ".extra_knockback", "可造成额外击退");
-		add("desc." + AssortedArmaments.ID + ".speed_based_damage", "疾跑时根据速度增加伤害");
+		add("desc." + AssortedArmaments.ID + ".extra_damage_when_sprinting", "疾跑时增加伤害");
 
+		add("desc." + AssortedArmaments.ID + ".maces", "暴击造成更多伤害并暂时眩晕敌人");
 		add("desc." + AssortedArmaments.ID + ".flails", "可投掷");
 		add("desc." + AssortedArmaments.ID + ".javelins", "可投掷并插入敌人体内，从受害者身上拔出时也会造成伤害");
 		add("desc." + AssortedArmaments.ID + ".rapiers", "持续攻击同一个目标可逐渐提高伤害");
+		add("desc." + AssortedArmaments.ID + ".heavy_shields", "在格挡时仍可以攻击；开始举盾的短时间内格挡近战攻击会对攻击者造成伤害；使用它格挡伤害并在短时间内使用它伤害攻击者可以将挡下的伤害反还给攻击者");
 
 		add(AAItems.WOODEN_CLAYMORE.get(), "木大剑");
 		add(AAItems.STONE_CLAYMORE.get(), "石大剑");
@@ -95,6 +102,13 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add(AAItems.GOLDEN_HALBERD.get(), "金长戟");
 		add(AAItems.DIAMOND_HALBERD.get(), "钻石长戟");
 		add(AAItems.NETHERITE_HALBERD.get(), "下界合金长戟");
+
+		add(AAItems.WOODEN_HEAVY_SHIELD.get(), "木重型战盾");
+		add(AAItems.STONE_HEAVY_SHIELD.get(), "石重型战盾");
+		add(AAItems.IRON_HEAVY_SHIELD.get(), "铁重型战盾");
+		add(AAItems.GOLDEN_HEAVY_SHIELD.get(), "金重型战盾");
+		add(AAItems.DIAMOND_HEAVY_SHIELD.get(), "钻石重型战盾");
+		add(AAItems.NETHERITE_HEAVY_SHIELD.get(), "下界合金重型战盾");
 
 		EternalStarlightHelper.addTranslations(this, false);
 	}

@@ -24,8 +24,8 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import team.leomc.assortedarmaments.AACommonConfig;
-import team.leomc.assortedarmaments.entity.FlailOwner;
 import team.leomc.assortedarmaments.entity.ThrownFlail;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 
 import java.util.List;
 
@@ -61,7 +61,10 @@ public class FlailItem extends TieredItem {
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
 		int time = this.getUseDuration(stack, livingEntity) - timeLeft;
-		if (!livingEntity.level().isClientSide && livingEntity instanceof Player player && time >= AACommonConfig.flailTimePerPowerLevel && !(player instanceof FlailOwner owner && owner.getFlail() != null)) {
+		if (!livingEntity.level().isClientSide
+			&& livingEntity instanceof Player player
+			&& time >= AACommonConfig.flailTimePerPowerLevel
+			&& !player.hasData(AADataAttachments.FLAIL)) {
 			player.stopUsingItem();
 			ThrownFlail flail = new ThrownFlail(level, player);
 			flail.setPower(Math.min(time / AACommonConfig.flailTimePerPowerLevel, 5));

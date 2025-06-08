@@ -15,7 +15,7 @@ public class AAItemTags {
 	public static final TagKey<Item> DISABLES_BLOCKING_ON_ATTACK = create("disables_blocking_on_attack");
 	public static final TagKey<Item> DISABLED_WHEN_DISABLING_BLOCKING = create("disabled_when_disabling_blocking");
 	public static final TagKey<Item> EXTRA_KNOCKBACK = create("extra_knockback");
-	public static final TagKey<Item> SPEED_BASED_DAMAGE = create("speed_based_damage");
+	public static final TagKey<Item> EXTRA_DAMAGE_WHEN_SPRINTING = create("extra_damage_when_sprinting");
 
 	public static final TagKey<Item> CLAYMORES = create("claymores");
 	public static final TagKey<Item> MACES = create("maces");
@@ -24,6 +24,7 @@ public class AAItemTags {
 	public static final TagKey<Item> PIKES = create("pikes");
 	public static final TagKey<Item> RAPIERS = create("rapiers");
 	public static final TagKey<Item> HALBERDS = create("halberds");
+	public static final TagKey<Item> HEAVY_SHIELDS = create("heavy_shields");
 
 	public static final TagKey<Item> ZOMBIES_CAN_USE = create("zombies_can_use");
 	public static final TagKey<Item> PIGLINS_CAN_USE = create("piglins_can_use");
@@ -35,10 +36,12 @@ public class AAItemTags {
 		ARMOR_BASED_DAMAGE,
 		DISABLES_BLOCKING_ON_ATTACK,
 		EXTRA_KNOCKBACK,
-		SPEED_BASED_DAMAGE,
+		EXTRA_DAMAGE_WHEN_SPRINTING,
+		MACES,
 		FLAILS,
 		JAVELINS,
-		RAPIERS
+		RAPIERS,
+		HEAVY_SHIELDS
 	);
 
 	private static TagKey<Item> create(String id) {

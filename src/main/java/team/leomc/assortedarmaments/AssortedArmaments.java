@@ -8,10 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import team.leomc.assortedarmaments.registry.AACreativeModeTabs;
-import team.leomc.assortedarmaments.registry.AADataComponents;
-import team.leomc.assortedarmaments.registry.AAEntityTypes;
-import team.leomc.assortedarmaments.registry.AAItems;
+import team.leomc.assortedarmaments.registry.*;
 
 @Mod(AssortedArmaments.ID)
 public class AssortedArmaments {
@@ -23,6 +20,7 @@ public class AssortedArmaments {
 		AACreativeModeTabs.TABS.register(modBus);
 		AAEntityTypes.ENTITY_TYPES.register(modBus);
 		AADataComponents.register(modBus);
+		AADataAttachments.ATTACHMENT_TYPES.register(modBus);
 	}
 
 	public static ResourceLocation id(String string) {

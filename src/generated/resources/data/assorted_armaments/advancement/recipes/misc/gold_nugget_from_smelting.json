@@ -31,6 +31,16 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_golden_heavy_shield": {
+      "conditions": {
+        "items": [
+          {
+            "items": "assorted_armaments:golden_heavy_shield"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_golden_javelin": {
       "conditions": {
         "items": [
@@ -87,7 +97,8 @@
       "has_golden_javelin",
       "has_golden_pike",
       "has_golden_rapier",
-      "has_golden_halberd"
+      "has_golden_halberd",
+      "has_golden_heavy_shield"
     ]
   ],
   "rewards": {

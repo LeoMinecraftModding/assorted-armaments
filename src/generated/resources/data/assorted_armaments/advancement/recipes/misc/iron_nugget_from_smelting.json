@@ -31,6 +31,16 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_iron_heavy_shield": {
+      "conditions": {
+        "items": [
+          {
+            "items": "assorted_armaments:iron_heavy_shield"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_iron_javelin": {
       "conditions": {
         "items": [
@@ -87,7 +97,8 @@
       "has_iron_javelin",
       "has_iron_pike",
       "has_iron_rapier",
-      "has_iron_halberd"
+      "has_iron_halberd",
+      "has_iron_heavy_shield"
     ]
   ],
   "rewards": {

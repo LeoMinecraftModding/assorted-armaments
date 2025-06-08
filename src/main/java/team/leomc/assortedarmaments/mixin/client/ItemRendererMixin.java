@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import team.leomc.assortedarmaments.entity.FlailOwner;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 
 @OnlyIn(Dist.CLIENT)
@@ -32,7 +32,11 @@ public abstract class ItemRendererMixin {
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	private void renderHead(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel bakedModel, CallbackInfo ci) {
 		LocalPlayer player = Minecraft.getInstance().player;
-		if (player instanceof FlailOwner owner && itemStack.is(AAItemTags.FLAILS) && (player.getMainHandItem() == itemStack || player.getOffhandItem() == itemStack) && owner.getFlail() != null && displayContext != ItemDisplayContext.GUI) {
+		if (player != null
+			&& itemStack.is(AAItemTags.FLAILS)
+			&& (player.getMainHandItem() == itemStack || player.getOffhandItem() == itemStack)
+			&& player.hasData(AADataAttachments.FLAIL)
+			&& displayContext != ItemDisplayContext.GUI) {
 			ci.cancel();
 		}
 	}
