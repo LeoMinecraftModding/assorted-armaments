@@ -114,7 +114,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.CRIT.location()), "爆击");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.CRIT.location()) + ".desc", "增加暴击伤害");
-		add(Util.makeDescriptionId("enchantment", AAEnchantments.ARMOR_PENETRATION.location()), "破甲");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.ARMOR_PENETRATION.location()), "破格");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.ARMOR_PENETRATION.location()) + ".desc", "减少目标的护甲有效性");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.SUPER_THUMP.location()), "超重击");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.SUPER_THUMP.location()) + ".desc", "在暴击时使目标失去格挡能力并施加缓慢效果");

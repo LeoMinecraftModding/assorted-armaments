@@ -27,7 +27,7 @@
   "desc.assorted_armaments.shift": "按[SHIFT]查看更多信息",
   "desc.assorted_armaments.strong_sweep": "横扫攻击时范围内所有目标受到与直接攻击一致的伤害",
   "desc.assorted_armaments.two_handed": "拿在主手时禁用副手物品",
-  "enchantment.assorted_armaments.armor_penetration": "破甲",
+  "enchantment.assorted_armaments.armor_penetration": "破格",
   "enchantment.assorted_armaments.armor_penetration.desc": "减少目标的护甲有效性",
   "enchantment.assorted_armaments.crit": "爆击",
   "enchantment.assorted_armaments.crit.desc": "增加暴击伤害",
