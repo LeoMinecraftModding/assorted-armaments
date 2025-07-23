@@ -285,6 +285,7 @@ public class ThrownJavelin extends AbstractArrow {
 		float knockback = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_KNOCKBACK) ? calculateKnockback(living, entity, directSource) : 1;
 		if (level() instanceof ServerLevel serverLevel && getWeaponItem() != null) {
 			damage = EnchantmentHelper.modifyDamage(serverLevel, getWeaponItem(), entity, directSource, damage);
+			knockback = EnchantmentHelper.modifyKnockback(serverLevel, getWeaponItem(), entity, source, knockback);
 		}
 		damage *= scale;
 		boolean flag = entity.hurt(source, damage);

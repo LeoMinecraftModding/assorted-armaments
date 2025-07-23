@@ -7,7 +7,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.event.AACommonEvents;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 
 public record UpdateBlockAbilityPayload(boolean disabled) implements CustomPacketPayload {
 	public static final Type<UpdateBlockAbilityPayload> TYPE = new Type<>(AssortedArmaments.id("update_block_ability"));
@@ -15,7 +15,7 @@ public record UpdateBlockAbilityPayload(boolean disabled) implements CustomPacke
 	public static final StreamCodec<RegistryFriendlyByteBuf, UpdateBlockAbilityPayload> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
 
 	public static void handle(UpdateBlockAbilityPayload payload, IPayloadContext context) {
-		context.player().getPersistentData().putBoolean(AACommonEvents.TAG_BLOCKING_ABILITY_DISABLED, payload.disabled());
+		context.player().setData(AADataAttachments.BLOCKING_DISABLED_TIME, payload.disabled() ? 10 : 0);
 	}
 
 	@Override

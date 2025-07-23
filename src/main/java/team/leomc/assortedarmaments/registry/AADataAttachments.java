@@ -12,6 +12,9 @@ import team.leomc.assortedarmaments.entity.ThrownFlail;
 public class AADataAttachments {
 	public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, AssortedArmaments.ID);
 
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> NO_INTENTIONAL_SWEEP_ATTACK = ATTACHMENT_TYPES.register("no_intentional_sweep_attack", () -> AttachmentType.builder(() -> false).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> BLOCKING_DISABLED_TIME = ATTACHMENT_TYPES.register("blocking_disabled_time", () -> AttachmentType.builder(() -> 0).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> NO_TARGET_TIME = ATTACHMENT_TYPES.register("no_target_time", () -> AttachmentType.builder(() -> 0).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ThrownFlail>> FLAIL = ATTACHMENT_TYPES.register("flail", () -> AttachmentType.builder(() -> (ThrownFlail) null).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<LivingEntity>> CONCENTRATED_TARGET = ATTACHMENT_TYPES.register("concentrated_target", () -> AttachmentType.builder(() -> (LivingEntity) null).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemStack>> CONCENTRATED_WEAPON = ATTACHMENT_TYPES.register("concentrated_weapon", () -> AttachmentType.builder(() -> (ItemStack) null).build());

@@ -13,8 +13,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
 
 import java.util.List;
 
@@ -42,10 +40,5 @@ public class MaceItem extends TieredItem {
 	@Override
 	public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-	}
-
-	@Override
-	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
-		return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(ability);
 	}
 }

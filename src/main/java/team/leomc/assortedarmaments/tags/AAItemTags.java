@@ -29,6 +29,9 @@ public class AAItemTags {
 	public static final TagKey<Item> ZOMBIES_CAN_USE = create("zombies_can_use");
 	public static final TagKey<Item> PIGLINS_CAN_USE = create("piglins_can_use");
 
+	public static final TagKey<Item> MACE_ENCHANTABLE = create("enchantable/mace");
+	public static final TagKey<Item> FLAIL_ENCHANTABLE = create("enchantable/flail");
+
 	public static final List<TagKey<Item>> TOOLTIP_TAGS = List.of(
 		TWO_HANDED,
 		CAN_BLOCK,

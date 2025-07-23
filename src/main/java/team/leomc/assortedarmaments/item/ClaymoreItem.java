@@ -23,7 +23,7 @@ import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import team.leomc.assortedarmaments.AACommonConfig;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.event.AACommonEvents;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 
 public class ClaymoreItem extends SwordItem {
 	public ClaymoreItem(Tier tier, Properties properties) {
@@ -57,7 +57,7 @@ public class ClaymoreItem extends SwordItem {
 
 	@Override
 	public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
-		if (!entity.getPersistentData().getBoolean(AACommonEvents.TAG_NO_INTENTIONAL_SWEEP_ATTACK) && entity instanceof Player player && !player.getCooldowns().isOnCooldown(this)) {
+		if (!entity.getData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK) && entity instanceof Player player && !player.getCooldowns().isOnCooldown(this)) {
 			if (performSweepAttack(player, stack)) {
 				stack.hurtAndBreak(1, entity, entity.getEquipmentSlotForItem(stack));
 			}

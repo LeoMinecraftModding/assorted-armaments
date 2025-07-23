@@ -141,20 +141,21 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_HALBERD.get(),
 			AAItems.GOLDEN_HEAVY_SHIELD.get()
 		);
+		tag(AAItemTags.MACE_ENCHANTABLE)
+			.addTag(AAItemTags.MACES)
+			.addTag(AAItemTags.FLAILS);
+		tag(AAItemTags.FLAIL_ENCHANTABLE)
+			.addTag(AAItemTags.FLAILS);
 		tag(ItemTags.SWORDS)
 			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.RAPIERS);
 		tag(ItemTags.AXES)
 			.addTag(AAItemTags.HALBERDS);
 		tag(ItemTags.SHARP_WEAPON_ENCHANTABLE)
-			.addTag(AAItemTags.MACES)
-			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.JAVELINS)
 			.addTag(AAItemTags.PIKES)
 			.addTag(AAItemTags.HEAVY_SHIELDS);
 		tag(ItemTags.SWORD_ENCHANTABLE)
-			.addTag(AAItemTags.MACES)
-			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.JAVELINS)
 			.addTag(AAItemTags.PIKES)
 			.addTag(AAItemTags.HALBERDS)

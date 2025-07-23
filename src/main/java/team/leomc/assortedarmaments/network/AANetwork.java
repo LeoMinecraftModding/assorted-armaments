@@ -7,7 +7,7 @@ import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import team.leomc.assortedarmaments.AssortedArmaments;
 
-@EventBusSubscriber(modid = AssortedArmaments.ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = AssortedArmaments.ID)
 public class AANetwork {
 	@SubscribeEvent
 	public static void register(RegisterPayloadHandlersEvent event) {

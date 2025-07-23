@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(modid = AssortedArmaments.ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = AssortedArmaments.ID, value = Dist.CLIENT)
 public class AAClientSetupEvents {
 	public static final Map<ModelResourceLocation, Map<ItemDisplayContext, ModelResourceLocation>> ITEMS_WITH_SPECIAL_MODELS = Util.make(new HashMap<>(), map -> {
 		map.put(ModelResourceLocation.inventory(AssortedArmaments.id("wooden_claymore")), Map.of(

@@ -12,7 +12,7 @@ import team.leomc.assortedarmaments.AssortedArmaments;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-@EventBusSubscriber(modid = AssortedArmaments.ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = AssortedArmaments.ID)
 public class AACommonSetupEvents {
 	@SubscribeEvent
 	private static void onBuildCreativeModeTabContents(BuildCreativeModeTabContentsEvent event) {

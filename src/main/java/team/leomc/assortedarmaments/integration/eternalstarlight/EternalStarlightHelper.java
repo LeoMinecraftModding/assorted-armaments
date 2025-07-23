@@ -1,6 +1,6 @@
 package team.leomc.assortedarmaments.integration.eternalstarlight;
 
-import cn.leolezury.eternalstarlight.common.item.weapon.ESItemTiers;
+import cn.leolezury.eternalstarlight.common.item.combat.ESItemTiers;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import net.minecraft.Util;

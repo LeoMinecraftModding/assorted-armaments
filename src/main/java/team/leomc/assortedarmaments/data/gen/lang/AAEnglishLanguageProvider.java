@@ -5,7 +5,9 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.event.AAClientSetupEvents;
+import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.registry.AAAttributes;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 
@@ -57,6 +59,20 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 
 		AAItems.ITEMS.getEntries().forEach(item -> add(item.get(), toTitleCase(item.getId().getPath())));
 		AAEntityTypes.ENTITY_TYPES.getEntries().forEach(entityType -> add(entityType.get(), toTitleCase(entityType.getId().getPath())));
+
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.CRIT.location()), "Crit");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.CRIT.location()) + ".desc", "Increase the damage of your critical attacks");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.ARMOR_PENETRATION.location()), "Armor Penetration");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.ARMOR_PENETRATION.location()) + ".desc", "Reduces the target's armor effectiveness");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.SUPER_THUMP.location()), "Super Thump");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.SUPER_THUMP.location()) + ".desc", "Disables the target's ability to block and inflicts slowness effect on the target after a critical attack");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.KINETIC_ENERGY.location()), "Kinetic Energy");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.KINETIC_ENERGY.location()) + ".desc", "Allows thrown flails to deal critical hits");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.IMPACT.location()), "Impact");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.IMPACT.location()) + ".desc", "Increases knockback of thrown flails and stuns targets on hit");
+
+		add(AAAttributes.CRITICAL_ATTACK_DAMAGE_MULTIPLIER.get().getDescriptionId(), "Critical Attack Damage Multiplier");
+
 		EternalStarlightHelper.addTranslations(this, true);
 	}
 

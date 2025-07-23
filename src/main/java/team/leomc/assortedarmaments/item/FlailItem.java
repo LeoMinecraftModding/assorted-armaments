@@ -21,8 +21,6 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
 import team.leomc.assortedarmaments.AACommonConfig;
 import team.leomc.assortedarmaments.entity.ThrownFlail;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
@@ -86,6 +84,7 @@ public class FlailItem extends TieredItem {
 
 				if (player.level() instanceof ServerLevel serverLevel) {
 					damage = EnchantmentHelper.modifyDamage(serverLevel, player.getWeaponItem(), living, source, damage);
+					knockback = EnchantmentHelper.modifyKnockback(serverLevel, player.getWeaponItem(), living, source, knockback);
 				}
 
 				if (living.hurt(source, damage) && player.level() instanceof ServerLevel serverLevel) {
@@ -107,10 +106,5 @@ public class FlailItem extends TieredItem {
 	@Override
 	public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-	}
-
-	@Override
-	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
-		return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(ability);
 	}
 }

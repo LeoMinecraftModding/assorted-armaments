@@ -3,6 +3,7 @@ package team.leomc.assortedarmaments.entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +19,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
@@ -91,16 +93,30 @@ public class ThrownFlail extends ThrowableItemProjectile {
 		super.onHitEntity(result);
 		Entity entity = result.getEntity();
 		if (entity != getOwner() && !hitTarget) {
-			DamageSource source = getPlayerOwner() != null ? this.damageSources().playerAttack(this.getPlayerOwner()) : (getOwner() instanceof LivingEntity living ? this.damageSources().mobAttack(living) : this.damageSources().thrown(this, getOwner()));
+			DamageSource source = this.damageSources().thrown(this, getOwner());
 			float damage = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE) ? (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) : 5;
 			float knockback = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_KNOCKBACK) ? living.getKnockback(entity, source) : 1;
 			damage *= (0.5f * power);
 			knockback *= (0.5f * power);
+			float criticalChance = 0;
+			boolean critical = false;
 			if (level() instanceof ServerLevel serverLevel && getWeaponItem() != null) {
 				damage = EnchantmentHelper.modifyDamage(serverLevel, getWeaponItem(), entity, source, damage);
+				knockback = EnchantmentHelper.modifyKnockback(serverLevel, getWeaponItem(), entity, source, knockback);
+				criticalChance = AAEnchantments.modifyFlailCriticalAttackChance(serverLevel, getWeaponItem(), entity, source, criticalChance);
+			}
+			if (random.nextFloat() < criticalChance) {
+				damage *= 1.5f;
+				critical = true;
 			}
 			if (entity.hurt(source, damage) && level() instanceof ServerLevel serverLevel) {
 				EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, source, getWeaponItem());
+				if (critical) {
+					playSound(SoundEvents.PLAYER_ATTACK_CRIT);
+					if (source.getEntity() instanceof Player player) {
+						player.crit(entity);
+					}
+				}
 			}
 			if (knockback > 0.0F && entity instanceof LivingEntity living && getOwner() != null) {
 				double x = getOwner().getX() - entity.getX();

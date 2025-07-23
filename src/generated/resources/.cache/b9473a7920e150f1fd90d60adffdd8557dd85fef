@@ -1,9 +1,11 @@
-// 1.21.1	2025-06-08T14:14:25.2249006	Tags for minecraft:item mod id assorted_armaments
+// 1.21.1	2025-07-23T14:29:29.7138324	Tags for minecraft:item mod id assorted_armaments
 8ba001d97407331ee14c585782e5005a21400ff6 data/assorted_armaments/tags/item/armor_based_damage.json
 50b1d3db080d551a516480866ba401deb32f8c23 data/assorted_armaments/tags/item/can_block.json
 6f3bb7062379ab614933d75d912a61f999a5c625 data/assorted_armaments/tags/item/claymores.json
 a6f2eddc8000106dfe046bc867d9828c608cbb12 data/assorted_armaments/tags/item/disabled_when_disabling_blocking.json
 8ba001d97407331ee14c585782e5005a21400ff6 data/assorted_armaments/tags/item/disables_blocking_on_attack.json
+df6fd2fbb9a52aea5fa2985ef2395616d85047c3 data/assorted_armaments/tags/item/enchantable/flail.json
+8ba001d97407331ee14c585782e5005a21400ff6 data/assorted_armaments/tags/item/enchantable/mace.json
 086a59b5a79e74fa4d820930f91cc434ebfb67ae data/assorted_armaments/tags/item/extra_damage_when_sprinting.json
 8ba001d97407331ee14c585782e5005a21400ff6 data/assorted_armaments/tags/item/extra_knockback.json
 07f7239eac56acb518c07c64db9daa0a45541168 data/assorted_armaments/tags/item/flails.json
@@ -19,7 +21,7 @@ ace6c16c6b24ce804f34c62e5b53dbfa2c58d232 data/assorted_armaments/tags/item/two_h
 16bd285f35d0b681f2cc0f6dc440bbc40204ed9f data/assorted_armaments/tags/item/zombies_can_use.json
 e89d1f245b3cd45988733eeaadc55b1b5b9ebbfa data/minecraft/tags/item/axes.json
 be0653f9204fb78cb66391a93acaffa1092e0af2 data/minecraft/tags/item/enchantable/durability.json
-be0653f9204fb78cb66391a93acaffa1092e0af2 data/minecraft/tags/item/enchantable/sharp_weapon.json
-d011a9c7a9d6f983b0fd11b07719e78f775f1e01 data/minecraft/tags/item/enchantable/sword.json
+643be882e2a1b32894888c74b00a32fe8f9f8623 data/minecraft/tags/item/enchantable/sharp_weapon.json
+3bfe9dbc47ef252b2c162751e77b8a17b3166ba3 data/minecraft/tags/item/enchantable/sword.json
 2d96442e3dc06b9f54468b15a5235469d12440de data/minecraft/tags/item/piglin_loved.json
 2025728d6e8b762fdd1c1e11a1dc002ffe11126d data/minecraft/tags/item/swords.json

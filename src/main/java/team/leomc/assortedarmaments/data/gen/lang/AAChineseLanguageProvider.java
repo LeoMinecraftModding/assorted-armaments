@@ -5,7 +5,9 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.event.AAClientSetupEvents;
+import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.registry.AAAttributes;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 
@@ -109,6 +111,19 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add(AAItems.GOLDEN_HEAVY_SHIELD.get(), "金重型战盾");
 		add(AAItems.DIAMOND_HEAVY_SHIELD.get(), "钻石重型战盾");
 		add(AAItems.NETHERITE_HEAVY_SHIELD.get(), "下界合金重型战盾");
+
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.CRIT.location()), "爆击");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.CRIT.location()) + ".desc", "增加暴击伤害");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.ARMOR_PENETRATION.location()), "破甲");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.ARMOR_PENETRATION.location()) + ".desc", "减少目标的护甲有效性");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.SUPER_THUMP.location()), "超重击");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.SUPER_THUMP.location()) + ".desc", "在暴击时使目标失去格挡能力并施加缓慢效果");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.KINETIC_ENERGY.location()), "动能");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.KINETIC_ENERGY.location()) + ".desc", "使扔出的流星锤可以造成暴击");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.IMPACT.location()), "猛撞");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.IMPACT.location()) + ".desc", "增大扔出的流星锤的击退并在击中时使目标眩晕");
+
+		add(AAAttributes.CRITICAL_ATTACK_DAMAGE_MULTIPLIER.get().getDescriptionId(), "暴击伤害倍率");
 
 		EternalStarlightHelper.addTranslations(this, false);
 	}

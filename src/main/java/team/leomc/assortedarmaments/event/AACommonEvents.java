@@ -14,10 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -33,6 +30,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
@@ -42,8 +40,10 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import team.leomc.assortedarmaments.AACommonConfig;
 import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.integration.MaterialsComponent;
 import team.leomc.assortedarmaments.network.UpdateBlockAbilityPayload;
+import team.leomc.assortedarmaments.registry.AAAttributes;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.tags.AAEntityTypeTags;
 import team.leomc.assortedarmaments.tags.AAItemTags;
@@ -52,11 +52,6 @@ import java.util.Optional;
 
 @EventBusSubscriber(modid = AssortedArmaments.ID)
 public class AACommonEvents {
-	public static final String TAG_BLOCKING_ABILITY_DISABLED = "blocking_ability_disabled";
-	public static final String TAG_BLOCKING_DISABLED_TIME = "blocking_disabled_time";
-	public static final String TAG_NO_INTENTIONAL_SWEEP_ATTACK = "no_intentional_sweep_attack";
-	public static final String TAG_NO_TARGET_TIME = "no_target_time";
-
 	public static final ResourceLocation TWO_HANDED_SPEED_ID = AssortedArmaments.id("two_handed_speed");
 
 	@SubscribeEvent
@@ -105,24 +100,49 @@ public class AACommonEvents {
 	@SubscribeEvent
 	private static void onSweepAttack(SweepAttackEvent event) {
 		if (event.isSweeping()) {
-			event.getEntity().getPersistentData().putBoolean(TAG_NO_INTENTIONAL_SWEEP_ATTACK, true);
+			event.getEntity().setData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK, true);
 		}
 	}
 
 	@SubscribeEvent
 	private static void onCriticalHit(CriticalHitEvent event) {
+		Player player = event.getEntity();
 		Entity target = event.getTarget();
-		if (event.getEntity().getWeaponItem().is(AAItemTags.MACES) && event.isCriticalHit()) {
-			event.setDamageMultiplier(event.getDamageMultiplier() * 1.1f);
-			if (target.getPersistentData().getInt(TAG_NO_TARGET_TIME) <= 0) {
-				target.getPersistentData().putInt(TAG_NO_TARGET_TIME, 20);
+		if (event.isCriticalHit()) {
+			if (player.getWeaponItem().is(AAItemTags.MACES)) {
+				event.setDamageMultiplier(event.getDamageMultiplier() * 1.1f);
+				target.setData(AADataAttachments.NO_TARGET_TIME, Math.max(target.getData(AADataAttachments.NO_TARGET_TIME), 20));
+			}
+			AttributeInstance multiplier = player.getAttribute(AAAttributes.CRITICAL_ATTACK_DAMAGE_MULTIPLIER);
+			if (multiplier != null) {
+				event.setDamageMultiplier(event.getDamageMultiplier() * (float) multiplier.getValue());
+			}
+			if (player.getWeaponItem().is(AAItemTags.DISABLES_BLOCKING_ON_ATTACK) && target instanceof LivingEntity living) {
+				float thumpEffectiveness = 0;
+				if (event.getEntity().level() instanceof ServerLevel serverLevel) {
+					thumpEffectiveness = AAEnchantments.modifyThumpEffectiveness(serverLevel, player.getWeaponItem(), target, player.damageSources().playerAttack(player), thumpEffectiveness);
+				}
+				if (thumpEffectiveness > 0) {
+					living.stopUsingItem();
+					living.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, (int) (40 + thumpEffectiveness * 60), 1));
+					living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) thumpEffectiveness * 100, 0));
+					if (living instanceof ServerPlayer serverPlayer) {
+						living.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(living.getData(AADataAttachments.BLOCKING_DISABLED_TIME), 40));
+						PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(true));
+					}
+				}
 			}
 		}
 	}
 
 	@SubscribeEvent
+	private static void onEntityAttributeModificationEvent(EntityAttributeModificationEvent event) {
+		event.add(EntityType.PLAYER, AAAttributes.CRITICAL_ATTACK_DAMAGE_MULTIPLIER);
+	}
+
+	@SubscribeEvent
 	private static void onChangeTarget(LivingChangeTargetEvent event) {
-		if (event.getEntity().getPersistentData().getInt(TAG_NO_TARGET_TIME) >= 10) {
+		if (event.getEntity().getData(AADataAttachments.NO_TARGET_TIME) > 0) {
 			event.setNewAboutToBeSetTarget(null);
 		}
 	}
@@ -158,14 +178,16 @@ public class AACommonEvents {
 				blocker.setData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE, event.getDamageContainer().getNewDamage());
 				blocker.setData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE_TIME, blocker.tickCount);
 			}
-			if (event.getDamageSource().getDirectEntity() instanceof LivingEntity living && blocker instanceof ServerPlayer serverPlayer) {
-				if (living.getWeaponItem().is(AAItemTags.DISABLES_BLOCKING_ON_ATTACK)) {
-					blocker.stopUsingItem();
-					blocker.getPersistentData().putBoolean(TAG_BLOCKING_ABILITY_DISABLED, true);
-					blocker.getPersistentData().putInt(TAG_BLOCKING_DISABLED_TIME, 40);
-					blocker.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 40, 1));
-					PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(true));
+			if (event.getDamageSource().getDirectEntity() instanceof LivingEntity living && living.getWeaponItem().is(AAItemTags.DISABLES_BLOCKING_ON_ATTACK) && blocker instanceof ServerPlayer serverPlayer) {
+				float thumpEffectiveness = 0;
+				if (event.getEntity().level() instanceof ServerLevel serverLevel) {
+					thumpEffectiveness = AAEnchantments.modifyThumpEffectiveness(serverLevel, living.getWeaponItem(), blocker, event.getDamageSource(), thumpEffectiveness);
 				}
+				blocker.stopUsingItem();
+				blocker.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(blocker.getData(AADataAttachments.BLOCKING_DISABLED_TIME), 40));
+				blocker.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, (int) (40 + thumpEffectiveness * 60), 1));
+				blocker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) thumpEffectiveness * 100, 0));
+				PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(true));
 			}
 		}
 	}
@@ -187,17 +209,16 @@ public class AACommonEvents {
 		Entity entity = event.getEntity();
 		if (entity instanceof LivingEntity living && !living.level().isClientSide) {
 			if (living instanceof ServerPlayer serverPlayer) {
-				if (living.getPersistentData().getInt(TAG_BLOCKING_DISABLED_TIME) == 1) {
-					living.getPersistentData().putBoolean(TAG_BLOCKING_ABILITY_DISABLED, false);
+				if (living.getData(AADataAttachments.BLOCKING_DISABLED_TIME) == 1) {
 					PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(false));
 				}
-				living.getPersistentData().putInt(TAG_BLOCKING_DISABLED_TIME, Math.max(living.getPersistentData().getInt(TAG_BLOCKING_DISABLED_TIME) - 1, 0));
-				living.getPersistentData().putBoolean(TAG_NO_INTENTIONAL_SWEEP_ATTACK, false);
+				living.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(living.getData(AADataAttachments.BLOCKING_DISABLED_TIME) - 1, 0));
+				living.setData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK, false);
 			}
-			int noTargetTime = living.getPersistentData().getInt(TAG_NO_TARGET_TIME);
+			int noTargetTime = living.getData(AADataAttachments.NO_TARGET_TIME);
 			if (noTargetTime > 0) {
-				living.getPersistentData().putInt(TAG_NO_TARGET_TIME, noTargetTime - 1);
-				if (noTargetTime >= 10 && living instanceof Mob mob && mob.getTarget() != null) {
+				living.setData(AADataAttachments.NO_TARGET_TIME, noTargetTime - 1);
+				if (living instanceof Mob mob && mob.getTarget() != null) {
 					mob.setTarget(null);
 					living.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
 					mob.getNavigation().stop();
