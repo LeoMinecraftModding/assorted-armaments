@@ -12,7 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
+import team.leomc.assortedarmaments.registry.AADataComponents;
+import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.tags.AAItemTags;
+import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
+import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
@@ -21,7 +25,7 @@ public abstract class ItemStackMixin {
 		if (player.getData(AADataAttachments.BLOCKING_DISABLED_TIME) > 0 && player.getItemInHand(usedHand).is(AAItemTags.DISABLED_WHEN_DISABLING_BLOCKING)) {
 			cir.setReturnValue(InteractionResultHolder.pass(player.getItemInHand(usedHand)));
 		}
-		if (player.getMainHandItem().is(AAItemTags.TWO_HANDED) && usedHand == InteractionHand.OFF_HAND) {
+		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.TWO_HANDED, player.getMainHandItem()) && usedHand == InteractionHand.OFF_HAND) {
 			cir.setReturnValue(InteractionResultHolder.pass(player.getOffhandItem()));
 		}
 	}
@@ -31,7 +35,7 @@ public abstract class ItemStackMixin {
 		if (context.getPlayer() != null && context.getPlayer().getData(AADataAttachments.BLOCKING_DISABLED_TIME) > 0 && context.getPlayer().getItemInHand(context.getHand()).is(AAItemTags.DISABLED_WHEN_DISABLING_BLOCKING)) {
 			cir.setReturnValue(InteractionResult.PASS);
 		}
-		if (context.getPlayer() != null && context.getPlayer().getMainHandItem().is(AAItemTags.TWO_HANDED) && context.getHand() == InteractionHand.OFF_HAND) {
+		if (context.getPlayer() != null && WeaponTraitHelper.hasTrait(AAWeaponTraits.TWO_HANDED, context.getPlayer().getMainHandItem()) && context.getHand() == InteractionHand.OFF_HAND) {
 			cir.setReturnValue(InteractionResult.PASS);
 		}
 	}

@@ -58,41 +58,50 @@ public class FlailItem extends TieredItem {
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
-		int time = this.getUseDuration(stack, livingEntity) - timeLeft;
-		if (!livingEntity.level().isClientSide
-			&& livingEntity instanceof Player player
-			&& time >= AACommonConfig.flailTimePerPowerLevel
-			&& !player.hasData(AADataAttachments.FLAIL)) {
+		if (!livingEntity.level().isClientSide && livingEntity instanceof Player player && !player.hasData(AADataAttachments.FLAIL)) {
 			player.stopUsingItem();
-			ThrownFlail flail = new ThrownFlail(level, player);
-			flail.setPower(Math.min(time / AACommonConfig.flailTimePerPowerLevel, 5));
-			flail.setItem(stack);
-			flail.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 1.8f, 0.5f);
-			level.addFreshEntity(flail);
+			if (player.hasData(AADataAttachments.FLAIL_KINETIC_POWER) && player.getData(AADataAttachments.FLAIL_KINETIC_POWER) >= 2.5F) {
+				ThrownFlail flail = new ThrownFlail(level, player);
+				flail.setKineticPower(player.getData(AADataAttachments.FLAIL_KINETIC_POWER));
+				flail.setItem(stack);
+				flail.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 1.8f, 0.5f);
+				level.addFreshEntity(flail);
+			}
+			player.removeData(AADataAttachments.FLAIL_KINETIC_POWER);
 		}
+
 		super.releaseUsing(stack, level, livingEntity, timeLeft);
 	}
 
 	@Override
 	public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
 		if (livingEntity instanceof Player player && !level.isClientSide) {
-			for (LivingEntity living : livingEntity.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
-				DamageSource source = living.damageSources().playerAttack(player);
-
-				float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) * AACommonConfig.flailSpinDamageFactor);
-				float knockback = (float) (player.getKnockback(living, source) * AACommonConfig.flailSpinKnockbackFactor);
-
-				if (player.level() instanceof ServerLevel serverLevel) {
-					damage = EnchantmentHelper.modifyDamage(serverLevel, player.getWeaponItem(), living, source, damage);
-					knockback = EnchantmentHelper.modifyKnockback(serverLevel, player.getWeaponItem(), living, source, knockback);
+			if (!player.hasData(AADataAttachments.FLAIL)) {
+				float kineticPower = player.getData(AADataAttachments.FLAIL_KINETIC_POWER);
+				if (kineticPower <= 5) {
+					kineticPower += 0.05F;
+					player.setData(AADataAttachments.FLAIL_KINETIC_POWER, kineticPower);
 				}
+				if (kineticPower >= 2.5F) {
+					for (LivingEntity living : livingEntity.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
+						DamageSource source = living.damageSources().playerAttack(player);
 
-				if (living.hurt(source, damage) && player.level() instanceof ServerLevel serverLevel) {
-					EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, living, source, stack);
-				}
+						float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) * AACommonConfig.flailSpinDamageFactor);
+						float knockback = (float) (player.getKnockback(living, source) * AACommonConfig.flailSpinKnockbackFactor);
 
-				if (knockback > 0.0F) {
-					living.knockback(knockback * 0.5F, Mth.sin(player.getYRot() * Mth.DEG_TO_RAD), -Mth.cos(player.getYRot() * Mth.DEG_TO_RAD));
+						if (player.level() instanceof ServerLevel serverLevel) {
+							damage = EnchantmentHelper.modifyDamage(serverLevel, player.getWeaponItem(), living, source, damage);
+							knockback = EnchantmentHelper.modifyKnockback(serverLevel, player.getWeaponItem(), living, source, knockback);
+						}
+
+						if (living.hurt(source, damage) && player.level() instanceof ServerLevel serverLevel) {
+							EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, living, source, stack);
+						}
+
+						if (knockback > 0.0F) {
+							living.knockback(knockback * 0.5F, Mth.sin(player.getYRot() * Mth.DEG_TO_RAD), -Mth.cos(player.getYRot() * Mth.DEG_TO_RAD));
+						}
+					}
 				}
 			}
 		}

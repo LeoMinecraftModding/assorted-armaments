@@ -42,20 +42,45 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add(AssortedArmaments.ID + ".configuration.zombieUseWeaponChance", "Chance of a Zombie Using a Modded Weapon");
 		add(AssortedArmaments.ID + ".configuration.piglinUseWeaponChance", "Chance of a Piglin Using a Modded Weapon");
 
-		add("desc." + AssortedArmaments.ID + ".shift", "Hold [SHIFT] for more information");
-		add("desc." + AssortedArmaments.ID + ".can_block", "Can be used to block melee damage that is equal to half of the weapon's damage");
-		add("desc." + AssortedArmaments.ID + ".strong_sweep", "All targets in range on a sweeping attack take the same damage as a direct melee attack");
-		add("desc." + AssortedArmaments.ID + ".two_handed", "Disables offhand items when held in main hand");
-		add("desc." + AssortedArmaments.ID + ".armor_based_damage", "Deals extra damage to enemies with armor");
-		add("desc." + AssortedArmaments.ID + ".disables_blocking_on_attack", "Disables the target's ability to block");
-		add("desc." + AssortedArmaments.ID + ".extra_knockback", "Deals extra knockback");
-		add("desc." + AssortedArmaments.ID + ".extra_damage_when_sprinting", "Increases damage when sprinting");
+		add("desc." + AssortedArmaments.ID + ".shift", "[SHIFT]");
 
-		add("desc." + AssortedArmaments.ID + ".maces", "Critical attack deals more damage and temporarily stuns the target");
-		add("desc." + AssortedArmaments.ID + ".flails", "Can be thrown");
-		add("desc." + AssortedArmaments.ID + ".javelins", "Can be thrown and plunged into an enemy, will also deal damage when removed from the victim");
-		add("desc." + AssortedArmaments.ID + ".rapiers", "Continuously attacking the same target gradually increases the damage");
-		add("desc." + AssortedArmaments.ID + ".heavy_shields", "Can still attack while blocking; Blocking a melee attack within a short time of starting to use a heavy shield will deal some damage back to the attacker; Using it to block damage and then using it to damage the attacker a short time later allows the blocked damage to be returned to the attacker");
+		add("weapon_trait." + AssortedArmaments.ID + ".can_block", "Block");
+		add("weapon_trait." + AssortedArmaments.ID + ".can_block.desc", "Can be used to block melee damage that is equal to 200% of the weapon's damage");
+		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep", "Sweep");
+		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep.desc", "All targets in range on a sweeping attack take the same damage as a direct melee attack");
+		add("weapon_trait." + AssortedArmaments.ID + ".two_handed", "Two-Handed");
+		add("weapon_trait." + AssortedArmaments.ID + ".two_handed.desc", "Disables offhand items when held in main hand");
+		add("weapon_trait." + AssortedArmaments.ID + ".large_weapon", "Large Weapon");
+		add("weapon_trait." + AssortedArmaments.ID + ".long_weapon", "Long Weapon");
+		add("weapon_trait." + AssortedArmaments.ID + ".short_weapon", "Short Weapon");
+		add("weapon_trait." + AssortedArmaments.ID + ".shock", "Shock");
+		add("weapon_trait." + AssortedArmaments.ID + ".shock.desc", "Deals extra damage equal to %s%% of the target's armor to enemies with armor");
+		add("weapon_trait." + AssortedArmaments.ID + ".knock", "Knock");
+		add("weapon_trait." + AssortedArmaments.ID + ".knock.desc", "Disables the target's ability to block");
+		add("weapon_trait." + AssortedArmaments.ID + ".thump", "Thump");
+		add("weapon_trait." + AssortedArmaments.ID + ".thump.desc", "Smash attack temporarily stuns the target");
+		add("weapon_trait." + AssortedArmaments.ID + ".extra_knockback.desc", "Deals extra knockback");
+		add("weapon_trait." + AssortedArmaments.ID + ".stab", "Stab");
+		add("weapon_trait." + AssortedArmaments.ID + ".stab.desc", "Increases damage when sprinting");
+		add("weapon_trait." + AssortedArmaments.ID + ".see_through", "See Through");
+		add("weapon_trait." + AssortedArmaments.ID + ".see_through.desc", "Bypasses invincibility time");
+		add("weapon_trait." + AssortedArmaments.ID + ".concentration", "Concentration");
+		add("weapon_trait." + AssortedArmaments.ID + ".concentration.desc", "Continuously attacking the same target gradually increases attack damage and speed");
+		add("weapon_trait." + AssortedArmaments.ID + ".lightweight", "Lightweight");
+		add("weapon_trait." + AssortedArmaments.ID + ".lightweight.desc", "Increases movement speed when sprinting");
+		add("weapon_trait." + AssortedArmaments.ID + ".dual_wield", "Dual Wield");
+		add("weapon_trait." + AssortedArmaments.ID + ".dual_wield.desc", "Can be dual wielded with separated attack cooldowns");
+		add("weapon_trait." + AssortedArmaments.ID + ".quick_attack", "Quick Attack");
+		add("weapon_trait." + AssortedArmaments.ID + ".quick_attack.desc", "Applies only half of invincibility time");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".flail_spin", "Spin");
+		add("weapon_trait." + AssortedArmaments.ID + ".flail_spin.desc", "Can be swung by using for at least 2 seconds to deal damage and knockback to nearby targets, and be thrown when released");
+		add("weapon_trait." + AssortedArmaments.ID + ".javelin_throw", "Throw");
+		add("weapon_trait." + AssortedArmaments.ID + ".javelin_throw.desc", "Can be thrown to deal 100% damage and be plunged into an enemy, will also deal 200% damage when removed from the victim");
+
+		add("weapon_trait.modify_interaction_range.desc", "Increases entity and block interaction range by %s");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".heavy_shields.desc", "Can still attack while blocking; Blocking a melee attack within a short time of starting to use a heavy shield will deal some damage back to the attacker; Using it to block damage and then using it to damage the attacker a short time later allows the blocked damage to be returned to the attacker");
 
 		AAItems.ITEMS.getEntries().forEach(item -> add(item.get(), toTitleCase(item.getId().getPath())));
 		AAEntityTypes.ENTITY_TYPES.getEntries().forEach(entityType -> add(entityType.get(), toTitleCase(entityType.getId().getPath())));

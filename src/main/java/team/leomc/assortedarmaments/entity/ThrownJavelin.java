@@ -7,8 +7,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -179,15 +177,15 @@ public class ThrownJavelin extends AbstractArrow {
 
 	@Override
 	public boolean isPickable() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isAttackable() {
-		return true;
+		return false;
 	}
 
-	public boolean removeFromTarget(Player player) {
+	public void removeFromTarget(Player player) {
 		if (isInTarget() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem())) {
 			if (target != null) {
 				DamageSource source = this.damageSources().playerAttack(player);
@@ -195,18 +193,8 @@ public class ThrownJavelin extends AbstractArrow {
 					serverLevel.sendParticles(ParticleTypes.CRIT, position().x(), position().y(), position().z(), 10, 0.1, 0.1, 0.1, 0.5);
 				}
 				discard();
-				return true;
 			}
 		}
-		return false;
-	}
-
-	@Override
-	public InteractionResult interact(Player player, InteractionHand hand) {
-		if (!level().isClientSide && removeFromTarget(player)) {
-			return InteractionResult.CONSUME;
-		}
-		return super.interact(player, hand);
 	}
 
 	@Override
@@ -242,7 +230,9 @@ public class ThrownJavelin extends AbstractArrow {
 				if (origin.getDamageValue() >= origin.getMaxDamage() - 1) {
 					discard();
 				} else {
-					origin.setDamageValue(origin.getDamageValue() + 1);
+					if (getPlayerOwner() != null) {
+						origin.hurtAndBreak(1, getPlayerOwner(), getPlayerOwner().getEquipmentSlotForItem(origin));
+					}
 					if (!level().isClientSide) {
 						setInTarget(true);
 						setTarget(entity);

@@ -10,9 +10,9 @@
     }
   },
   "pattern": [
-    "X#X",
-    "X#X",
-    " # "
+    " XX",
+    " XX",
+    "#  "
   ],
   "result": {
     "count": 1,

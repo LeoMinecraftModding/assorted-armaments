@@ -31,11 +31,11 @@ public class AACommonConfig {
 
 	private static final ModConfigSpec.DoubleValue FLAIL_SPIN_DAMAGE_FACTOR = BUILDER
 		.comment("Damage caused when attacking with a spinning flail = original damage * flailSpinDamageFactor")
-		.defineInRange("flailSpinDamageFactor", 0.25, 0, 1);
+		.defineInRange("flailSpinDamageFactor", 0.5, 0, 1);
 
 	private static final ModConfigSpec.DoubleValue FLAIL_SPIN_KNOCKBACK_FACTOR = BUILDER
 		.comment("Knockback caused when attacking with a spinning flail = original knockback * flailSpinKnockbackFactor")
-		.defineInRange("flailSpinKnockbackFactor", 0.25, 0, 1);
+		.defineInRange("flailSpinKnockbackFactor", 0.5, 0, 1);
 
 	private static final ModConfigSpec.DoubleValue HEAVY_SHIELD_BLOCK_WALK_SPEED_MODIFIER = BUILDER
 		.comment("Player's walk speed when blocking with a heavy shield = (1 - heavyShieldBlockWalkSpeedModifier) * original speed")

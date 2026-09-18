@@ -150,9 +150,9 @@ public class AARecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, output)
 			.define('#', Tags.Items.RODS_WOODEN)
 			.define('X', input)
-			.pattern("X#X")
-			.pattern("X#X")
-			.pattern(" # ")
+			.pattern(" XX")
+			.pattern(" XX")
+			.pattern("#  ")
 			.unlockedBy("has_item", has(input))
 			.save(recipeOutput);
 	}
@@ -162,9 +162,9 @@ public class AARecipeProvider extends RecipeProvider {
 			.define('$', Tags.Items.CHAINS)
 			.define('#', Tags.Items.RODS_WOODEN)
 			.define('X', input)
-			.pattern("$XX")
-			.pattern("$XX")
-			.pattern("#  ")
+			.pattern(" $$")
+			.pattern("XX$")
+			.pattern("XX#")
 			.unlockedBy("has_item", has(input))
 			.save(recipeOutput);
 	}

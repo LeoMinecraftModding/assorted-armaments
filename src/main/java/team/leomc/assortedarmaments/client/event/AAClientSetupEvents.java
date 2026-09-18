@@ -26,9 +26,11 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.IArmPoseTransformer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.client.model.BakedModelWrapper;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -39,6 +41,7 @@ import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarligh
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 import team.leomc.assortedarmaments.tags.AAItemTags;
+import team.leomc.assortedarmaments.trait.DualWieldWeaponTrait;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -352,6 +355,11 @@ public class AAClientSetupEvents {
 				});
 			}
 		}
+	}
+
+	@SubscribeEvent
+	private static void onRegisterGuiLayers(RegisterGuiLayersEvent event) {
+		event.registerAbove(VanillaGuiLayers.CAMERA_OVERLAYS, AssortedArmaments.id("offhand_attack_indicator"), (graphics, partialTicks) -> DualWieldWeaponTrait.renderOffhandAttackIndicator(graphics));
 	}
 
 	@SubscribeEvent

@@ -10,11 +10,11 @@
     "PlayerMixin"
   ],
   "client": [
+    "client.GuiMixin",
     "client.ItemInHandLayerMixin",
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
     "client.LocalPlayerMixin",
-    "client.MinecraftMixin",
     "client.PlayerRendererMixin"
   ],
   "injectors": {

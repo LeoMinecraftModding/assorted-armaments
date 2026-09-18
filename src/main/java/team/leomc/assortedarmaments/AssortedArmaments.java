@@ -24,6 +24,7 @@ public class AssortedArmaments {
 		AAEnchantmentEntityEffects.ENCHANTMENT_ENTITY_EFFECTS.register(modBus);
 		AADataComponents.register(modBus);
 		AADataAttachments.ATTACHMENT_TYPES.register(modBus);
+		AAWeaponTraits.WEAPON_TRAITS.register(modBus);
 	}
 
 	public static ResourceLocation id(String string) {

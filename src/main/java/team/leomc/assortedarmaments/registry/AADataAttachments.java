@@ -1,5 +1,6 @@
 package team.leomc.assortedarmaments.registry;
 
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -16,10 +17,14 @@ public class AADataAttachments {
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> BLOCKING_DISABLED_TIME = ATTACHMENT_TYPES.register("blocking_disabled_time", () -> AttachmentType.builder(() -> 0).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> NO_TARGET_TIME = ATTACHMENT_TYPES.register("no_target_time", () -> AttachmentType.builder(() -> 0).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ThrownFlail>> FLAIL = ATTACHMENT_TYPES.register("flail", () -> AttachmentType.builder(() -> (ThrownFlail) null).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> FLAIL_KINETIC_POWER = ATTACHMENT_TYPES.register("flail_kinetic_power", () -> AttachmentType.builder(() -> 0f).sync(ByteBufCodecs.FLOAT).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<LivingEntity>> CONCENTRATED_TARGET = ATTACHMENT_TYPES.register("concentrated_target", () -> AttachmentType.builder(() -> (LivingEntity) null).build());
-	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemStack>> CONCENTRATED_WEAPON = ATTACHMENT_TYPES.register("concentrated_weapon", () -> AttachmentType.builder(() -> (ItemStack) null).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemStack>> CONCENTRATED_WEAPON = ATTACHMENT_TYPES.register("concentrated_weapon", () -> AttachmentType.builder(() -> ItemStack.EMPTY).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> LAST_CONCENTRATED_ATTACK_TIME = ATTACHMENT_TYPES.register("last_concentrated_attack_time", () -> AttachmentType.builder(() -> Integer.MIN_VALUE).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> CONCENTRATION_LEVEL = ATTACHMENT_TYPES.register("concentration_level", () -> AttachmentType.builder(() -> 0).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> LAST_HEAVY_SHIELD_BLOCKED_DAMAGE = ATTACHMENT_TYPES.register("last_heavy_shield_blocked_damage", () -> AttachmentType.builder(() -> 0f).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> LAST_HEAVY_SHIELD_BLOCKED_DAMAGE_TIME = ATTACHMENT_TYPES.register("last_heavy_shield_blocked_damage_time", () -> AttachmentType.builder(() -> Integer.MIN_VALUE).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> OFFHAND_ATTACK = ATTACHMENT_TYPES.register("offhand_attack", () -> AttachmentType.builder(() -> false).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> OFFHAND_ATTACK_STRENGTH_TIMER = ATTACHMENT_TYPES.register("offhand_attack_strength_timer", () -> AttachmentType.builder(() -> 0).sync(ByteBufCodecs.INT).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemStack>> LAST_OFFHAND_ITEM = ATTACHMENT_TYPES.register("last_offhand_item", () -> AttachmentType.builder(() -> ItemStack.EMPTY).build());
 }

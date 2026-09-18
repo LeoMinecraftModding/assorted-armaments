@@ -26,13 +26,13 @@ import team.leomc.assortedarmaments.registry.AAItems;
 
 public class ThrownFlail extends ThrowableItemProjectile {
 	private static final String TAG_HIT_TARGET = "hit_target";
-	private static final String TAG_POWER = "power";
+	private static final String TAG_KINETIC_POWER = "kinetic_power";
 
 	private boolean hitTarget;
-	private int power = 1;
+	private float kineticPower = 0;
 
-	public void setPower(int power) {
-		this.power = power;
+	public void setKineticPower(float kineticPower) {
+		this.kineticPower = kineticPower;
 	}
 
 	public ThrownFlail(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
@@ -54,7 +54,7 @@ public class ThrownFlail extends ThrowableItemProjectile {
 		super.tick();
 		Entity owner = getOwner();
 		if (owner != null) {
-			if (owner.distanceTo(this) > Math.max(power * 2, 5) || tickCount > 200) {
+			if (owner.distanceTo(this) > Math.max(kineticPower * 2, 5) || tickCount > 200) {
 				hitTarget = true;
 			}
 			if (hitTarget) {
@@ -96,8 +96,8 @@ public class ThrownFlail extends ThrowableItemProjectile {
 			DamageSource source = this.damageSources().thrown(this, getOwner());
 			float damage = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE) ? (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) : 5;
 			float knockback = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_KNOCKBACK) ? living.getKnockback(entity, source) : 1;
-			damage *= (0.5f * power);
-			knockback *= (0.5f * power);
+			damage *= (0.5f * kineticPower);
+			knockback *= (0.5f * kineticPower);
 			float criticalChance = 0;
 			boolean critical = false;
 			if (level() instanceof ServerLevel serverLevel && getWeaponItem() != null) {
@@ -175,13 +175,13 @@ public class ThrownFlail extends ThrowableItemProjectile {
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 		this.hitTarget = compound.getBoolean(TAG_HIT_TARGET);
-		this.power = compound.getInt(TAG_POWER);
+		this.kineticPower = compound.getFloat(TAG_KINETIC_POWER);
 	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
 		compound.putBoolean(TAG_HIT_TARGET, this.hitTarget);
-		compound.putInt(TAG_POWER, this.power);
+		compound.putFloat(TAG_KINETIC_POWER, this.kineticPower);
 	}
 }

@@ -10,7 +10,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.tags.AAItemTags;
+import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(LocalPlayer.class)
@@ -24,7 +26,7 @@ public abstract class LocalPlayerMixin {
 	@Inject(method = "aiStep", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I", ordinal = 3, shift = At.Shift.AFTER))
 	private void modifyBlockingWalkSpeed(CallbackInfo ci) {
 		Player player = ((Player) (Object) this);
-		if (isUsingItem() && (player.getUseItem().is(AAItemTags.CAN_BLOCK) || player.getUseItem().is(AAItemTags.HEAVY_SHIELDS))) {
+		if (isUsingItem() && (WeaponTraitHelper.hasTrait(AAWeaponTraits.CAN_BLOCK, player.getUseItem()) || player.getUseItem().is(AAItemTags.HEAVY_SHIELDS))) {
 			input.forwardImpulse *= 5;
 			input.leftImpulse *= 5;
 		}

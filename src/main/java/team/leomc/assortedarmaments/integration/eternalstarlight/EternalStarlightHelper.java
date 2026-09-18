@@ -38,9 +38,9 @@ public class EternalStarlightHelper {
 	private static final Map<TagKey<Item>, List<Tuple<ResourceLocation, String>>> tags = new HashMap<>();
 
 	public static void registerClaymores(DeferredRegister.Items items) {
-		register(AAItemTags.CLAYMORES, items, "swamp_silver_claymore", "c:ingots/swamp_silver", () -> new ClaymoreItem(ESItemTiers.SWAMP_SILVER, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.SWAMP_SILVER, 5.5f, -3f, 0.5f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.LIGHT_DANCE, AAMaterials.BANE_UNDEAD, AAMaterials.POISON_IMMUNE))));
-		register(AAItemTags.CLAYMORES, items, "thermal_springstone_claymore", "c:ingots/thermal_springstone", () -> new ClaymoreItem(ESItemTiers.THERMAL_SPRINGSTONE, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.THERMAL_SPRINGSTONE, 5.5f, -3f, 0.5f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.HEAT, AAMaterials.FIRE_IMMUNE))));
-		register(AAItemTags.CLAYMORES, items, "glacite_claymore", "c:gems/glacite", () -> new ClaymoreItem(ESItemTiers.GLACITE, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.GLACITE, 5.5f, -3f, 0.5f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.CHILL, AAMaterials.COLD_IMMUNE))));
+		register(AAItemTags.CLAYMORES, items, "swamp_silver_claymore", "c:ingots/swamp_silver", () -> new ClaymoreItem(ESItemTiers.SWAMP_SILVER, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.SWAMP_SILVER, 5.5f, -3f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.LIGHT_DANCE, AAMaterials.BANE_UNDEAD, AAMaterials.POISON_IMMUNE))));
+		register(AAItemTags.CLAYMORES, items, "thermal_springstone_claymore", "c:ingots/thermal_springstone", () -> new ClaymoreItem(ESItemTiers.THERMAL_SPRINGSTONE, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.THERMAL_SPRINGSTONE, 5.5f, -3f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.HEAT, AAMaterials.FIRE_IMMUNE))));
+		register(AAItemTags.CLAYMORES, items, "glacite_claymore", "c:gems/glacite", () -> new ClaymoreItem(ESItemTiers.GLACITE, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.GLACITE, 5.5f, -3f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.CHILL, AAMaterials.COLD_IMMUNE))));
 	}
 
 	private static void register(TagKey<Item> tag, DeferredRegister.Items items, String name, String ingredient, Supplier<Item> supplier) {

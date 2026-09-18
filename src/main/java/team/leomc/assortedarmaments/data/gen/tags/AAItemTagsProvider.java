@@ -160,6 +160,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			.addTag(AAItemTags.PIKES)
 			.addTag(AAItemTags.HALBERDS)
 			.addTag(AAItemTags.HEAVY_SHIELDS);
+		tag(ItemTags.MACE_ENCHANTABLE)
+			.addTag(AAItemTags.MACES);
 		tag(ItemTags.DURABILITY_ENCHANTABLE)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
