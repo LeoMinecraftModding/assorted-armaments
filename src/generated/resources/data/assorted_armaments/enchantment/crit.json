@@ -8,8 +8,8 @@
       {
         "amount": {
           "type": "minecraft:linear",
-          "base": 0.15,
-          "per_level_above_first": 0.15
+          "base": 0.5,
+          "per_level_above_first": 0.25
         },
         "attribute": "assorted_armaments:critical_attack_damage_multiplier",
         "id": "assorted_armaments:enchantment.crit",
@@ -21,7 +21,7 @@
     "base": 20,
     "per_level_above_first": 9
   },
-  "max_level": 5,
+  "max_level": 3,
   "min_cost": {
     "base": 5,
     "per_level_above_first": 9
@@ -29,6 +29,6 @@
   "slots": [
     "mainhand"
   ],
-  "supported_items": "#assorted_armaments:enchantable/mace",
+  "supported_items": "#assorted_armaments:enchantable/jian",
   "weight": 2
 }

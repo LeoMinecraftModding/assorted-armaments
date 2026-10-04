@@ -1,6 +1,9 @@
 package team.leomc.assortedarmaments.item;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -14,22 +17,38 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import team.leomc.assortedarmaments.AACommonConfig;
+import team.leomc.assortedarmaments.AAUtils;
+import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.entity.ThrownFlail;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
+import team.leomc.assortedarmaments.registry.AADataComponents;
+import team.leomc.assortedarmaments.registry.AASounds;
+import team.leomc.assortedarmaments.registry.AAWeaponTraits;
+import team.leomc.assortedarmaments.trait.WeaponTrait;
+import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
 import java.util.List;
 
 public class FlailItem extends TieredItem {
 	public FlailItem(Tier tier, Properties properties) {
-		super(tier, properties.component(DataComponents.TOOL, createToolProperties(tier)));
+		this(tier, properties.component(DataComponents.TOOL, createToolProperties(tier)), List.of());
+	}
+
+	public FlailItem(Tier tier, Item.Properties properties, List<Holder<WeaponTrait>> extraTraits) {
+		super(tier, properties.component(AADataComponents.WEAPON_TRAITS.get(),
+			WeaponTraitsComponent.EMPTY
+				.withTraitAdded(AAWeaponTraits.FLAIL_SPIN)
+				.withTraitAdded(AAWeaponTraits.TWO_HANDED)
+				.withTraitAdded(AAWeaponTraits.LARGE_WEAPON)
+				.withTraitAdded(AAWeaponTraits.SHOCK)
+				.withTraitAdded(AAWeaponTraits.KNOCK)
+				.withExtraTraitAdded(extraTraits)));
 	}
 
 	public static Tool createToolProperties(Tier tier) {
@@ -79,8 +98,16 @@ public class FlailItem extends TieredItem {
 			if (!player.hasData(AADataAttachments.FLAIL)) {
 				float kineticPower = player.getData(AADataAttachments.FLAIL_KINETIC_POWER);
 				if (kineticPower <= 5) {
+					if (kineticPower == 0.0F) {
+						int initialVelocity = stack.getEnchantmentLevel(level.registryAccess().holderOrThrow(AAEnchantments.INITIAL_VELOCITY));
+						kineticPower += 0.5F * initialVelocity;
+					}
+					float previousKineticPower = kineticPower;
 					kineticPower += 0.05F;
 					player.setData(AADataAttachments.FLAIL_KINETIC_POWER, kineticPower);
+					if (previousKineticPower < 5.0F && kineticPower >= 5.0F) {
+						level.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.FLAIL_FULLY_CHARGE.get(), player.getSoundSource(), 1.0F, 1.0F);
+					}
 				}
 				if (kineticPower >= 2.5F) {
 					for (LivingEntity living : livingEntity.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
@@ -115,5 +142,13 @@ public class FlailItem extends TieredItem {
 	@Override
 	public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
+		super.appendHoverText(stack, context, tooltips, flags);
+		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
+		AAUtils.addKnightMetalTooltip(stack, tooltips);
+		AAUtils.addFieryTooltip(path, tooltips);
 	}
 }

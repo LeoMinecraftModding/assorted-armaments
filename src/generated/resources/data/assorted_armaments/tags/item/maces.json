@@ -5,6 +5,26 @@
     "assorted_armaments:iron_mace",
     "assorted_armaments:golden_mace",
     "assorted_armaments:diamond_mace",
-    "assorted_armaments:netherite_mace"
+    "assorted_armaments:netherite_mace",
+    {
+      "id": "assorted_armaments:ironwood_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_mace",
+      "required": false
+    }
   ]
 }

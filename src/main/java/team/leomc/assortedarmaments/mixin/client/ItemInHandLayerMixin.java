@@ -13,10 +13,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
-import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(ItemInHandLayer.class)

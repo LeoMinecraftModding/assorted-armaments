@@ -38,7 +38,7 @@ public class EternalStarlightHelper {
 	private static final Map<TagKey<Item>, List<Tuple<ResourceLocation, String>>> tags = new HashMap<>();
 
 	public static void registerClaymores(DeferredRegister.Items items) {
-		register(AAItemTags.CLAYMORES, items, "swamp_silver_claymore", "c:ingots/swamp_silver", () -> new ClaymoreItem(ESItemTiers.SWAMP_SILVER, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.SWAMP_SILVER, 5.5f, -3f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.LIGHT_DANCE, AAMaterials.BANE_UNDEAD, AAMaterials.POISON_IMMUNE))));
+		register(AAItemTags.CLAYMORES, items, "deepsilver_claymore", "c:ingots/deepsilver", () -> new ClaymoreItem(ESItemTiers.DEEPSILVER, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.DEEPSILVER, 5.5f, -3f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.LIGHT_DANCE, AAMaterials.BANE_UNDEAD, AAMaterials.POISON_IMMUNE))));
 		register(AAItemTags.CLAYMORES, items, "thermal_springstone_claymore", "c:ingots/thermal_springstone", () -> new ClaymoreItem(ESItemTiers.THERMAL_SPRINGSTONE, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.THERMAL_SPRINGSTONE, 5.5f, -3f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.HEAT, AAMaterials.FIRE_IMMUNE))));
 		register(AAItemTags.CLAYMORES, items, "glacite_claymore", "c:gems/glacite", () -> new ClaymoreItem(ESItemTiers.GLACITE, new Item.Properties().attributes(ClaymoreItem.createAttributes(ESItemTiers.GLACITE, 5.5f, -3f)).component(AADataComponents.MATERIAL, new MaterialsComponent(AAMaterials.CHILL, AAMaterials.COLD_IMMUNE))));
 	}
@@ -73,7 +73,7 @@ public class EternalStarlightHelper {
 				tags.values().stream().flatMap(Collection::stream).forEach(tuple -> provider.add(Util.makeDescriptionId("item", tuple.getA()), AAEnglishLanguageProvider.toTitleCase(tuple.getA().getPath())));
 			}
 		} else {
-			provider.add("item.assorted_armaments.swamp_silver_claymore", "沼泽银大剑");
+			provider.add("item.assorted_armaments.deepsilver_claymore", "深银大剑");
 			provider.add("item.assorted_armaments.thermal_springstone_claymore", "热泉石大剑");
 			provider.add("item.assorted_armaments.glacite_claymore", "永冻石大剑");
 		}

@@ -22,6 +22,9 @@ public class StrongSweepWeaponTrait extends WeaponTrait{
 		float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE));
 
 		double reach = player.entityInteractionRange();
+		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, stack)) {
+			damage = (float) (damage * (0.75 + (player.getAttributeValue(Attributes.SWEEPING_DAMAGE_RATIO))));
+		}
 		for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(reach))) {
 			if (living != player
 				&& !player.isAlliedTo(living)
@@ -30,9 +33,6 @@ public class StrongSweepWeaponTrait extends WeaponTrait{
 				&& living.position().subtract(player.position()).normalize().dot(player.getViewVector(1).normalize()) > 0) {
 				if (level instanceof ServerLevel serverLevel) {
 					damage = EnchantmentHelper.modifyDamage(serverLevel, stack, living, source, damage);
-				}
-				if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, stack)) {
-					damage = (float) (damage * (1 + (player.getAttributeValue(Attributes.SWEEPING_DAMAGE_RATIO) * 0.1)));
 				}
 				living.knockback(0.4F + (player.isSprinting() ? 1.0F : 0.0F), Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)), (-Mth.cos(player.getYRot() * (float) (Math.PI / 180.0))));
 				living.hurt(source, damage);

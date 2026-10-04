@@ -7,7 +7,7 @@
     "assorted_armaments:diamond_claymore",
     "assorted_armaments:netherite_claymore",
     {
-      "id": "assorted_armaments:swamp_silver_claymore",
+      "id": "assorted_armaments:deepsilver_claymore",
       "required": false
     },
     {
@@ -16,6 +16,26 @@
     },
     {
       "id": "assorted_armaments:glacite_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:ironwood_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_claymore",
       "required": false
     }
   ]

@@ -3,6 +3,7 @@ package team.leomc.assortedarmaments.registry;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -22,9 +23,12 @@ public class AADataAttachments {
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemStack>> CONCENTRATED_WEAPON = ATTACHMENT_TYPES.register("concentrated_weapon", () -> AttachmentType.builder(() -> ItemStack.EMPTY).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> LAST_CONCENTRATED_ATTACK_TIME = ATTACHMENT_TYPES.register("last_concentrated_attack_time", () -> AttachmentType.builder(() -> Integer.MIN_VALUE).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> CONCENTRATION_LEVEL = ATTACHMENT_TYPES.register("concentration_level", () -> AttachmentType.builder(() -> 0).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Long>> PARRY_EXPIRE = ATTACHMENT_TYPES.register("parry_expire", () -> AttachmentType.builder(() -> Long.MIN_VALUE).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> LAST_HEAVY_SHIELD_BLOCKED_DAMAGE = ATTACHMENT_TYPES.register("last_heavy_shield_blocked_damage", () -> AttachmentType.builder(() -> 0f).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> LAST_HEAVY_SHIELD_BLOCKED_DAMAGE_TIME = ATTACHMENT_TYPES.register("last_heavy_shield_blocked_damage_time", () -> AttachmentType.builder(() -> Integer.MIN_VALUE).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> OFFHAND_ATTACK = ATTACHMENT_TYPES.register("offhand_attack", () -> AttachmentType.builder(() -> false).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> OFFHAND_ATTACK_STRENGTH_TIMER = ATTACHMENT_TYPES.register("offhand_attack_strength_timer", () -> AttachmentType.builder(() -> 0).sync(ByteBufCodecs.INT).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemStack>> LAST_OFFHAND_ITEM = ATTACHMENT_TYPES.register("last_offhand_item", () -> AttachmentType.builder(() -> ItemStack.EMPTY).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Vec3>> PIN_UP_KNOCKBACK_DIRECTION = ATTACHMENT_TYPES.register("pin_up_knockback_direction", () -> AttachmentType.builder(() -> Vec3.ZERO).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> PIN_UP_EXPIRE = ATTACHMENT_TYPES.register("pin_up_expire", () -> AttachmentType.builder(() -> 0).build());
 }

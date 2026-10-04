@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "assorted_armaments:item/rapier_handheld",
   "overrides": [
     {
       "model": "assorted_armaments:item/iron_rapier_sprinting",

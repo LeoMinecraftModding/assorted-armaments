@@ -64,6 +64,14 @@ public record WeaponTraitsComponent(List<Holder<WeaponTrait>> traits, boolean sh
 		return new WeaponTraitsComponent(list, showInTooltip);
 	}
 
+	public WeaponTraitsComponent withExtraTraitAdded(List<Holder<WeaponTrait>> traits) {
+		WeaponTraitsComponent result = this;
+		for (Holder<WeaponTrait> trait : traits) {
+			result = result.withTraitAdded(trait);
+		}
+		return result;
+	}
+
 	public WeaponTraitsComponent withTraitRemoved(Holder<WeaponTrait> trait) {
 		if (trait == null || !traits.contains(trait)) return this;
 		List<Holder<WeaponTrait>> list = new ArrayList<>(traits);

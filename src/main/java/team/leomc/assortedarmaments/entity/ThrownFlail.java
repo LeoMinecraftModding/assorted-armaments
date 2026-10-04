@@ -1,5 +1,6 @@
 package team.leomc.assortedarmaments.entity;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -84,8 +85,46 @@ public class ThrownFlail extends ThrowableItemProjectile {
 	@Override
 	protected void onHit(HitResult result) {
 		super.onHit(result);
+		if (!hitTarget) {
+			Entity directHit = result instanceof EntityHitResult entityHitResult ? entityHitResult.getEntity() : null;
+			blast(directHit);
+		}
 		hitTarget = true;
 		setDeltaMovement(Vec3.ZERO);
+	}
+
+	private void blast(@Nullable Entity directHit) {
+		if (!(level() instanceof ServerLevel serverLevel)) return;
+		ItemStack weapon = getWeaponItem();
+		if (weapon == null) return;
+		DamageSource contextSource = damageSources().thrown(this, getOwner());
+		float blastFactor = AAEnchantments.modifyFlailBlastDamage(serverLevel, weapon, directHit != null ? directHit : this, contextSource, 0.0F);
+		if (blastFactor <= 0.0F) return;
+		spawnBlastParticles(serverLevel);
+		float baseDamage = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE) ? (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) : 5.0F;
+		baseDamage *= 0.5F * kineticPower;
+		for (LivingEntity target : serverLevel.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(1.5))) {
+			if (target == getOwner() || target == directHit) continue;
+			DamageSource source = damageSources().thrown(this, getOwner());
+			float damage = EnchantmentHelper.modifyDamage(serverLevel, weapon, target, source, baseDamage * blastFactor);
+			target.hurt(source, damage);
+		}
+	}
+
+	private void spawnBlastParticles(ServerLevel level) {
+		double centerX = getX();
+		double centerY = getY() + getBbHeight() * 0.5;
+		double centerZ = getZ();
+		level.sendParticles(ParticleTypes.EXPLOSION, centerX, centerY, centerZ, 1, 0.0, 0.0, 0.0, 0.0);
+		for (int i = 0; i < 8; i++) {
+			double radius = Math.cbrt(random.nextDouble());
+			double theta = random.nextDouble() * (Math.PI * 2.0);
+			double phi = Math.acos(2.0 * random.nextDouble() - 1.0);
+			double x = centerX + radius * Math.sin(phi) * Math.cos(theta);
+			double y = centerY + radius * Math.sin(phi) * Math.sin(theta);
+			double z = centerZ + radius * Math.cos(phi);
+			level.sendParticles(ParticleTypes.EXPLOSION, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+		}
 	}
 
 	@Override

@@ -5,6 +5,26 @@
     "assorted_armaments:iron_heavy_shield",
     "assorted_armaments:golden_heavy_shield",
     "assorted_armaments:diamond_heavy_shield",
-    "assorted_armaments:netherite_heavy_shield"
+    "assorted_armaments:netherite_heavy_shield",
+    {
+      "id": "assorted_armaments:ironwood_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_heavy_shield",
+      "required": false
+    }
   ]
 }

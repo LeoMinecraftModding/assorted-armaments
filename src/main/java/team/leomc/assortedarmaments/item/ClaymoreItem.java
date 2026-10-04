@@ -1,32 +1,37 @@
 package team.leomc.assortedarmaments.item;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
-import team.leomc.assortedarmaments.registry.AADataAttachments;
-import team.leomc.assortedarmaments.tags.AAItemTags;
+import team.leomc.assortedarmaments.AAUtils;
+import team.leomc.assortedarmaments.registry.AADataComponents;
+import team.leomc.assortedarmaments.registry.AAWeaponTraits;
+import team.leomc.assortedarmaments.trait.WeaponTrait;
+import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
+
+import java.util.List;
 
 public class ClaymoreItem extends SwordItem {
 	public ClaymoreItem(Tier tier, Properties properties) {
-		super(tier, properties.durability((int) (tier.getUses() * 1.5f)));
+		this(tier, properties.durability((int) (tier.getUses() * 1.5f)), List.of());
+	}
+
+	public ClaymoreItem(Tier tier, Item.Properties properties, List<Holder<WeaponTrait>> extraTraits) {
+		super(tier, properties.component(AADataComponents.WEAPON_TRAITS.get(),
+			WeaponTraitsComponent.EMPTY
+				.withTraitAdded(AAWeaponTraits.TWO_HANDED)
+				.withTraitAdded(AAWeaponTraits.LARGE_WEAPON)
+				.withTraitAdded(AAWeaponTraits.STRONG_SWEEP)
+				.withTraitAdded(AAWeaponTraits.CAN_BLOCK)
+				.withExtraTraitAdded(extraTraits)));
 	}
 
 	@Override
@@ -49,5 +54,13 @@ public class ClaymoreItem extends SwordItem {
 	@Override
 	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
 		return super.canPerformAction(stack, ability) || ability == ItemAbilities.SHIELD_BLOCK;
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
+		super.appendHoverText(stack, context, tooltips, flags);
+		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
+		AAUtils.addKnightMetalTooltip(stack, tooltips);
+		AAUtils.addFieryTooltip(path, tooltips);
 	}
 }

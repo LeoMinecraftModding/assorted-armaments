@@ -6,12 +6,13 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,9 +25,10 @@ import team.leomc.assortedarmaments.tags.AAItemTags;
 import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin {
-	@Shadow
-	public abstract ItemStack getWeaponItem();
+public abstract class PlayerMixin extends LivingEntity {
+	protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
+		super(entityType, level);
+	}
 
 	@Unique
 	private float aa$originalAttackDamage;
@@ -46,7 +48,8 @@ public abstract class PlayerMixin {
 
 	@WrapOperation(method = "blockUsingShield", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;canDisableShield()Z"))
 	private boolean canDisableShield(LivingEntity instance, Operation<Boolean> original) {
-		if (getWeaponItem().is(AAItemTags.HEAVY_SHIELDS)) {
+		ItemStack useItem = getUseItem();
+		if (useItem.is(AAItemTags.HEAVY_SHIELDS) || WeaponTraitHelper.hasTrait(AAWeaponTraits.CAN_BLOCK, useItem)) {
 			return false;
 		}
 		return original.call(instance);

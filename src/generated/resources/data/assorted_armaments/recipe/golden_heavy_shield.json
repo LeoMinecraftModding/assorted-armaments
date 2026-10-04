@@ -3,16 +3,16 @@
   "category": "equipment",
   "key": {
     "#": {
-      "tag": "minecraft:planks"
+      "item": "minecraft:shield"
     },
     "X": {
       "tag": "c:ingots/gold"
     }
   },
   "pattern": [
-    "X#X",
     "XXX",
-    "XXX"
+    "X#X",
+    " X "
   ],
   "result": {
     "count": 1,

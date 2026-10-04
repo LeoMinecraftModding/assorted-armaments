@@ -20,11 +20,12 @@ public class AssortedArmaments {
 		AACreativeModeTabs.TABS.register(modBus);
 		AAEntityTypes.ENTITY_TYPES.register(modBus);
 		AAAttributes.ATTRIBUTES.register(modBus);
+		AAEffects.MOB_EFFECTS.register(modBus);
 		AAEnchantmentEffectComponents.ENCHANTMENT_EFFECT_COMPONENTS.register(modBus);
-		AAEnchantmentEntityEffects.ENCHANTMENT_ENTITY_EFFECTS.register(modBus);
 		AADataComponents.register(modBus);
 		AADataAttachments.ATTACHMENT_TYPES.register(modBus);
 		AAWeaponTraits.WEAPON_TRAITS.register(modBus);
+		AASounds.SOUND_EVENTS.register(modBus);
 	}
 
 	public static ResourceLocation id(String string) {

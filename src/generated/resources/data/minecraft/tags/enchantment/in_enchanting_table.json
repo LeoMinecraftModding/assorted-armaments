@@ -1,9 +1,13 @@
 {
   "values": [
     "assorted_armaments:crit",
-    "assorted_armaments:armor_penetration",
-    "assorted_armaments:super_thump",
     "assorted_armaments:kinetic_energy",
-    "assorted_armaments:impact"
+    "assorted_armaments:super_thump",
+    "assorted_armaments:initial_velocity",
+    "assorted_armaments:blast",
+    "assorted_armaments:deep_wound",
+    "assorted_armaments:pin_up",
+    "assorted_armaments:withstand",
+    "assorted_armaments:split_air"
   ]
 }

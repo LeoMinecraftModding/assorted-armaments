@@ -57,6 +57,18 @@ public class AACommonConfig {
 		.comment("Using a heavy shield to block damage and then using it to damage the attacker heavyShieldFastCounterattackTime ticks later allows the blocked damage to be returned to the attacker (in ticks, 20 ticks = 1 second)")
 		.defineInRange("heavyShieldFastCounterattackTime", 5, 0, Integer.MAX_VALUE);
 
+	private static final ModConfigSpec.DoubleValue IRONCLAD_ARMOR_VALUE = BUILDER
+		.comment("Armor value granted by the Ironclad weapon trait while the weapon is held")
+		.defineInRange("ironcladArmorValue", 4.0, 0, Double.MAX_VALUE);
+
+	private static final ModConfigSpec.IntValue PARRY_DURATION = BUILDER
+		.comment("Duration of the parry granted by the Parry weapon trait after a full-cooldown attack (in ticks, 20 ticks = 1 second)")
+		.defineInRange("parryDuration", 2, 0, Integer.MAX_VALUE);
+
+	private static final ModConfigSpec.DoubleValue PARRY_MELEE_DAMAGE_REDUCTION = BUILDER
+		.comment("Melee damage taken while parrying = (1 - parryMeleeDamageReduction) * original damage")
+		.defineInRange("parryMeleeDamageReduction", 0.5, 0, 1);
+
 	private static final ModConfigSpec.DoubleValue ZOMBIE_USE_WEAPON_CHANCE = BUILDER
 		.comment("What is the probability that a zombie will use a weapon from Assorted Armaments?")
 		.defineInRange("zombieUseWeaponChance", 0.1, 0, 1);
@@ -64,6 +76,10 @@ public class AACommonConfig {
 	private static final ModConfigSpec.DoubleValue PIGLIN_USE_WEAPON_CHANCE = BUILDER
 		.comment("What is the probability that a piglin will use a weapon from Assorted Armaments?")
 		.defineInRange("piglinUseWeaponChance", 0.1, 0, 1);
+
+	private static final ModConfigSpec.IntValue PIN_UP_SYNCOPE_DURATION = BUILDER
+		.comment("Duration of the syncope applied by the Pin Up enchantment when a javelin's knockback slams a target into a block (in ticks, 20 ticks = 1 second)")
+		.defineInRange("pinUpSyncopeDuration", 40, 0, Integer.MAX_VALUE);
 
 	public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -79,8 +95,12 @@ public class AACommonConfig {
 	public static int heavyShieldFastBlockTime;
 	public static double heavyShieldFastBlockDamageReflectionPercentage;
 	public static int heavyShieldFastCounterattackTime;
+	public static double ironcladArmorValue;
+	public static int parryDuration;
+	public static double parryMeleeDamageReduction;
 	public static double zombieUseWeaponChance;
 	public static double piglinUseWeaponChance;
+	public static int pinUpSyncopeDuration;
 
 	@SubscribeEvent
 	private static void onLoad(final ModConfigEvent event) {
@@ -96,7 +116,11 @@ public class AACommonConfig {
 		heavyShieldFastBlockTime = HEAVY_SHIELD_FAST_BLOCK_TIME.get();
 		heavyShieldFastBlockDamageReflectionPercentage = HEAVY_SHIELD_FAST_BLOCK_DAMAGE_REFLECTION_PERCENTAGE.get();
 		heavyShieldFastCounterattackTime = HEAVY_SHIELD_FAST_COUNTERATTACK_TIME.get();
+		ironcladArmorValue = IRONCLAD_ARMOR_VALUE.get();
+		parryDuration = PARRY_DURATION.get();
+		parryMeleeDamageReduction = PARRY_MELEE_DAMAGE_REDUCTION.get();
 		zombieUseWeaponChance = ZOMBIE_USE_WEAPON_CHANCE.get();
 		piglinUseWeaponChance = PIGLIN_USE_WEAPON_CHANCE.get();
+		pinUpSyncopeDuration = PIN_UP_SYNCOPE_DURATION.get();
 	}
 }

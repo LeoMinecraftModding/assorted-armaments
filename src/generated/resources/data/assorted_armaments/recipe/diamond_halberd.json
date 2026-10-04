@@ -12,7 +12,7 @@
   "pattern": [
     "  X",
     " #X",
-    "#  "
+    "#XX"
   ],
   "result": {
     "count": 1,

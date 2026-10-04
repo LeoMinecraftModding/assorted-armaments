@@ -1,9 +1,14 @@
 {
   "values": [
+    "#assorted_armaments:claymores",
     "#assorted_armaments:maces",
     "#assorted_armaments:flails",
     "#assorted_armaments:javelins",
     "#assorted_armaments:pikes",
-    "#assorted_armaments:heavy_shields"
+    "#assorted_armaments:rapiers",
+    "#assorted_armaments:halberds",
+    "#assorted_armaments:heavy_shields",
+    "#assorted_armaments:claw",
+    "#assorted_armaments:jians"
   ]
 }

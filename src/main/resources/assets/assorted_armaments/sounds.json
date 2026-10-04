@@ -1,0 +1,11 @@
+{
+  "misc.fully_charge.flail": {
+    "category": "player",
+    "subtitle": "subtitles.assorted_armaments.flail.fully_charge",
+    "sounds": [
+      {
+        "name": "assorted_armaments:fully_charge"
+      }
+    ]
+  }
+}

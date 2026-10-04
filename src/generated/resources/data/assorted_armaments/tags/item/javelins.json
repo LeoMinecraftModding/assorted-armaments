@@ -5,6 +5,26 @@
     "assorted_armaments:iron_javelin",
     "assorted_armaments:golden_javelin",
     "assorted_armaments:diamond_javelin",
-    "assorted_armaments:netherite_javelin"
+    "assorted_armaments:netherite_javelin",
+    {
+      "id": "assorted_armaments:ironwood_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_javelin",
+      "required": false
+    }
   ]
 }
