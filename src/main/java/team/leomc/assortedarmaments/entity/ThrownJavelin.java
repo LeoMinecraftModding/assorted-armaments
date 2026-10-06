@@ -26,6 +26,7 @@ import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
+import team.leomc.assortedarmaments.registry.AASounds;
 
 import java.util.UUID;
 
@@ -196,6 +197,7 @@ public class ThrownJavelin extends AbstractArrow {
 					serverLevel.sendParticles(ParticleTypes.CRIT, position().x(), position().y(), position().z(), 10, 0.1, 0.1, 0.1, 0.5);
 					target.invulnerableTime = 0;
 				}
+				level().playSound(null, getX(), getY(), getZ(), AASounds.JAVELIN_PULLOUT.get(), player.getSoundSource(), 1.0F, 1.0F);
 				discard();
 			}
 		}

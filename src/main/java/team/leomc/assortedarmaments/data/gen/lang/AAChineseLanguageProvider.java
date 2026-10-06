@@ -50,7 +50,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".can_block", "格挡");
 		add("weapon_trait." + AssortedArmaments.ID + ".can_block.desc", "可以格挡武器伤害一半大小的近战伤害");
 		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep", "横扫");
-		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep.desc", "横扫攻击时范围内所有目标受到与直接攻击一致的伤害");
+		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep.desc", "横扫攻击时范围内所有目标受到75%的伤害");
 		add("weapon_trait." + AssortedArmaments.ID + ".two_handed", "双手武器");
 		add("weapon_trait." + AssortedArmaments.ID + ".two_handed.desc", "拿在主手时禁用副手物品");
 		add("weapon_trait." + AssortedArmaments.ID + ".large_weapon", "大型武器");
@@ -93,7 +93,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "海王之力");
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might.desc", "增加在水下对敌人造成的伤害");
 
-		add("weapon_trait.modify_interaction_range.desc", "增加 %s 实体与方块交互距离");
+		add("weapon_trait.modify_interaction_range.desc", "增加 %s 攻击距离和 %s 方块交互距离");
 
 		add(AAItems.WOODEN_CLAYMORE.get(), "木大剑");
 		add(AAItems.STONE_CLAYMORE.get(), "石大剑");
@@ -199,6 +199,9 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("tooltip." + AssortedArmaments.ID + ".fiery_smelting", "自动烧炼");
 
 		add("subtitles." + AssortedArmaments.ID + ".flail.fully_charge", "流星锤：充能完毕");
+		add("subtitles." + AssortedArmaments.ID + ".flail.spin", "流星锤：旋转");
+		add("subtitles." + AssortedArmaments.ID + ".flail.thrown", "流星锤：扔出");
+		add("subtitles." + AssortedArmaments.ID + ".javelin.pull_out", "矛：拔出");
 
 		EternalStarlightHelper.addTranslations(this, false);
 		TwilightForestHelper.addTranslations(this, false);

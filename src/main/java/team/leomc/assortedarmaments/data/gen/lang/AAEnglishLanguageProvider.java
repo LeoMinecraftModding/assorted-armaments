@@ -53,7 +53,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".can_block", "Block");
 		add("weapon_trait." + AssortedArmaments.ID + ".can_block.desc", "Can be used to block melee damage that is equal to 200% of the weapon's damage");
 		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep", "Sweep");
-		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep.desc", "All targets in range on a sweeping attack take the same damage as a direct melee attack");
+		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep.desc", "All targets in range on a sweeping attack take 75% melee attack");
 		add("weapon_trait." + AssortedArmaments.ID + ".two_handed", "Two-Handed");
 		add("weapon_trait." + AssortedArmaments.ID + ".two_handed.desc", "Disables offhand items when held in main hand");
 		add("weapon_trait." + AssortedArmaments.ID + ".large_weapon", "Large Weapon");
@@ -96,7 +96,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "Neptune's Grace");
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might.desc", "Increases damage against enemies underwater");
 
-		add("weapon_trait.modify_interaction_range.desc", "Increases entity and block interaction range by %s");
+		add("weapon_trait.modify_interaction_range.desc", "Increases attack range by %s and block interaction range by %s");
 
 		AAItems.ITEMS.getEntries().forEach(item -> add(item.get(), toTitleCase(item.getId().getPath())));
 		AAEntityTypes.ENTITY_TYPES.getEntries().forEach(entityType -> add(entityType.get(), toTitleCase(entityType.getId().getPath())));
@@ -133,6 +133,9 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("tooltip." + AssortedArmaments.ID + ".fiery_smelting", "Auto-smelting");
 
 		add("subtitles." + AssortedArmaments.ID + ".flail.fully_charge", "Flail Fully Charged");
+		add("subtitles." + AssortedArmaments.ID + ".flail.spin", "Flail Spin");
+		add("subtitles." + AssortedArmaments.ID + ".flail.thrown", "Flail Thrown");
+		add("subtitles." + AssortedArmaments.ID + ".javelin.pull_out", "Javelin Pull Out");
 
 		EternalStarlightHelper.addTranslations(this, true);
 		TwilightForestHelper.addTranslations(this, true);

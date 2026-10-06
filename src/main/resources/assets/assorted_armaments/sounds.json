@@ -7,5 +7,32 @@
         "name": "assorted_armaments:fully_charge"
       }
     ]
+  },
+  "misc.spin.flail": {
+    "category": "player",
+    "subtitle": "subtitles.assorted_armaments.flail.spin",
+    "sounds": [
+      {
+        "name": "assorted_armaments:spin"
+      }
+    ]
+  },
+  "misc.thrown.flail": {
+    "category": "player",
+    "subtitle": "subtitles.assorted_armaments.flail.thrown",
+    "sounds": [
+      {
+        "name": "assorted_armaments:thrown"
+      }
+    ]
+  },
+  "misc.pull_out.javelin": {
+    "category": "player",
+    "subtitle": "subtitles.assorted_armaments.javelin.pull_out",
+    "sounds": [
+      {
+        "name": "assorted_armaments:pull_out"
+      }
+    ]
   }
 }

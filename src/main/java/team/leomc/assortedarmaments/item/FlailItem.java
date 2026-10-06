@@ -85,6 +85,7 @@ public class FlailItem extends TieredItem {
 				flail.setItem(stack);
 				flail.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 1.8f, 0.5f);
 				level.addFreshEntity(flail);
+				level.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.FLAIL_THROWN.get(), player.getSoundSource(), 1.0F, 1.0F);
 			}
 			player.removeData(AADataAttachments.FLAIL_KINETIC_POWER);
 		}

@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -27,7 +28,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.client.sound.FlailSpinSoundInstance;
 import team.leomc.assortedarmaments.entity.ThrownFlail;
 import team.leomc.assortedarmaments.network.RemoveJavelinPayload;
 import team.leomc.assortedarmaments.tags.AAItemTags;
@@ -41,13 +44,31 @@ public class AAClientEvents {
 	public static final Int2ObjectArrayMap<Vec3> PLAYER_RIGHT_HAND_POS = new Int2ObjectArrayMap<>();
 	public static final Int2IntArrayMap FLAIL_LIGHT = new Int2IntArrayMap();
 
+	@Nullable
+	private static FlailSpinSoundInstance flailSpinSound;
+
 	@SubscribeEvent
 	private static void onClientTick(ClientTickEvent.Post event) {
+		Minecraft minecraft = Minecraft.getInstance();
 		if (AAClientSetupEvents.KEY_MAPPING_REMOVE_JAVELIN.consumeClick()) {
-			Minecraft minecraft = Minecraft.getInstance();
 			if (minecraft.crosshairPickEntity != null) {
 				PacketDistributor.sendToServer(new RemoveJavelinPayload(minecraft.crosshairPickEntity.getId()));
 			}
+		}
+		updateFlailSpinSound(minecraft);
+	}
+
+	private static void updateFlailSpinSound(Minecraft minecraft) {
+		LocalPlayer player = minecraft.player;
+		boolean spinning = player != null && player.isUsingItem() && player.getUseItem().is(AAItemTags.FLAILS);
+		if (spinning) {
+			if (flailSpinSound == null || flailSpinSound.isStopped()) {
+				flailSpinSound = new FlailSpinSoundInstance(player);
+				minecraft.getSoundManager().play(flailSpinSound);
+			}
+		} else if (flailSpinSound != null) {
+			minecraft.getSoundManager().stop(flailSpinSound);
+			flailSpinSound = null;
 		}
 	}
 

@@ -26,7 +26,7 @@ public class AAWeaponTraits {
 
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> STRONG_SWEEP = WEAPON_TRAITS.register("strong_sweep", StrongSweepWeaponTrait::new);
 
-	public static final DeferredHolder<WeaponTrait, WeaponTrait> LARGE_WEAPON = WEAPON_TRAITS.register("large_weapon", ()-> new ModifyInteractionRangeWeaponTrait(1f));
+	public static final DeferredHolder<WeaponTrait, WeaponTrait> LARGE_WEAPON = WEAPON_TRAITS.register("large_weapon", ()-> new ModifyInteractionRangeWeaponTrait(1f, 1f));
 
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> SHOCK = WEAPON_TRAITS.register("shock", ShockWeaponTrait::new);
 
@@ -42,11 +42,11 @@ public class AAWeaponTraits {
 
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> SEE_THROUGH = WEAPON_TRAITS.register("see_through", WeaponTrait::new);
 
-	public static final DeferredHolder<WeaponTrait, WeaponTrait> LONG_WEAPON = WEAPON_TRAITS.register("long_weapon", ()-> new ModifyInteractionRangeWeaponTrait(2f));
+	public static final DeferredHolder<WeaponTrait, WeaponTrait> LONG_WEAPON = WEAPON_TRAITS.register("long_weapon", ()-> new ModifyInteractionRangeWeaponTrait(2f, 2f));
 
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> JAVELIN_THROW = WEAPON_TRAITS.register("javelin_throw", WeaponDescriptiveWeaponTrait::new);
 
-	public static final DeferredHolder<WeaponTrait, WeaponTrait> SHORT_WEAPON = WEAPON_TRAITS.register("short_weapon", ()-> new ModifyInteractionRangeWeaponTrait(-0.5f));
+	public static final DeferredHolder<WeaponTrait, WeaponTrait> SHORT_WEAPON = WEAPON_TRAITS.register("short_weapon", ()-> new ModifyInteractionRangeWeaponTrait(0f, -1.0f));
 
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> LIGHTWEIGHT = WEAPON_TRAITS.register("lightweight", WeaponTrait::new);
 

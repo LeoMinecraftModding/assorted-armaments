@@ -46,6 +46,7 @@ public class HeavyShieldItem extends TieredItem implements Equipable {
 		super(tier, properties.component(AADataComponents.WEAPON_TRAITS.get(),
 			WeaponTraitsComponent.EMPTY
 				.withTraitAdded(AAWeaponTraits.HEAVY_BLOCKING)
+				.withTraitAdded(AAWeaponTraits.SHIELD_PARRY)
 				.withTraitAdded(AAWeaponTraits.IRONCLAD)
 				.withExtraTraitAdded(extraTraits)));
 	}

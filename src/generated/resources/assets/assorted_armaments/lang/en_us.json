@@ -161,6 +161,9 @@
   "key.categories.assorted_armaments": "Assorted Armaments",
   "name.assorted_armaments": "Assorted Armaments",
   "subtitles.assorted_armaments.flail.fully_charge": "Flail Fully Charged",
+  "subtitles.assorted_armaments.flail.spin": "Flail Spin",
+  "subtitles.assorted_armaments.flail.thrown": "Flail Thrown",
+  "subtitles.assorted_armaments.javelin.pull_out": "Javelin Pull Out",
   "tooltip.assorted_armaments.fiery_smelting": "Auto-smelting",
   "tooltip.assorted_armaments.fiery_weapon": "Burns targets",
   "tooltip.assorted_armaments.knightmetal_tool": "Extra damage to unarmored targets",
@@ -203,10 +206,10 @@
   "weapon_trait.assorted_armaments.stab": "Stab",
   "weapon_trait.assorted_armaments.stab.desc": "Increases damage when sprinting",
   "weapon_trait.assorted_armaments.strong_sweep": "Sweep",
-  "weapon_trait.assorted_armaments.strong_sweep.desc": "All targets in range on a sweeping attack take the same damage as a direct melee attack",
+  "weapon_trait.assorted_armaments.strong_sweep.desc": "All targets in range on a sweeping attack take 75% melee attack",
   "weapon_trait.assorted_armaments.thump": "Thump",
   "weapon_trait.assorted_armaments.thump.desc": "Smash attack temporarily stuns the target",
   "weapon_trait.assorted_armaments.two_handed": "Two-Handed",
   "weapon_trait.assorted_armaments.two_handed.desc": "Disables offhand items when held in main hand",
-  "weapon_trait.modify_interaction_range.desc": "Increases entity and block interaction range by %s"
+  "weapon_trait.modify_interaction_range.desc": "Increases attack range by %s and block interaction range by %s"
 }

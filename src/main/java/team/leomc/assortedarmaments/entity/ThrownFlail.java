@@ -132,6 +132,7 @@ public class ThrownFlail extends ThrowableItemProjectile {
 		super.onHitEntity(result);
 		Entity entity = result.getEntity();
 		if (entity != getOwner() && !hitTarget) {
+			level().playSound(null, getX(), getY(), getZ(), SoundEvents.ANVIL_LAND, getSoundSource(), 1.0F, 1.0F);
 			DamageSource source = this.damageSources().thrown(this, getOwner());
 			float damage = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE) ? (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) : 5;
 			float knockback = getOwner() instanceof LivingEntity living && living.getAttributes().hasAttribute(Attributes.ATTACK_KNOCKBACK) ? living.getKnockback(entity, source) : 1;

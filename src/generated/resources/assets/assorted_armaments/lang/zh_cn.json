@@ -161,6 +161,9 @@
   "key.categories.assorted_armaments": "百般武艺",
   "name.assorted_armaments": "百般武艺",
   "subtitles.assorted_armaments.flail.fully_charge": "流星锤：充能完毕",
+  "subtitles.assorted_armaments.flail.spin": "流星锤：旋转",
+  "subtitles.assorted_armaments.flail.thrown": "流星锤：扔出",
+  "subtitles.assorted_armaments.javelin.pull_out": "矛：拔出",
   "tooltip.assorted_armaments.fiery_smelting": "自动烧炼",
   "tooltip.assorted_armaments.fiery_weapon": "灼烧攻击目标",
   "tooltip.assorted_armaments.knightmetal_tool": "对无护甲目标造成额外伤害",
@@ -203,10 +206,10 @@
   "weapon_trait.assorted_armaments.stab": "刺击",
   "weapon_trait.assorted_armaments.stab.desc": "疾跑时增加伤害",
   "weapon_trait.assorted_armaments.strong_sweep": "横扫",
-  "weapon_trait.assorted_armaments.strong_sweep.desc": "横扫攻击时范围内所有目标受到与直接攻击一致的伤害",
+  "weapon_trait.assorted_armaments.strong_sweep.desc": "横扫攻击时范围内所有目标受到75%的伤害",
   "weapon_trait.assorted_armaments.thump": "重击",
   "weapon_trait.assorted_armaments.thump.desc": "下落攻击会暂时击晕目标",
   "weapon_trait.assorted_armaments.two_handed": "双手武器",
   "weapon_trait.assorted_armaments.two_handed.desc": "拿在主手时禁用副手物品",
-  "weapon_trait.modify_interaction_range.desc": "增加 %s 实体与方块交互距离"
+  "weapon_trait.modify_interaction_range.desc": "增加 %s 攻击距离和 %s 方块交互距离"
 }
