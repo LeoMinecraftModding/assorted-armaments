@@ -15,6 +15,7 @@ public class AADataAttachments {
 	public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, AssortedArmaments.ID);
 
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> NO_INTENTIONAL_SWEEP_ATTACK = ATTACHMENT_TYPES.register("no_intentional_sweep_attack", () -> AttachmentType.builder(() -> false).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> SWEEP_ATTACK_ACTIVE = ATTACHMENT_TYPES.register("sweep_attack_active", () -> AttachmentType.builder(() -> false).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> BLOCKING_DISABLED_TIME = ATTACHMENT_TYPES.register("blocking_disabled_time", () -> AttachmentType.builder(() -> 0).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> NO_TARGET_TIME = ATTACHMENT_TYPES.register("no_target_time", () -> AttachmentType.builder(() -> 0).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ThrownFlail>> FLAIL = ATTACHMENT_TYPES.register("flail", () -> AttachmentType.builder(() -> (ThrownFlail) null).build());

@@ -161,6 +161,8 @@ dependencies {
 
     runtimeOnly "curse.maven:inventory-hud-forge-357540:6369797"
     runtimeOnly "curse.maven:re-retro-damage-indicators-1456876:7921238"
+//    runtimeOnly "curse.maven:selene-499980:9066398"
+//    runtimeOnly "curse.maven:mmmmmmmmmmmm-225738:8903254"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

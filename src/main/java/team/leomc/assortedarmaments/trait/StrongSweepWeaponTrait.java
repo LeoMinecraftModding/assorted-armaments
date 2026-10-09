@@ -11,10 +11,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 
-public class StrongSweepWeaponTrait extends WeaponTrait{
+public class StrongSweepWeaponTrait extends WeaponTrait {
 	public static boolean performSweepAttack(Player player, ItemStack stack) {
+		if (player.getData(AADataAttachments.SWEEP_ATTACK_ACTIVE)) {
+			return false;
+		}
+		player.setData(AADataAttachments.SWEEP_ATTACK_ACTIVE, true);
+
 		boolean success = false;
 
 		Level level = player.level();
@@ -47,6 +53,7 @@ public class StrongSweepWeaponTrait extends WeaponTrait{
 		level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
 		player.sweepAttack();
 
+		player.setData(AADataAttachments.SWEEP_ATTACK_ACTIVE, false);
 		return success;
 	}
 }
