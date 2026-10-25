@@ -8,29 +8,39 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.providers.VanillaEnchantmentProviders;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
-import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
+import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -39,24 +49,25 @@ import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import team.leomc.assortedarmaments.AACommonConfig;
+import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.data.AAEnchantments;
+import team.leomc.assortedarmaments.effect.SyncopeEffect;
 import team.leomc.assortedarmaments.entity.ThrownJavelin;
 import team.leomc.assortedarmaments.integration.MaterialsComponent;
-import team.leomc.assortedarmaments.item.*;
 import team.leomc.assortedarmaments.network.UpdateBlockAbilityPayload;
 import team.leomc.assortedarmaments.registry.*;
 import team.leomc.assortedarmaments.tags.AAEntityTypeTags;
 import team.leomc.assortedarmaments.tags.AAItemTags;
-import team.leomc.assortedarmaments.trait.*;
+import team.leomc.assortedarmaments.trait.DualWieldWeaponTrait;
+import team.leomc.assortedarmaments.trait.StrongSweepWeaponTrait;
+import team.leomc.assortedarmaments.trait.WeaponTrait;
+import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
 
 import java.util.List;
 import java.util.Optional;
 
 @EventBusSubscriber(modid = AssortedArmaments.ID)
 public class AACommonEvents {
-	public static final ResourceLocation TWO_HANDED_SPEED_ID = AssortedArmaments.id("two_handed_speed");
-
 	@SubscribeEvent
 	private static void onJoinLevel(FinalizeSpawnEvent event) {
 		Mob living = event.getEntity();
@@ -84,11 +95,16 @@ public class AACommonEvents {
 				living.setItemInHand(InteractionHand.MAIN_HAND, stack);
 			}
 		}
+		ItemStack mainHand = living.getMainHandItem();
+		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.DUAL_WIELD, mainHand)) {
+			living.setItemInHand(InteractionHand.OFF_HAND, mainHand.copy());
+		}
 	}
 
 	@SubscribeEvent
 	private static void onIncomingDamage(LivingIncomingDamageEvent event) {
 		LivingEntity victim = event.getEntity();
+		ItemStack weapon = event.getSource().getWeaponItem();
 		if (event.getSource().getDirectEntity() instanceof LivingEntity living) {
 			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.SHOCK, living.getWeaponItem())) {
 				event.setAmount((float) (event.getAmount() + victim.getArmorValue() * AACommonConfig.armorBasedAttackDamagePercentage));
@@ -99,52 +115,87 @@ public class AACommonEvents {
 			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.QUICK_ATTACK, living.getWeaponItem()) && living.isSprinting()) {
 				event.setInvulnerabilityTicks(5);
 			}
-			MaterialsComponent.applyMaterials(living.getWeaponItem(), material -> material.onIncomingDamage(event));
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.PARRY, living.getWeaponItem()) && AAUtils.isFullAttack(living)) {
+				AAUtils.grantParry(living, living.getWeaponItem(), victim, event.getSource());
+			}
+		}
+		if (weapon != null) {
+			MaterialsComponent.applyMaterials(weapon, material -> material.onIncomingDamage(event));
 		}
 		event.getContainer().setPostAttackInvulnerabilityTicks(DualWieldWeaponTrait.onModifyPostAttackInvulnerabilityTicks(event.getEntity(), event.getSource(), event.getAmount(), event.getContainer().getPostAttackInvulnerabilityTicks()));
+		if (isParrying(victim) && event.getSource().getDirectEntity() instanceof LivingEntity) {
+			event.setAmount(event.getAmount() * (float) (1.0 - AACommonConfig.parryMeleeDamageReduction));
+		}
+	}
+
+	public static boolean isParrying(LivingEntity entity) {
+		Long parryExpire = entity.getExistingDataOrNull(AADataAttachments.PARRY_EXPIRE);
+		return parryExpire != null && entity.level().getGameTime() < parryExpire;
 	}
 
 	@SubscribeEvent
-	public static void onPreEntityHurt(LivingDamageEvent.Pre event) {
-		LivingEntity target = event.getEntity();
-		DamageSource source = event.getSource();
-		LivingEntity attacker = (LivingEntity) source.getEntity();
-		ItemStack weaponItem = source.getWeaponItem();
-		if (weaponItem != null) {
-			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, weaponItem)) {
-				if (attacker != null && ((Player) attacker).getAttackStrengthScale(0.5F) > 0.9f && attacker.onGround()) {
-					StrongSweepWeaponTrait.performSweepAttack((Player) attacker, attacker.getWeaponItem());
-				}
-			}
+	private static void onProjectileImpact(ProjectileImpactEvent event) {
+		if (!(event.getRayTraceResult() instanceof EntityHitResult entityHit) || !(entityHit.getEntity() instanceof LivingEntity entity)) {
+			return;
+		}
+		Projectile projectile = event.getProjectile();
+		if (!canSplitAirBlock(entity, projectile)) {
+			return;
+		}
+		event.setCanceled(true);
+		projectile.deflect(ProjectileDeflection.REVERSE, entity, projectile.getOwner(), false);
+		projectile.setDeltaMovement(projectile.getDeltaMovement().scale(0.2));
+	}
+
+	private static boolean canSplitAirBlock(LivingEntity entity, Projectile projectile) {
+		if (!isParrying(entity) || !AAUtils.hasSplitAir(entity)) {
+			return false;
+		}
+		if (projectile instanceof AbstractArrow arrow && arrow.getPierceLevel() > 0) {
+			return false;
+		}
+		Vec3 viewVector = entity.calculateViewVector(0.0F, entity.getYHeadRot());
+		Vec3 toEntity = projectile.position().vectorTo(entity.position());
+		toEntity = new Vec3(toEntity.x, 0.0, toEntity.z).normalize();
+		return toEntity.dot(viewVector) < 0.0;
+	}
+
+	@SubscribeEvent
+	private static void onLivingKnockBack(LivingKnockBackEvent event) {
+		if (isParrying(event.getEntity())) {
+			event.setCanceled(true);
 		}
 	}
+
+	@SubscribeEvent
+	private static void onPerforationDamage(LivingDamageEvent.Pre event) {
+		LivingEntity entity = event.getEntity();
+		if (entity.hasEffect(AAEffects.PERFORATION) && event.getNewDamage() > 0.0F) {
+			event.setNewDamage(event.getNewDamage() + 1.0F);
+		}
+	}
+
 	@SubscribeEvent
 	public static void onPostEntityHurt(LivingDamageEvent.Post event) {
 		LivingEntity target = event.getEntity();
 		DamageSource source = event.getSource();
-		LivingEntity attacker = (LivingEntity) source.getEntity();
 		ItemStack weaponItem = source.getWeaponItem();
-		if (attacker != null) {
-			if (weaponItem != null) {
-				if (((Player) attacker).getAttackStrengthScale(0.5F) > 0.9f && attacker.onGround()) {
-					if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, weaponItem)) {
-						StrongSweepWeaponTrait.performSweepAttack((Player) attacker, attacker.getWeaponItem());
-					}
-					if (WeaponTraitHelper.hasTrait(AAWeaponTraits.CONCENTRATION, weaponItem)) {
-
-						if (target == attacker.getData(AADataAttachments.CONCENTRATED_TARGET) && weaponItem == attacker.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
-							attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
-							attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, Math.min(attacker.getData(AADataAttachments.CONCENTRATION_LEVEL) + 1, 4));
-						} else {
-							attacker.setData(AADataAttachments.CONCENTRATED_TARGET, target);
-							attacker.setData(AADataAttachments.CONCENTRATED_WEAPON, weaponItem);
-							attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
-							attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, 0);
-						}
-					}
+		if (source.getEntity() instanceof Player attacker && weaponItem != null) {
+			if (attacker.getAttackStrengthScale(0.5F) > 0.9f && attacker.onGround()) {
+				if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, weaponItem)) {
+					StrongSweepWeaponTrait.performSweepAttack(attacker, attacker.getWeaponItem());
 				}
-				if (weaponItem.getItem() instanceof net.minecraft.world.item.MaceItem && WeaponTraitHelper.hasTrait(AAWeaponTraits.THUMP, weaponItem)) {
-					target.setData(AADataAttachments.NO_TARGET_TIME, Math.max(target.getData(AADataAttachments.NO_TARGET_TIME), 20));
+				if (WeaponTraitHelper.hasTrait(AAWeaponTraits.CONCENTRATION, weaponItem)) {
+
+					if (target == attacker.getData(AADataAttachments.CONCENTRATED_TARGET) && weaponItem == attacker.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
+						attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
+						attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, Math.min(attacker.getData(AADataAttachments.CONCENTRATION_LEVEL) + 1, 4));
+					} else {
+						attacker.setData(AADataAttachments.CONCENTRATED_TARGET, target);
+						attacker.setData(AADataAttachments.CONCENTRATED_WEAPON, weaponItem);
+						attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
+						attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, 0);
+					}
 				}
 			}
 		}
@@ -170,21 +221,6 @@ public class AACommonEvents {
 			if (multiplier != null) {
 				event.setDamageMultiplier(event.getDamageMultiplier() * (float) multiplier.getValue());
 			}
-			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.KNOCK, player.getWeaponItem()) && target instanceof LivingEntity living) {
-				float thumpEffectiveness = 0;
-				if (event.getEntity().level() instanceof ServerLevel serverLevel) {
-					thumpEffectiveness = AAEnchantments.modifyThumpEffectiveness(serverLevel, player.getWeaponItem(), target, player.damageSources().playerAttack(player), thumpEffectiveness);
-				}
-				if (thumpEffectiveness > 0) {
-					living.stopUsingItem();
-					living.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, (int) (40 + thumpEffectiveness * 60), 1));
-					living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) thumpEffectiveness * 100, 0));
-					if (living instanceof ServerPlayer serverPlayer) {
-						living.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(living.getData(AADataAttachments.BLOCKING_DISABLED_TIME), 40));
-						PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(true));
-					}
-				}
-			}
 		}
 	}
 
@@ -201,6 +237,13 @@ public class AACommonEvents {
 	}
 
 	@SubscribeEvent
+	private static void onSyncopeApplicable(MobEffectEvent.Applicable event) {
+		if (event.getEffectInstance().is(AAEffects.SYNCOPE) && (event.getEntity().getType().is(AAEntityTypeTags.SYNCOPE_IMMUNE) || event.getEntity().hasEffect(AAEffects.SYNCOPE))) {
+			event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+		}
+	}
+
+	@SubscribeEvent
 	private static void onShieldBlock(LivingShieldBlockEvent event) {
 		if (event.getOriginalBlock()) {
 			LivingEntity blocker = event.getEntity();
@@ -211,7 +254,7 @@ public class AACommonEvents {
 				if (damageInstance != null) {
 					damage = damageInstance.getValue();
 				}
-				event.setBlockedDamage(source.getDirectEntity() instanceof LivingEntity ? (float) (damage / 2) : 0);
+				event.setBlockedDamage((float) (damage / 2));
 			}
 			if (blocker.isUsingItem() && blocker.getUseItem().is(AAItemTags.HEAVY_SHIELDS)) {
 				if (blocker.getTicksUsingItem() <= AACommonConfig.heavyShieldFastBlockTime && source.getDirectEntity() instanceof LivingEntity living) {
@@ -232,14 +275,9 @@ public class AACommonEvents {
 				blocker.setData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE_TIME, blocker.tickCount);
 			}
 			if (event.getDamageSource().getDirectEntity() instanceof LivingEntity living && WeaponTraitHelper.hasTrait(AAWeaponTraits.KNOCK, living.getWeaponItem()) && blocker instanceof ServerPlayer serverPlayer) {
-				float thumpEffectiveness = 0;
-				if (event.getEntity().level() instanceof ServerLevel serverLevel) {
-					thumpEffectiveness = AAEnchantments.modifyThumpEffectiveness(serverLevel, living.getWeaponItem(), blocker, event.getDamageSource(), thumpEffectiveness);
-				}
 				blocker.stopUsingItem();
-				blocker.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(blocker.getData(AADataAttachments.BLOCKING_DISABLED_TIME), 40));
-				blocker.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, (int) (40 + thumpEffectiveness * 60), 1));
-				blocker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) thumpEffectiveness * 100, 0));
+				blocker.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(blocker.getData(AADataAttachments.BLOCKING_DISABLED_TIME), 100));
+				blocker.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 1));
 				PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(true));
 			}
 		}
@@ -270,10 +308,39 @@ public class AACommonEvents {
 		}
 	}
 
+	private static boolean hasBlockInKnockbackDirection(LivingEntity living, Vec3 direction) {
+		Vec3 center = living.position().add(0.0, living.getBbHeight() * 0.5, 0.0);
+		double horizontalHalf = (Math.abs(direction.x) + Math.abs(direction.z)) * living.getBbWidth() * 0.5;
+		Vec3 end = center.add(direction.scale(horizontalHalf + 0.5));
+		BlockHitResult hit = living.level().clip(new ClipContext(center, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, living));
+		return hit.getType() == HitResult.Type.BLOCK && hit.getDirection().getAxis().isHorizontal();
+	}
+
 	@SubscribeEvent
 	private static void onPostEntityTick(EntityTickEvent.Post event) {
 		Entity entity = event.getEntity();
 		if (entity instanceof LivingEntity living && !living.level().isClientSide) {
+//			if (living.hasData(AADataAttachments.PARRY_EXPIRE) && !isParrying(living)) {
+//				living.removeData(AADataAttachments.PARRY_EXPIRE);
+//			}
+			MobEffectInstance syncope = living.getEffect(AAEffects.SYNCOPE);
+			if (syncope != null && (syncope.isInfiniteDuration() || syncope.getDuration() > SyncopeEffect.MAX_DURATION)) {
+				int syncopeAmplifier = syncope.getAmplifier();
+				living.removeEffect(AAEffects.SYNCOPE);
+				living.addEffect(new MobEffectInstance(AAEffects.SYNCOPE, SyncopeEffect.MAX_DURATION, syncopeAmplifier));
+			}
+			if (living.hasData(AADataAttachments.PIN_UP_EXPIRE)) {
+				int pinUpExpire = living.getData(AADataAttachments.PIN_UP_EXPIRE);
+				Vec3 pinUpDirection = living.getData(AADataAttachments.PIN_UP_KNOCKBACK_DIRECTION);
+				if (living.tickCount > pinUpExpire) {
+					living.removeData(AADataAttachments.PIN_UP_EXPIRE);
+					living.removeData(AADataAttachments.PIN_UP_KNOCKBACK_DIRECTION);
+				} else if (living.horizontalCollision && pinUpDirection.lengthSqr() > 1.0E-7 && hasBlockInKnockbackDirection(living, pinUpDirection)) {
+					living.addEffect(new MobEffectInstance(AAEffects.SYNCOPE, AACommonConfig.pinUpSyncopeDuration));
+					living.removeData(AADataAttachments.PIN_UP_EXPIRE);
+					living.removeData(AADataAttachments.PIN_UP_KNOCKBACK_DIRECTION);
+				}
+			}
 			if (living instanceof Player player) {
 				player.setData(AADataAttachments.OFFHAND_ATTACK_STRENGTH_TIMER, player.getData(AADataAttachments.OFFHAND_ATTACK_STRENGTH_TIMER) + 1);
 				if (!ItemStack.matches(player.getData(AADataAttachments.LAST_OFFHAND_ITEM), player.getOffhandItem())) {
@@ -358,9 +425,9 @@ public class AACommonEvents {
 				ResourceLocation attackSpeedLocation = ResourceLocation.fromNamespaceAndPath(AAWeaponTraits.CONCENTRATION.getId().getNamespace(), "weapon_trait/" + AAWeaponTraits.CONCENTRATION.getId().getPath() + "/" + Attributes.ATTACK_SPEED.unwrapKey().orElseThrow().location().getPath());
 				if (attackSpeedInstance != null) {
 					attackSpeedInstance.removeModifier(attackSpeedLocation);
-					attackSpeedInstance.addPermanentModifier(new AttributeModifier(attackSpeedLocation, 0.1 * level, AttributeModifier.Operation.ADD_VALUE));
+					attackSpeedInstance.addTransientModifier(new AttributeModifier(attackSpeedLocation, 0.1 * level, AttributeModifier.Operation.ADD_VALUE));
 				}
-				if (living.tickCount - living.getData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME) > 40 || living.getWeaponItem() != living.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
+				if (living.tickCount - living.getData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME) > 100 || living.getWeaponItem() != living.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
 					living.removeData(AADataAttachments.CONCENTRATED_TARGET);
 					living.removeData(AADataAttachments.CONCENTRATED_WEAPON);
 					living.removeData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME);
@@ -421,76 +488,13 @@ public class AACommonEvents {
 						ResourceLocation modifierId = attr.makeId(traitId);
 
 						event.removeModifier(attr.attribute(), modifierId);
-						event.addModifier(attr.attribute(), attr.createModifier(traitId), EquipmentSlotGroup.MAINHAND);
+						event.addModifier(attr.attribute(), attr.createModifier(traitId), attr.slotGroup());
 					}
 				}
 			}
 		}
 
 		MaterialsComponent.applyMaterials(stack, material -> material.onItemAttributeModifier(event));
-	}
-
-	@SubscribeEvent
-	public static void onItemDefaultComponents(ModifyDefaultComponentsEvent event) {
-		event.modifyMatching(item -> item instanceof ClaymoreItem, builder ->
-			builder.set(AADataComponents.WEAPON_TRAITS.get(),
-				WeaponTraitsComponent.EMPTY
-					.withTraitAdded(AAWeaponTraits.TWO_HANDED)
-					.withTraitAdded(AAWeaponTraits.STRONG_SWEEP)
-					.withTraitAdded(AAWeaponTraits.LARGE_WEAPON)
-					.withTraitAdded(AAWeaponTraits.CAN_BLOCK)
-			)
-		);
-		event.modifyMatching(item -> item instanceof MaceItem, builder ->
-			builder.set(AADataComponents.WEAPON_TRAITS.get(),
-				WeaponTraitsComponent.EMPTY
-					.withTraitAdded(AAWeaponTraits.SHOCK)
-					.withTraitAdded(AAWeaponTraits.KNOCK)
-					.withTraitAdded(AAWeaponTraits.THUMP)
-			)
-		);
-		event.modifyMatching(item -> item instanceof FlailItem, builder ->
-			builder.set(AADataComponents.WEAPON_TRAITS.get(),
-				WeaponTraitsComponent.EMPTY
-					.withTraitAdded(AAWeaponTraits.FLAIL_SPIN)
-					.withTraitAdded(AAWeaponTraits.TWO_HANDED)
-					.withTraitAdded(AAWeaponTraits.LARGE_WEAPON)
-					.withTraitAdded(AAWeaponTraits.SHOCK)
-					.withTraitAdded(AAWeaponTraits.KNOCK)
-			)
-		);
-		event.modifyMatching(item -> item instanceof RapierItem, builder ->
-			builder.set(AADataComponents.WEAPON_TRAITS.get(),
-				WeaponTraitsComponent.EMPTY
-					.withTraitAdded(AAWeaponTraits.CONCENTRATION)
-					.withTraitAdded(AAWeaponTraits.STAB)
-					.withTraitAdded(AAWeaponTraits.SEE_THROUGH)
-			)
-		);
-		event.modifyMatching(item -> item instanceof PikeItem, builder ->
-			builder.set(AADataComponents.WEAPON_TRAITS.get(),
-				WeaponTraitsComponent.EMPTY
-					.withTraitAdded(AAWeaponTraits.TWO_HANDED)
-					.withTraitAdded(AAWeaponTraits.LONG_WEAPON)
-					.withTraitAdded(AAWeaponTraits.STAB)
-					.withTraitAdded(AAWeaponTraits.CAN_BLOCK)
-			)
-		);
-		event.modifyMatching(item -> item instanceof JavelinItem, builder ->
-			builder.set(AADataComponents.WEAPON_TRAITS.get(),
-				WeaponTraitsComponent.EMPTY
-					.withTraitAdded(AAWeaponTraits.JAVELIN_THROW)
-			)
-		);
-		event.modifyMatching(item -> item instanceof ClawItem, builder ->
-			builder.set(AADataComponents.WEAPON_TRAITS.get(),
-				WeaponTraitsComponent.EMPTY
-					.withTraitAdded(AAWeaponTraits.SHORT_WEAPON)
-					.withTraitAdded(AAWeaponTraits.LIGHTWEIGHT)
-					.withTraitAdded(AAWeaponTraits.DUAL_WIELD)
-					.withTraitAdded(AAWeaponTraits.QUICK_ATTACK)
-			)
-		);
 	}
 
 	@SubscribeEvent
@@ -502,5 +506,12 @@ public class AACommonEvents {
 	public static void onEntityInvulnerabilityCheck(EntityInvulnerabilityCheckEvent event) {
 		if (!(event.getEntity() instanceof LivingEntity living)) return;
 		MaterialsComponent.applyMaterials(living.getWeaponItem(), material -> material.onEntityInvulnerabilityCheck(event));
+	}
+
+	@SubscribeEvent
+	public static void onSwapHands(LivingSwapItemsEvent.Hands event) {
+		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.TWO_HANDED, event.getItemSwappedToOffHand())) {
+			event.setCanceled(true);
+		}
 	}
 }

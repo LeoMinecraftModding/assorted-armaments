@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -37,7 +38,9 @@ import org.lwjgl.glfw.GLFW;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.renderer.entity.ThrownFlailRenderer;
 import team.leomc.assortedarmaments.client.renderer.entity.ThrownJavelinRenderer;
+import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
 import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 import team.leomc.assortedarmaments.tags.AAItemTags;
@@ -178,8 +181,46 @@ public class AAClientSetupEvents {
 			ItemDisplayContext.GROUND, ModelResourceLocation.standalone(AssortedArmaments.id("item/netherite_halberd_inventory")),
 			ItemDisplayContext.FIXED, ModelResourceLocation.standalone(AssortedArmaments.id("item/netherite_halberd_inventory"))
 		));
+		map.put(ModelResourceLocation.inventory(AssortedArmaments.id("wooden_heavy_shield")), Map.of(
+			ItemDisplayContext.HEAD, ModelResourceLocation.standalone(AssortedArmaments.id("item/wooden_heavy_shield_inventory")),
+			ItemDisplayContext.GUI, ModelResourceLocation.standalone(AssortedArmaments.id("item/wooden_heavy_shield_inventory")),
+			ItemDisplayContext.GROUND, ModelResourceLocation.standalone(AssortedArmaments.id("item/wooden_heavy_shield_inventory")),
+			ItemDisplayContext.FIXED, ModelResourceLocation.standalone(AssortedArmaments.id("item/wooden_heavy_shield_inventory"))
+		));
+		map.put(ModelResourceLocation.inventory(AssortedArmaments.id("stone_heavy_shield")), Map.of(
+			ItemDisplayContext.HEAD, ModelResourceLocation.standalone(AssortedArmaments.id("item/stone_heavy_shield_inventory")),
+			ItemDisplayContext.GUI, ModelResourceLocation.standalone(AssortedArmaments.id("item/stone_heavy_shield_inventory")),
+			ItemDisplayContext.GROUND, ModelResourceLocation.standalone(AssortedArmaments.id("item/stone_heavy_shield_inventory")),
+			ItemDisplayContext.FIXED, ModelResourceLocation.standalone(AssortedArmaments.id("item/stone_heavy_shield_inventory"))
+		));
+		map.put(ModelResourceLocation.inventory(AssortedArmaments.id("iron_heavy_shield")), Map.of(
+			ItemDisplayContext.HEAD, ModelResourceLocation.standalone(AssortedArmaments.id("item/iron_heavy_shield_inventory")),
+			ItemDisplayContext.GUI, ModelResourceLocation.standalone(AssortedArmaments.id("item/iron_heavy_shield_inventory")),
+			ItemDisplayContext.GROUND, ModelResourceLocation.standalone(AssortedArmaments.id("item/iron_heavy_shield_inventory")),
+			ItemDisplayContext.FIXED, ModelResourceLocation.standalone(AssortedArmaments.id("item/iron_heavy_shield_inventory"))
+		));
+		map.put(ModelResourceLocation.inventory(AssortedArmaments.id("golden_heavy_shield")), Map.of(
+			ItemDisplayContext.HEAD, ModelResourceLocation.standalone(AssortedArmaments.id("item/golden_heavy_shield_inventory")),
+			ItemDisplayContext.GUI, ModelResourceLocation.standalone(AssortedArmaments.id("item/golden_heavy_shield_inventory")),
+			ItemDisplayContext.GROUND, ModelResourceLocation.standalone(AssortedArmaments.id("item/golden_heavy_shield_inventory")),
+			ItemDisplayContext.FIXED, ModelResourceLocation.standalone(AssortedArmaments.id("item/golden_heavy_shield_inventory"))
+		));
+		map.put(ModelResourceLocation.inventory(AssortedArmaments.id("diamond_heavy_shield")), Map.of(
+			ItemDisplayContext.HEAD, ModelResourceLocation.standalone(AssortedArmaments.id("item/diamond_heavy_shield_inventory")),
+			ItemDisplayContext.GUI, ModelResourceLocation.standalone(AssortedArmaments.id("item/diamond_heavy_shield_inventory")),
+			ItemDisplayContext.GROUND, ModelResourceLocation.standalone(AssortedArmaments.id("item/diamond_heavy_shield_inventory")),
+			ItemDisplayContext.FIXED, ModelResourceLocation.standalone(AssortedArmaments.id("item/diamond_heavy_shield_inventory"))
+		));
+		map.put(ModelResourceLocation.inventory(AssortedArmaments.id("netherite_heavy_shield")), Map.of(
+			ItemDisplayContext.HEAD, ModelResourceLocation.standalone(AssortedArmaments.id("item/netherite_heavy_shield_inventory")),
+			ItemDisplayContext.GUI, ModelResourceLocation.standalone(AssortedArmaments.id("item/netherite_heavy_shield_inventory")),
+			ItemDisplayContext.GROUND, ModelResourceLocation.standalone(AssortedArmaments.id("item/netherite_heavy_shield_inventory")),
+			ItemDisplayContext.FIXED, ModelResourceLocation.standalone(AssortedArmaments.id("item/netherite_heavy_shield_inventory"))
+		));
 
 		EternalStarlightHelper.registerAdditionalModel(map);
+		TwilightForestHelper.registerAdditionalModel(map);
+		AquacultureHelper.registerAdditionalModel(map);
 	});
 
 	public static final List<ModelResourceLocation> ADDITIONAL_MODELS = Lists.newArrayList(
@@ -212,6 +253,8 @@ public class AAClientSetupEvents {
 			ItemProperties.register(AAItems.NETHERITE_CLAYMORE.get(), AssortedArmaments.id("blocking"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
 
 			EternalStarlightHelper.registerItemProperties();
+			TwilightForestHelper.registerItemProperties();
+			AquacultureHelper.registerItemProperties();
 
 			ItemProperties.register(AAItems.WOODEN_FLAIL.get(), AssortedArmaments.id("spinning"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
 			ItemProperties.register(AAItems.STONE_FLAIL.get(), AssortedArmaments.id("spinning"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1 : 0);
@@ -285,7 +328,7 @@ public class AAClientSetupEvents {
 
 	@SubscribeEvent
 	private static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-		event.registerItem(new IClientItemExtensions() {
+		IClientItemExtensions flailExtensions = new IClientItemExtensions() {
 			@Nullable
 			@Override
 			public HumanoidModel.ArmPose getArmPose(LivingEntity living, InteractionHand hand, ItemStack itemStack) {
@@ -303,7 +346,21 @@ public class AAClientSetupEvents {
 				}
 				return false;
 			}
-		}, AAItems.WOODEN_FLAIL.get(), AAItems.STONE_FLAIL.get(), AAItems.IRON_FLAIL.get(), AAItems.DIAMOND_FLAIL.get(), AAItems.GOLDEN_FLAIL.get(), AAItems.NETHERITE_FLAIL.get());
+		};
+
+		List<Item> flails = new ArrayList<>(List.of(
+			AAItems.WOODEN_FLAIL.get(),
+			AAItems.STONE_FLAIL.get(),
+			AAItems.IRON_FLAIL.get(),
+			AAItems.GOLDEN_FLAIL.get(),
+			AAItems.DIAMOND_FLAIL.get(),
+			AAItems.NETHERITE_FLAIL.get()
+		));
+
+		flails.addAll(List.of(TwilightForestHelper.getFlails()));
+		flails.addAll(List.of(AquacultureHelper.getFlails()));
+
+		event.registerItem(flailExtensions, flails.toArray(Item[]::new));
 	}
 
 	@SubscribeEvent
@@ -314,6 +371,12 @@ public class AAClientSetupEvents {
 			}
 		}
 		for (ModelResourceLocation location : ADDITIONAL_MODELS) {
+			event.register(location);
+		}
+		for (ModelResourceLocation location : TwilightForestHelper.getThrownModels()) {
+			event.register(location);
+		}
+		for (ModelResourceLocation location : AquacultureHelper.getThrownModels()) {
 			event.register(location);
 		}
 	}

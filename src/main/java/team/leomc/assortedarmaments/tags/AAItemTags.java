@@ -21,16 +21,23 @@ public class AAItemTags {
 	public static final TagKey<Item> MACES = create("maces");
 	public static final TagKey<Item> FLAILS = create("flails");
 	public static final TagKey<Item> JAVELINS = create("javelins");
+	public static final TagKey<Item> JIANS = create("jians");
 	public static final TagKey<Item> PIKES = create("pikes");
 	public static final TagKey<Item> RAPIERS = create("rapiers");
 	public static final TagKey<Item> HALBERDS = create("halberds");
 	public static final TagKey<Item> HEAVY_SHIELDS = create("heavy_shields");
+	public static final TagKey<Item> CLAW = create("claw");
+
+	public static final TagKey<Item> KNIGHTMETAL_WEAPON = create("knightmetal_weapon");
+	public static final TagKey<Item> KNIGHTMETAL_TOOL = create("knightmetal_tool");
 
 	public static final TagKey<Item> ZOMBIES_CAN_USE = create("zombies_can_use");
 	public static final TagKey<Item> PIGLINS_CAN_USE = create("piglins_can_use");
 
 	public static final TagKey<Item> MACE_ENCHANTABLE = create("enchantable/mace");
 	public static final TagKey<Item> FLAIL_ENCHANTABLE = create("enchantable/flail");
+	public static final TagKey<Item> JAVELIN_ENCHANTABLE = create("enchantable/javelin");
+	public static final TagKey<Item> JIAN_ENCHANTABLE = create("enchantable/jian");
 
 	public static final List<TagKey<Item>> TOOLTIP_TAGS = List.of(
 		TWO_HANDED,
@@ -43,6 +50,7 @@ public class AAItemTags {
 		MACES,
 		FLAILS,
 		JAVELINS,
+		JIANS,
 		RAPIERS,
 		HEAVY_SHIELDS
 	);

@@ -9,6 +9,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import team.leomc.assortedarmaments.item.FlailItem;
+import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 
@@ -27,8 +28,17 @@ public abstract class ItemRendererMixin {
 	private void render(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel bakedModel, CallbackInfo ci) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (player != null && itemStack.is(AAItemTags.FLAILS) && player.isUsingItem() && player.getUseItem() == itemStack && (displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND || displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)) {
-			float speed = ((0.5f + 0.5f * player.getData(AADataAttachments.FLAIL_KINETIC_POWER)) * Mth.PI / 10f);
-			poseStack.mulPose(new Quaternionf().rotateY((player.getTicksUsingItem() + Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(Minecraft.getInstance().level != null && Minecraft.getInstance().level.tickRateManager().runsNormally())) * speed));
+		float power = player.getData(AADataAttachments.FLAIL_KINETIC_POWER);
+		int initialVelocity = 0;
+		Level level = Minecraft.getInstance().level;
+		if (level != null) {
+			initialVelocity = itemStack.getEnchantmentLevel(level.registryAccess().holderOrThrow(AAEnchantments.INITIAL_VELOCITY));
+		}
+		float initialBonus = 0.5F * initialVelocity;
+		power = Math.max(power, initialBonus);
+		float ticks = player.getTicksUsingItem() + Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(Minecraft.getInstance().level != null && Minecraft.getInstance().level.tickRateManager().runsNormally()) + initialBonus * 20.0F;
+		float angle = ticks <= 100.0F ? (Mth.PI / 10F) * ticks * (0.5F + 0.25F * power) : (Mth.PI / 10F) * (3.0F * ticks - 125.0F);
+		poseStack.mulPose(new Quaternionf().rotateY(angle));
 		}
 	}
 

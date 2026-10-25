@@ -1,6 +1,9 @@
 package team.leomc.assortedarmaments.item;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -10,22 +13,31 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
+import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.entity.ThrownJavelin;
+import team.leomc.assortedarmaments.registry.AADataComponents;
+import team.leomc.assortedarmaments.registry.AAWeaponTraits;
+import team.leomc.assortedarmaments.trait.WeaponTrait;
+import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
 import java.util.List;
 
 public class JavelinItem extends TieredItem {
 	public JavelinItem(Tier tier, Properties properties) {
-		super(tier, properties.component(DataComponents.TOOL, createToolProperties()));
+		this(tier, properties.component(DataComponents.TOOL, createToolProperties()), List.of());
+	}
+
+	public JavelinItem(Tier tier, Item.Properties properties, List<Holder<WeaponTrait>> extraTraits) {
+		super(tier, properties.component(AADataComponents.WEAPON_TRAITS.get(),
+			WeaponTraitsComponent.EMPTY
+				.withTraitAdded(AAWeaponTraits.JAVELIN_THROW)
+				.withExtraTraitAdded(extraTraits)));
 	}
 
 	public static Tool createToolProperties() {
@@ -85,5 +97,13 @@ public class JavelinItem extends TieredItem {
 	@Override
 	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
 		return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(ability);
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
+		super.appendHoverText(stack, context, tooltips, flags);
+		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
+		AAUtils.addKnightMetalTooltip(stack, tooltips);
+		AAUtils.addFieryTooltip(path, tooltips);
 	}
 }

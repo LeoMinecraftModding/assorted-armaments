@@ -5,6 +5,26 @@
     "assorted_armaments:iron_flail",
     "assorted_armaments:golden_flail",
     "assorted_armaments:diamond_flail",
-    "assorted_armaments:netherite_flail"
+    "assorted_armaments:netherite_flail",
+    {
+      "id": "assorted_armaments:ironwood_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_flail",
+      "required": false
+    }
   ]
 }

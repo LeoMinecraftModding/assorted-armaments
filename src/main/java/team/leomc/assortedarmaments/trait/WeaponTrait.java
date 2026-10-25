@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
@@ -35,7 +36,11 @@ public class WeaponTrait {
 		return List.of();
 	}
 
-	public record TraitAttribute(Holder<Attribute> attribute, AttributeModifier.Operation operation, double amount) {
+	public record TraitAttribute(Holder<Attribute> attribute, AttributeModifier.Operation operation, double amount, EquipmentSlotGroup slotGroup) {
+		public TraitAttribute(Holder<Attribute> attribute, AttributeModifier.Operation operation, double amount) {
+			this(attribute, operation, amount, EquipmentSlotGroup.MAINHAND);
+		}
+
 		public ResourceLocation makeId(ResourceLocation traitId) {
 			ResourceLocation attrId = attribute.unwrapKey().orElseThrow().location();
 			return ResourceLocation.fromNamespaceAndPath(traitId.getNamespace(), "weapon_trait/" + traitId.getPath() + "/" + attrId.getPath()

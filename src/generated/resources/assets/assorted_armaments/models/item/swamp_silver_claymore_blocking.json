@@ -1,6 +1,0 @@
-{
-  "parent": "assorted_armaments:item/large_handheld_blocking",
-  "textures": {
-    "layer0": "assorted_armaments:item/swamp_silver_claymore"
-  }
-}

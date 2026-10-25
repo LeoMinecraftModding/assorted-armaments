@@ -12,11 +12,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
-import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
-import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {

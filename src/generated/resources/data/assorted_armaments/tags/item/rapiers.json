@@ -5,6 +5,26 @@
     "assorted_armaments:iron_rapier",
     "assorted_armaments:golden_rapier",
     "assorted_armaments:diamond_rapier",
-    "assorted_armaments:netherite_rapier"
+    "assorted_armaments:netherite_rapier",
+    {
+      "id": "assorted_armaments:ironwood_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_rapier",
+      "required": false
+    }
   ]
 }

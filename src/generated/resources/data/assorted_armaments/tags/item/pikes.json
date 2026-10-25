@@ -5,6 +5,26 @@
     "assorted_armaments:iron_pike",
     "assorted_armaments:golden_pike",
     "assorted_armaments:diamond_pike",
-    "assorted_armaments:netherite_pike"
+    "assorted_armaments:netherite_pike",
+    {
+      "id": "assorted_armaments:ironwood_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_pike",
+      "required": false
+    }
   ]
 }

@@ -7,13 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
@@ -22,13 +19,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
-
-import java.util.List;
 
 public class DualWieldWeaponTrait extends WeaponTrait{
 	public static void offhandAttack (Level level, Player player, InteractionHand hand, Item item) {
@@ -39,8 +33,8 @@ public class DualWieldWeaponTrait extends WeaponTrait{
 				player.attack(entityResult.getEntity());
 				player.setData(AADataAttachments.OFFHAND_ATTACK, false);
 			}
-			player.setData(AADataAttachments.OFFHAND_ATTACK_STRENGTH_TIMER, 0);
 			player.swing(InteractionHand.OFF_HAND);
+			player.setData(AADataAttachments.OFFHAND_ATTACK_STRENGTH_TIMER, 0);
 			player.awardStat(Stats.ITEM_USED.get(item));
 		}
 	}

@@ -7,14 +7,17 @@
   "mixins": [
     "ItemStackMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "MobMixin",
+    "PlayerMixin",
+    "SlotMixin"
   ],
   "client": [
-    "client.GuiMixin",
     "client.ItemInHandLayerMixin",
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
+    "client.KeyboardHandlerMixin",
     "client.LocalPlayerMixin",
+    "client.MouseHandlerMixin",
     "client.PlayerRendererMixin"
   ],
   "injectors": {

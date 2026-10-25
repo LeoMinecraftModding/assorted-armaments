@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "assorted_armaments:knightmetal_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_claw",
+      "required": false
+    }
+  ]
+}

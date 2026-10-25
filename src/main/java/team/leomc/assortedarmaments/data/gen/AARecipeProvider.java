@@ -15,7 +15,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
 import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
 import team.leomc.assortedarmaments.registry.AAItems;
 
 import java.util.ArrayList;
@@ -89,6 +91,20 @@ public class AARecipeProvider extends RecipeProvider {
 		heavyShield(recipeOutput, AAItems.DIAMOND_HEAVY_SHIELD.get(), Tags.Items.GEMS_DIAMOND);
 		netheriteSmithing(recipeOutput, AAItems.DIAMOND_HEAVY_SHIELD.get(), RecipeCategory.COMBAT, AAItems.NETHERITE_HEAVY_SHIELD.get());
 
+		claw(recipeOutput, AAItems.WOODEN_CLAW.get(), ItemTags.PLANKS);
+		claw(recipeOutput, AAItems.STONE_CLAW.get(), ItemTags.STONE_TOOL_MATERIALS);
+		claw(recipeOutput, AAItems.IRON_CLAW.get(), Tags.Items.INGOTS_IRON);
+		claw(recipeOutput, AAItems.GOLDEN_CLAW.get(), Tags.Items.INGOTS_GOLD);
+		claw(recipeOutput, AAItems.DIAMOND_CLAW.get(), Tags.Items.GEMS_DIAMOND);
+		netheriteSmithing(recipeOutput, AAItems.DIAMOND_CLAW.get(), RecipeCategory.COMBAT, AAItems.NETHERITE_CLAW.get());
+
+		jian(recipeOutput, AAItems.WOODEN_JIAN.get(), ItemTags.PLANKS);
+		jian(recipeOutput, AAItems.STONE_JIAN.get(), ItemTags.STONE_TOOL_MATERIALS);
+		jian(recipeOutput, AAItems.IRON_JIAN.get(), Tags.Items.INGOTS_IRON);
+		jian(recipeOutput, AAItems.GOLDEN_JIAN.get(), Tags.Items.INGOTS_GOLD);
+		jian(recipeOutput, AAItems.DIAMOND_JIAN.get(), Tags.Items.GEMS_DIAMOND);
+		netheriteSmithing(recipeOutput, AAItems.DIAMOND_JIAN.get(), RecipeCategory.COMBAT, AAItems.NETHERITE_JIAN.get());
+
 		SimpleCookingRecipeBuilder.smelting(Ingredient.of(
 				AAItems.GOLDEN_CLAYMORE.get(),
 				AAItems.GOLDEN_MACE.get(),
@@ -129,6 +145,8 @@ public class AARecipeProvider extends RecipeProvider {
 			.save(recipeOutput, AssortedArmaments.id(getSmeltingRecipeName(Items.IRON_NUGGET)));
 
 		EternalStarlightHelper.buildRecipes(jsons);
+		TwilightForestHelper.buildRecipes(jsons);
+		AquacultureHelper.buildRecipes(jsons);
 	}
 
 	protected static void netheriteSmithing(RecipeOutput recipeOutput, Item ingredientItem, RecipeCategory category, Item resultItem) {
@@ -207,7 +225,7 @@ public class AARecipeProvider extends RecipeProvider {
 			.define('#', Tags.Items.RODS_WOODEN)
 			.pattern("  X")
 			.pattern(" #X")
-			.pattern("#  ")
+			.pattern("#XX")
 			.unlockedBy("has_item", has(input))
 			.save(recipeOutput);
 	}
@@ -215,10 +233,32 @@ public class AARecipeProvider extends RecipeProvider {
 	protected void heavyShield(RecipeOutput recipeOutput, ItemLike output, TagKey<Item> input) {
 		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, output)
 			.define('X', input)
-			.define('#', ItemTags.PLANKS)
+			.define('#', Items.SHIELD)
+			.pattern("XXX")
 			.pattern("X#X")
-			.pattern("XXX")
-			.pattern("XXX")
+			.pattern(" X ")
+			.unlockedBy("has_item", has(input))
+			.save(recipeOutput);
+	}
+
+	protected void claw(RecipeOutput recipeOutput, ItemLike output, TagKey<Item> input) {
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, output)
+			.define('X', input)
+			.define('#', Tags.Items.RODS_WOODEN)
+			.pattern("X X")
+			.pattern("###")
+			.pattern("   ")
+			.unlockedBy("has_item", has(input))
+			.save(recipeOutput);
+	}
+
+	protected void jian(RecipeOutput recipeOutput, ItemLike output, TagKey<Item> input) {
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, output)
+			.define('X', input)
+			.define('#', Tags.Items.RODS_WOODEN)
+			.pattern("  X")
+			.pattern(" X ")
+			.pattern("#  ")
 			.unlockedBy("has_item", has(input))
 			.save(recipeOutput);
 	}

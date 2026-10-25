@@ -1,6 +1,5 @@
 package team.leomc.assortedarmaments.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.tags.TagKey;
@@ -12,12 +11,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
-import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 import team.leomc.assortedarmaments.trait.DualWieldWeaponTrait;
@@ -44,6 +44,8 @@ public abstract class LivingEntityMixin {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		ItemStack stack = entity.getItemInHand(hand);
 
+		aa$grantParryOnSwing(entity, hand, stack);
+
 		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, stack)) {
 			if (!entity.getData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK) && entity instanceof Player player && player.getAttackStrengthScale(0.5F) > 0.9f && player.onGround()) {
 				if (StrongSweepWeaponTrait.performSweepAttack(player, stack)) {
@@ -51,6 +53,13 @@ public abstract class LivingEntityMixin {
 				}
 			}
 		}
+	}
+
+	@Unique
+	private static void aa$grantParryOnSwing(LivingEntity entity, InteractionHand hand, ItemStack stack) {
+		if (entity.level().isClientSide) return;
+		if (!(entity instanceof Player player) || !WeaponTraitHelper.hasTrait(AAWeaponTraits.PARRY, stack) || !AAUtils.isFullAttack(player, hand)) return;
+		AAUtils.grantParry(player, stack, player, player.damageSources().generic());
 	}
 
 	@WrapOperation(

@@ -3,7 +3,6 @@ package team.leomc.assortedarmaments.data.gen.tags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import team.leomc.assortedarmaments.AssortedArmaments;
@@ -27,6 +26,11 @@ public class AAEntityTagsProvider extends EntityTypeTagsProvider {
 			EntityType.ZOMBIFIED_PIGLIN,
 			EntityType.PIGLIN,
 			EntityType.PIGLIN_BRUTE
+		);
+		tag(AAEntityTypeTags.SYNCOPE_IMMUNE).add(
+			EntityType.WARDEN,
+			EntityType.WITHER,
+			EntityType.ENDER_DRAGON
 		);
 	}
 }

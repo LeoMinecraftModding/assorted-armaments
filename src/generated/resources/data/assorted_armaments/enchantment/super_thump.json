@@ -4,14 +4,31 @@
     "translate": "enchantment.assorted_armaments.super_thump"
   },
   "effects": {
-    "assorted_armaments:thump_effectiveness": [
+    "minecraft:post_attack": [
       {
+        "affected": "victim",
         "effect": {
-          "type": "minecraft:add",
-          "value": {
+          "type": "minecraft:apply_mob_effect",
+          "max_amplifier": 0.0,
+          "max_duration": {
             "type": "minecraft:linear",
             "base": 1.0,
-            "per_level_above_first": 1.0
+            "per_level_above_first": 0.5
+          },
+          "min_amplifier": 0.0,
+          "min_duration": {
+            "type": "minecraft:linear",
+            "base": 1.0,
+            "per_level_above_first": 0.5
+          },
+          "to_apply": "assorted_armaments:syncope"
+        },
+        "enchanted": "attacker",
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "direct_attacker",
+          "predicate": {
+            "type": "assorted_armaments:flail"
           }
         }
       }
@@ -21,7 +38,7 @@
     "base": 50,
     "per_level_above_first": 0
   },
-  "max_level": 1,
+  "max_level": 3,
   "min_cost": {
     "base": 20,
     "per_level_above_first": 0
@@ -29,6 +46,6 @@
   "slots": [
     "mainhand"
   ],
-  "supported_items": "#assorted_armaments:enchantable/mace",
+  "supported_items": "#assorted_armaments:enchantable/flail",
   "weight": 2
 }

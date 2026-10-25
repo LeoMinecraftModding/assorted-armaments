@@ -5,6 +5,26 @@
     "assorted_armaments:iron_halberd",
     "assorted_armaments:golden_halberd",
     "assorted_armaments:diamond_halberd",
-    "assorted_armaments:netherite_halberd"
+    "assorted_armaments:netherite_halberd",
+    {
+      "id": "assorted_armaments:ironwood_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_halberd",
+      "required": false
+    }
   ]
 }

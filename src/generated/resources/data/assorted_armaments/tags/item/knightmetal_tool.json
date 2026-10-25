@@ -1,0 +1,28 @@
+{
+  "values": [
+    {
+      "id": "assorted_armaments:knightmetal_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_jian",
+      "required": false
+    }
+  ]
+}

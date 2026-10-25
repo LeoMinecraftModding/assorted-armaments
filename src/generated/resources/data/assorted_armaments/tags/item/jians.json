@@ -1,0 +1,30 @@
+{
+  "values": [
+    "assorted_armaments:wooden_jian",
+    "assorted_armaments:stone_jian",
+    "assorted_armaments:iron_jian",
+    "assorted_armaments:golden_jian",
+    "assorted_armaments:diamond_jian",
+    "assorted_armaments:netherite_jian",
+    {
+      "id": "assorted_armaments:ironwood_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_jian",
+      "required": false
+    }
+  ]
+}

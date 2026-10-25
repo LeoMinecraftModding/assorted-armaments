@@ -1,6 +1,8 @@
 package team.leomc.assortedarmaments.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,26 +12,45 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
-import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.AAUtils;
+import team.leomc.assortedarmaments.registry.AADataComponents;
+import team.leomc.assortedarmaments.registry.AAWeaponTraits;
+import team.leomc.assortedarmaments.trait.WeaponTrait;
+import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
-public class HalberdItem extends TieredItem {
+import java.util.List;
+
+public class HalberdItem extends AxeItem {
 	public HalberdItem(Tier tier, Properties properties) {
-		super(tier, properties.component(DataComponents.TOOL, tier.createToolProperties(BlockTags.MINEABLE_WITH_AXE)));
+		this(tier, properties, List.of());
 	}
 
-	public static ItemAttributeModifiers createAttributes(Tier tier, float attackDamage, float attackSpeed, float interactionRange) {
+	public HalberdItem(Tier tier, Item.Properties properties, List<Holder<WeaponTrait>> extraTraits) {
+		super(tier, properties.component(AADataComponents.WEAPON_TRAITS.get(),
+			WeaponTraitsComponent.EMPTY
+				.withTraitAdded(AAWeaponTraits.TWO_HANDED)
+				.withTraitAdded(AAWeaponTraits.LONG_WEAPON)
+				.withTraitAdded(AAWeaponTraits.CAN_BLOCK)
+				.withTraitAdded(AAWeaponTraits.AXE)
+				.withExtraTraitAdded(extraTraits)));
+	}
+
+	@Override
+	public float getDestroySpeed(ItemStack stack, BlockState state) {
+		float speed = super.getDestroySpeed(stack, state);
+		return state.is(BlockTags.LOGS) ? speed * 1.5F : speed;
+	}
+
+	public static ItemAttributeModifiers createAttributes(Tier tier, float attackDamage, float attackSpeed) {
 		return ItemAttributeModifiers.builder()
 			.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, attackDamage + tier.getAttackDamageBonus(), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
 			.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-			.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(AssortedArmaments.id("base_interaction_range"), interactionRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
 			.build();
 	}
 
@@ -64,5 +85,14 @@ public class HalberdItem extends TieredItem {
 	@Override
 	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
 		return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(ability) || ItemAbilities.DEFAULT_AXE_ACTIONS.contains(ability) || ability == ItemAbilities.SHIELD_BLOCK;
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
+		super.appendHoverText(stack, context, tooltips, flags);
+		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
+		AAUtils.addKnightMetalTooltip(stack, tooltips);
+		AAUtils.addFieryTooltip(path, tooltips);
+		AAUtils.addFierySmeltingTooltip(path, tooltips);
 	}
 }

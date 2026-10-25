@@ -9,6 +9,7 @@
     }
   ],
   "textures": {
-    "layer0": "assorted_armaments:item/wooden_heavy_shield"
+    "particle": "assorted_armaments:item/wooden_heavy_shield_inventory",
+    "shield": "assorted_armaments:item/wooden_heavy_shield"
   }
 }

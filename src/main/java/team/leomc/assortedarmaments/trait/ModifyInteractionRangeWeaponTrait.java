@@ -8,10 +8,17 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.List;
 
 public class ModifyInteractionRangeWeaponTrait extends WeaponTrait{
+	private final float attackRangeAmount;
 	private final float interactionRangeAmount;
-	public ModifyInteractionRangeWeaponTrait(float interactionRangeAmount){
+
+	public ModifyInteractionRangeWeaponTrait(float interactionRangeAmount, float attackRangeAmount){
 		super();
+		this.attackRangeAmount = attackRangeAmount;
 		this.interactionRangeAmount = interactionRangeAmount;
+	}
+
+	protected float attackRangeAmount() {
+		return attackRangeAmount;
 	}
 
 	protected float interactionRangeAmount() {
@@ -20,7 +27,7 @@ public class ModifyInteractionRangeWeaponTrait extends WeaponTrait{
 
 	public List<TraitAttribute> attributes() {
 		return List.of(
-			new TraitAttribute(Attributes.ENTITY_INTERACTION_RANGE, AttributeModifier.Operation.ADD_VALUE, interactionRangeAmount()),
+			new TraitAttribute(Attributes.ENTITY_INTERACTION_RANGE, AttributeModifier.Operation.ADD_VALUE, attackRangeAmount()),
 		    new TraitAttribute(Attributes.BLOCK_INTERACTION_RANGE, AttributeModifier.Operation.ADD_VALUE, interactionRangeAmount())
 		);
 	}
@@ -30,6 +37,9 @@ public class ModifyInteractionRangeWeaponTrait extends WeaponTrait{
 	}
 
 	public Object[] descriptionArgs() {
-		return new Object[]{Component.literal(String.valueOf(interactionRangeAmount())).withStyle(ChatFormatting.DARK_GREEN)};
+		return new Object[]{
+			Component.literal(String.valueOf(attackRangeAmount())).withStyle(ChatFormatting.DARK_GREEN),
+			Component.literal(String.valueOf(interactionRangeAmount())).withStyle(ChatFormatting.DARK_GREEN)
+		};
 	}
 }

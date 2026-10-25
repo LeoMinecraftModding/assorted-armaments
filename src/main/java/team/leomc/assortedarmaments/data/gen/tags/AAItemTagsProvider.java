@@ -11,7 +11,9 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
 import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
+import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
 import team.leomc.assortedarmaments.registry.AAItems;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 
@@ -91,19 +93,33 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.DIAMOND_HEAVY_SHIELD.get(),
 			AAItems.NETHERITE_HEAVY_SHIELD.get()
 		);
+		tag(AAItemTags.CLAW).add(
+			AAItems.WOODEN_CLAW.get(),
+			AAItems.STONE_CLAW.get(),
+			AAItems.IRON_CLAW.get(),
+			AAItems.GOLDEN_CLAW.get(),
+			AAItems.DIAMOND_CLAW.get(),
+			AAItems.NETHERITE_CLAW.get()
+		);
+		tag(AAItemTags.JIANS).add(
+			AAItems.WOODEN_JIAN.get(),
+			AAItems.STONE_JIAN.get(),
+			AAItems.IRON_JIAN.get(),
+			AAItems.GOLDEN_JIAN.get(),
+			AAItems.DIAMOND_JIAN.get(),
+			AAItems.NETHERITE_JIAN.get()
+		);
 		tag(AAItemTags.TWO_HANDED)
 			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.PIKES)
-			.addTag(AAItemTags.HALBERDS)
-			.addTag(AAItemTags.HEAVY_SHIELDS);
+			.addTag(AAItemTags.HALBERDS);
 		tag(AAItemTags.CAN_BLOCK)
 			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.PIKES)
 			.addTag(AAItemTags.HALBERDS);
 		tag(AAItemTags.STRONG_SWEEP)
-			.addTag(AAItemTags.CLAYMORES)
-			.addTag(AAItemTags.HALBERDS);
+			.addTag(AAItemTags.CLAYMORES);
 		tag(AAItemTags.ARMOR_BASED_DAMAGE)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS);
@@ -129,7 +145,9 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.IRON_PIKE.get(),
 			AAItems.IRON_RAPIER.get(),
 			AAItems.IRON_HALBERD.get(),
-			AAItems.IRON_HEAVY_SHIELD.get()
+			AAItems.IRON_HEAVY_SHIELD.get(),
+			AAItems.IRON_CLAW.get(),
+			AAItems.IRON_JIAN.get()
 		);
 		tag(AAItemTags.PIGLINS_CAN_USE).add(
 			AAItems.GOLDEN_CLAYMORE.get(),
@@ -139,35 +157,41 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_PIKE.get(),
 			AAItems.GOLDEN_RAPIER.get(),
 			AAItems.GOLDEN_HALBERD.get(),
-			AAItems.GOLDEN_HEAVY_SHIELD.get()
+			AAItems.GOLDEN_HEAVY_SHIELD.get(),
+			AAItems.GOLDEN_CLAW.get(),
+			AAItems.GOLDEN_JIAN.get()
 		);
 		tag(AAItemTags.MACE_ENCHANTABLE)
-			.addTag(AAItemTags.MACES)
-			.addTag(AAItemTags.FLAILS);
+			.addTag(AAItemTags.MACES);
 		tag(AAItemTags.FLAIL_ENCHANTABLE)
 			.addTag(AAItemTags.FLAILS);
+		tag(AAItemTags.JAVELIN_ENCHANTABLE)
+			.addTag(AAItemTags.JAVELINS);
+		tag(AAItemTags.JIAN_ENCHANTABLE)
+			.addTag(AAItemTags.JIANS);
 		tag(ItemTags.SWORDS)
 			.addTag(AAItemTags.CLAYMORES)
-			.addTag(AAItemTags.RAPIERS);
+			.addTag(AAItemTags.RAPIERS)
+			.addTag(AAItemTags.CLAW);
 		tag(ItemTags.AXES)
 			.addTag(AAItemTags.HALBERDS);
 		tag(ItemTags.SHARP_WEAPON_ENCHANTABLE)
-			.addTag(AAItemTags.JAVELINS)
-			.addTag(AAItemTags.PIKES)
-			.addTag(AAItemTags.HEAVY_SHIELDS);
+			.addTag(AAItemTags.PIKES);
 		tag(ItemTags.SWORD_ENCHANTABLE)
-			.addTag(AAItemTags.JAVELINS)
-			.addTag(AAItemTags.PIKES)
-			.addTag(AAItemTags.HALBERDS)
-			.addTag(AAItemTags.HEAVY_SHIELDS);
+			.addTag(AAItemTags.HALBERDS);
 		tag(ItemTags.MACE_ENCHANTABLE)
 			.addTag(AAItemTags.MACES);
 		tag(ItemTags.DURABILITY_ENCHANTABLE)
+			.addTag(AAItemTags.CLAYMORES)
 			.addTag(AAItemTags.MACES)
 			.addTag(AAItemTags.FLAILS)
 			.addTag(AAItemTags.JAVELINS)
 			.addTag(AAItemTags.PIKES)
-			.addTag(AAItemTags.HEAVY_SHIELDS);
+			.addTag(AAItemTags.RAPIERS)
+			.addTag(AAItemTags.HALBERDS)
+			.addTag(AAItemTags.HEAVY_SHIELDS)
+			.addTag(AAItemTags.CLAW)
+			.addTag(AAItemTags.JIANS);
 		tag(ItemTags.PIGLIN_LOVED).add(
 			AAItems.GOLDEN_CLAYMORE.get(),
 			AAItems.GOLDEN_MACE.get(),
@@ -176,9 +200,13 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_PIKE.get(),
 			AAItems.GOLDEN_RAPIER.get(),
 			AAItems.GOLDEN_HALBERD.get(),
-			AAItems.GOLDEN_HEAVY_SHIELD.get()
+			AAItems.GOLDEN_HEAVY_SHIELD.get(),
+			AAItems.GOLDEN_CLAW.get(),
+			AAItems.GOLDEN_JIAN.get()
 		);
 		EternalStarlightHelper.addTags(this);
+		TwilightForestHelper.addTags(this);
+		AquacultureHelper.addTags(this);
 	}
 
 	@Override

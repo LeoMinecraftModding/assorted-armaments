@@ -22,8 +22,11 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import team.leomc.assortedarmaments.data.AAEnchantments;
+import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
+import team.leomc.assortedarmaments.registry.AASounds;
 
 import java.util.UUID;
 
@@ -33,6 +36,7 @@ public class ThrownJavelin extends AbstractArrow {
 	private static final String TAG_IN_TARGET = "in_target";
 	private static final String TAG_FIXED_PITCH = "fixed_pitch";
 	private static final String TAG_FIXED_YAW = "fixed_yaw";
+	private static final int PIN_UP_KNOCKBACK_WINDOW = 10;
 
 	private boolean hitTarget;
 
@@ -189,9 +193,11 @@ public class ThrownJavelin extends AbstractArrow {
 		if (isInTarget() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem())) {
 			if (target != null) {
 				DamageSource source = this.damageSources().playerAttack(player);
-				if (damageTarget(target, source, 2, false) && level() instanceof ServerLevel serverLevel) {
+				if (damageTarget(target, source, 2F + getDeepWoundBonus(target, source), false) && level() instanceof ServerLevel serverLevel) {
 					serverLevel.sendParticles(ParticleTypes.CRIT, position().x(), position().y(), position().z(), 10, 0.1, 0.1, 0.1, 0.5);
+					target.invulnerableTime = 0;
 				}
+				level().playSound(null, getX(), getY(), getZ(), AASounds.JAVELIN_PULLOUT.get(), player.getSoundSource(), 1.0F, 1.0F);
 				discard();
 			}
 		}
@@ -225,7 +231,7 @@ public class ThrownJavelin extends AbstractArrow {
 		Entity entity = result.getEntity();
 		if (!hitTarget && entity != getOwner()) {
 			DamageSource source = this.damageSources().thrown(this, getOwner());
-			if (damageTarget(entity, source, 1, true)) {
+			if (damageTarget(entity, source, hasDeepWoundEnchantement() ? 0.0F : 1.0F, true)) {
 				ItemStack origin = getPickupItemStackOrigin();
 				if (origin.getDamageValue() >= origin.getMaxDamage() - 1) {
 					discard();
@@ -289,10 +295,35 @@ public class ThrownJavelin extends AbstractArrow {
 			if (d != 0) {
 				living.knockback(knockback * 0.5, x / d, z / d);
 			}
+			if (hasPinUpEnchantment()) {
+				Vec3 direction = new Vec3(entity.getX() - getOwner().getX(), 0.0, entity.getZ() - getOwner().getZ());
+				if (direction.lengthSqr() > 1.0E-7) {
+					living.setData(AADataAttachments.PIN_UP_KNOCKBACK_DIRECTION, direction.normalize());
+					living.setData(AADataAttachments.PIN_UP_EXPIRE, living.tickCount + PIN_UP_KNOCKBACK_WINDOW);
+				}
+			}
 		}
 		return flag;
 	}
 
+	private boolean hasDeepWoundEnchantement() {
+		ItemStack weapon = getWeaponItem();
+		if (weapon == null || weapon.isEmpty()) return false;
+		return weapon.getEnchantments().keySet().stream().anyMatch(holder -> holder.is(AAEnchantments.DEEP_WOUND));
+	}
+
+	private boolean hasPinUpEnchantment() {
+		ItemStack weapon = getWeaponItem();
+		if (weapon == null || weapon.isEmpty()) return false;
+		return weapon.getEnchantments().keySet().stream().anyMatch(holder -> holder.is(AAEnchantments.PIN_UP));
+	}
+
+	private float getDeepWoundBonus(Entity entity, DamageSource source) {
+		if (level() instanceof ServerLevel serverLevel && getWeaponItem() != null) {
+			return AAEnchantments.modifyDeepWoundDamage(serverLevel, getWeaponItem(), entity, source, 0F);
+		}
+		return 0F;
+	}
 
 	public float calculateKnockback(LivingEntity owner, Entity target, DamageSource damageSource) {
 		float knockback = (float) owner.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
