@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/spinning_flail_steeleaf",
+  "textures": {
+    "flail": "assorted_armaments:item/steeleaf_flail_spinning",
+    "particle": "assorted_armaments:item/steeleaf_flail"
+  }
+}

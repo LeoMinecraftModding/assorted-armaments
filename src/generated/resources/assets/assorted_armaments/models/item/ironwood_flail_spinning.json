@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/spinning_flail",
+  "textures": {
+    "flail": "assorted_armaments:item/ironwood_flail_spinning",
+    "particle": "assorted_armaments:item/ironwood_flail"
+  }
+}

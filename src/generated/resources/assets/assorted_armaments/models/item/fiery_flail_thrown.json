@@ -1,0 +1,8 @@
+{
+  "parent": "assorted_armaments:item/thrown_flail_fiery",
+  "textures": {
+    "flail": "assorted_armaments:item/fiery_flail_spinning",
+    "layer": "assorted_armaments:item/fiery_layer",
+    "particle": "assorted_armaments:item/fiery_flail"
+  }
+}

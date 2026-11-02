@@ -1,0 +1,8 @@
+{
+  "parent": "assorted_armaments:item/thrown_javelin_fiery",
+  "textures": {
+    "javelin": "assorted_armaments:item/fiery_javelin_thrown",
+    "layer": "assorted_armaments:item/fiery_layer",
+    "particle": "assorted_armaments:item/fiery_javelin"
+  }
+}

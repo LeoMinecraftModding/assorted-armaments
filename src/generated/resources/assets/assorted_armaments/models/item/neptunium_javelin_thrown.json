@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/thrown_javelin",
+  "textures": {
+    "javelin": "assorted_armaments:item/neptunium_javelin_thrown",
+    "particle": "assorted_armaments:item/neptunium_javelin"
+  }
+}

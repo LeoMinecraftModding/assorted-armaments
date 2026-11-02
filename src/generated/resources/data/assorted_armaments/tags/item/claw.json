@@ -1,0 +1,46 @@
+{
+  "values": [
+    "assorted_armaments:wooden_claw",
+    "assorted_armaments:stone_claw",
+    "assorted_armaments:iron_claw",
+    "assorted_armaments:golden_claw",
+    "assorted_armaments:diamond_claw",
+    "assorted_armaments:netherite_claw",
+    {
+      "id": "assorted_armaments:ironwood_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:steeleaf_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:knightmetal_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:fiery_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:neptunium_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_claw",
+      "required": false
+    }
+  ]
+}
