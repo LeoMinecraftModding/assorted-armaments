@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/thrown_flail_elder_roll",
+  "textures": {
+    "flail": "assorted_armaments:item/elder_roll_flail_spinning",
+    "particle": "assorted_armaments:item/elder_roll_flail"
+  }
+}

@@ -1,6 +1,16 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_golden_claw": {
+      "conditions": {
+        "items": [
+          {
+            "items": "assorted_armaments:golden_claw"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_golden_claymore": {
       "conditions": {
         "items": [
@@ -46,6 +56,16 @@
         "items": [
           {
             "items": "assorted_armaments:golden_javelin"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_golden_jian": {
+      "conditions": {
+        "items": [
+          {
+            "items": "assorted_armaments:golden_jian"
           }
         ]
       },
@@ -98,7 +118,9 @@
       "has_golden_pike",
       "has_golden_rapier",
       "has_golden_halberd",
-      "has_golden_heavy_shield"
+      "has_golden_heavy_shield",
+      "has_golden_claw",
+      "has_golden_jian"
     ]
   ],
   "rewards": {

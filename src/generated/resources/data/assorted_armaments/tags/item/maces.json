@@ -6,6 +6,7 @@
     "assorted_armaments:golden_mace",
     "assorted_armaments:diamond_mace",
     "assorted_armaments:netherite_mace",
+    "assorted_armaments:golden_pumpkin_mace",
     {
       "id": "assorted_armaments:ironwood_mace",
       "required": false
@@ -24,6 +25,22 @@
     },
     {
       "id": "assorted_armaments:neptunium_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_mace",
       "required": false
     }
   ]

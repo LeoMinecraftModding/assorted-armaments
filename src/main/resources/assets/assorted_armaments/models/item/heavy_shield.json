@@ -28,8 +28,8 @@
 			}
 		},
 		{
-			"from": [5.9, 7.65, 10.9],
-			"to": [10.1, 9.85, 14.1],
+			"from": [5.5, 7.25, 10.5],
+			"to": [10.5, 10.25, 14.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1.25, 11]},
 			"faces": {
 				"north": {"uv": [5.25, 9.25, 6.25, 9.75], "texture": "#shield"},
@@ -41,16 +41,16 @@
 			}
 		},
 		{
-			"from": [4.36319, 3.04519, 8.48477],
+			"from": [2.36319, 2.54519, 8.48477],
 			"to": [8.36319, 17.04519, 10.48477],
 			"rotation": {"angle": 22.5, "axis": "z", "origin": [8.36319, 1.04519, 8.48477]},
 			"faces": {
-				"north": {"uv": [8.5, 3, 9.5, 6.5], "texture": "#shield"},
+				"north": {"uv": [8.5, 3, 10, 6.5], "texture": "#shield"},
 				"east": {"uv": [8, 3, 8.5, 6.5], "texture": "#shield"},
-				"south": {"uv": [10, 3, 11, 6.5], "texture": "#shield"},
-				"west": {"uv": [9.5, 3, 10, 6.5], "texture": "#shield"},
-				"up": {"uv": [9.5, 3, 8.5, 2.5], "texture": "#shield"},
-				"down": {"uv": [10.5, 2.5, 9.5, 3], "texture": "#shield"}
+				"south": {"uv": [10.5, 3, 12, 6.5], "texture": "#shield"},
+				"west": {"uv": [10, 3, 10.5, 6.5], "texture": "#shield"},
+				"up": {"uv": [10, 3, 8.5, 2.5], "texture": "#shield"},
+				"down": {"uv": [11.5, 2.5, 10, 3], "texture": "#shield"}
 			}
 		},
 		{
@@ -80,16 +80,16 @@
 			}
 		},
 		{
-			"from": [7.63681, 3.04519, 8.48477],
-			"to": [11.63681, 17.04519, 10.48477],
+			"from": [7.63681, 2.54519, 8.48477],
+			"to": [13.63681, 17.04519, 10.48477],
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [7.63681, 1.04519, 8.48477]},
 			"faces": {
-				"north": {"uv": [8.5, 7, 9.5, 10.5], "texture": "#shield"},
+				"north": {"uv": [8.5, 7, 10, 10.5], "texture": "#shield"},
 				"east": {"uv": [8, 7, 8.5, 10.5], "texture": "#shield"},
-				"south": {"uv": [10, 7, 11, 10.5], "texture": "#shield"},
-				"west": {"uv": [9.5, 7, 10, 10.5], "texture": "#shield"},
-				"up": {"uv": [9.5, 7, 8.5, 6.5], "texture": "#shield"},
-				"down": {"uv": [10.5, 6.5, 9.5, 7], "texture": "#shield"}
+				"south": {"uv": [10.5, 7, 12, 10.5], "texture": "#shield"},
+				"west": {"uv": [10, 7, 10.5, 10.5], "texture": "#shield"},
+				"up": {"uv": [10, 7, 8.5, 6.5], "texture": "#shield"},
+				"down": {"uv": [11.5, 6.5, 10, 7], "texture": "#shield"}
 			}
 		},
 		{
@@ -114,6 +114,12 @@
 		"thirdperson_lefthand": {
 			"rotation": [90, -90, 0],
 			"translation": [4, -2, 4]
+		},
+		"firstperson_righthand": {
+			"translation": [-2, -4, 0]
+		},
+		"firstperson_lefthand": {
+			"translation": [-2, -4, 0]
 		}
 	}
 }

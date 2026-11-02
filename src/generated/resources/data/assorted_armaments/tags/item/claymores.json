@@ -6,18 +6,7 @@
     "assorted_armaments:golden_claymore",
     "assorted_armaments:diamond_claymore",
     "assorted_armaments:netherite_claymore",
-    {
-      "id": "assorted_armaments:deepsilver_claymore",
-      "required": false
-    },
-    {
-      "id": "assorted_armaments:thermal_springstone_claymore",
-      "required": false
-    },
-    {
-      "id": "assorted_armaments:glacite_claymore",
-      "required": false
-    },
+    "assorted_armaments:ender_dragon_claymore",
     {
       "id": "assorted_armaments:ironwood_claymore",
       "required": false
@@ -36,6 +25,22 @@
     },
     {
       "id": "assorted_armaments:neptunium_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_claymore",
       "required": false
     }
   ]

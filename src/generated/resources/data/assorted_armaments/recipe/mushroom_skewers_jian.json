@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:red_mushroom"
+    },
+    "B": {
+      "item": "minecraft:brown_mushroom"
+    },
+    "C": {
+      "item": "minecraft:crimson_fungus"
+    },
+    "D": {
+      "item": "minecraft:warped_fungus"
+    },
+    "E": {
+      "item": "minecraft:mycelium"
+    },
+    "F": {
+      "item": "assorted_armaments:netherite_jian"
+    }
+  },
+  "pattern": [
+    " AE",
+    "CEB",
+    "FD "
+  ],
+  "result": {
+    "count": 1,
+    "id": "assorted_armaments:mushroom_skewers_jian"
+  }
+}

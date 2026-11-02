@@ -6,6 +6,7 @@
     "assorted_armaments:golden_jian",
     "assorted_armaments:diamond_jian",
     "assorted_armaments:netherite_jian",
+    "assorted_armaments:mushroom_skewers_jian",
     {
       "id": "assorted_armaments:ironwood_jian",
       "required": false
@@ -24,6 +25,22 @@
     },
     {
       "id": "assorted_armaments:neptunium_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_jian",
       "required": false
     }
   ]

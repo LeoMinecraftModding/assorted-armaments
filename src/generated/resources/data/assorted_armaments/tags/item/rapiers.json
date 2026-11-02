@@ -25,6 +25,22 @@
     {
       "id": "assorted_armaments:neptunium_rapier",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_rapier",
+      "required": false
     }
   ]
 }

@@ -6,9 +6,7 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.event.AAClientSetupEvents;
 import team.leomc.assortedarmaments.data.AAEnchantments;
-import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
-import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
-import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
+import team.leomc.assortedarmaments.integration.AACompatManager;
 import team.leomc.assortedarmaments.registry.AAAttributes;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
@@ -30,12 +28,14 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add(Util.makeDescriptionId("key", AssortedArmaments.id("remove_javelin")), "Remove Javelin");
 
 		add(AssortedArmaments.ID + ".configuration.blockWalkSpeedModifier", "Block Walk Speed Modifier");
+		add(AssortedArmaments.ID + ".configuration.canBlockDamagePercentage", "Can Block Weapon Damage Percentage");
 		add(AssortedArmaments.ID + ".configuration.armorBasedAttackDamagePercentage", "Armor Based Attack Damage Percentage");
 		add(AssortedArmaments.ID + ".configuration.sprintExtraAttackDamagePercentage", "Sprint Extra Attack Damage Percentage");
 		add(AssortedArmaments.ID + ".configuration.claymoreSweepAttackCooldown", "Claymore Sweep Attack Cooldown");
 		add(AssortedArmaments.ID + ".configuration.flailTimePerPowerLevel", "Time Required for each Power Increase of a Flail");
 		add(AssortedArmaments.ID + ".configuration.flailSpinDamageFactor", "Flail Spin Damage Factor");
 		add(AssortedArmaments.ID + ".configuration.flailSpinKnockbackFactor", "Flail Spin Knockback Factor");
+		add(AssortedArmaments.ID + ".configuration.glowStuckDamageBonus", "Glow Stuck Damage Bonus");
 		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockWalkSpeedModifier", "Heavy Shield Block Walk Speed Modifier");
 		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockAttackDamageModifier", "Heavy Shield Block Attack Damage Modifier");
 		add(AssortedArmaments.ID + ".configuration.heavyShieldFastBlockTime", "Heavy Shield Fast Block Time");
@@ -51,7 +51,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("desc." + AssortedArmaments.ID + ".shift", "[SHIFT]");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".can_block", "Block");
-		add("weapon_trait." + AssortedArmaments.ID + ".can_block.desc", "Can be used to block melee damage that is equal to 200% of the weapon's damage");
+		add("weapon_trait." + AssortedArmaments.ID + ".can_block.desc", "Can be used to block melee damage that is equal to %s%% of the weapon's damage");
 		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep", "Sweep");
 		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep.desc", "All targets in range on a sweeping attack take 75% melee attack");
 		add("weapon_trait." + AssortedArmaments.ID + ".two_handed", "Two-Handed");
@@ -64,7 +64,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".knock", "Knock");
 		add("weapon_trait." + AssortedArmaments.ID + ".knock.desc", "Disables the target's ability to block");
 		add("weapon_trait." + AssortedArmaments.ID + ".thump", "Thump");
-		add("weapon_trait." + AssortedArmaments.ID + ".thump.desc", "Smash attack temporarily stuns the target");
+		add("weapon_trait." + AssortedArmaments.ID + ".thump.desc", "Smash attack temporarily stuns the target but grants no base damage bonus");
 		add("weapon_trait." + AssortedArmaments.ID + ".stab", "Stab");
 		add("weapon_trait." + AssortedArmaments.ID + ".stab.desc", "Increases damage when sprinting");
 		add("weapon_trait." + AssortedArmaments.ID + ".see_through", "See Through");
@@ -82,7 +82,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking", "Heavy Blocking");
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking.desc", "Can be used to block like a shield, but cannot be disabled by axes or the Warden's attack");
 		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry", "Shield Parry");
-		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "Can still attack while blocking; Blocking a melee attack within a short time of starting to use a heavy shield will deal some damage back to the attacker; Using it to block damage and then using it to damage the attacker a short time later allows the blocked damage to be returned to the attacker");
+		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "Blocking a melee attack within a short time of starting to use a heavy shield will deal some damage back to the attacker; Using it to block damage and then using it to damage the attacker a short time later allows the blocked damage to be returned to the attacker");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad", "Ironclad");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad.desc", "Increases armor by %s and armor toughness equal to 100%% of the weapon's damage while held");
 		add("weapon_trait." + AssortedArmaments.ID + ".parry", "Parry");
@@ -90,11 +90,53 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 
 		add("weapon_trait." + AssortedArmaments.ID + ".flail_spin", "Spin");
 		add("weapon_trait." + AssortedArmaments.ID + ".flail_spin.desc", "Can be swung by using for at least 2 seconds to deal damage and knockback to nearby targets, and be thrown when released");
+		add("weapon_trait." + AssortedArmaments.ID + ".torrent", "Torrent");
+		add("weapon_trait." + AssortedArmaments.ID + ".torrent.desc", "Spinning the flail while in water or rain does not slow your movement and throws travel farther, and thrown flails are unaffected by fluid drag in water");
 		add("weapon_trait." + AssortedArmaments.ID + ".javelin_throw", "Throw");
 		add("weapon_trait." + AssortedArmaments.ID + ".javelin_throw.desc", "Can be thrown to deal 100% damage and be plunged into an enemy, will also deal 200% damage when removed from the victim");
 
+		add("weapon_trait." + AssortedArmaments.ID + ".glittering", "Glittering");
+		add("weapon_trait." + AssortedArmaments.ID + ".glittering.desc", "Piglins remain neutral towards you while held");
+		add("weapon_trait." + AssortedArmaments.ID + ".glow", "Glow");
+		add("weapon_trait." + AssortedArmaments.ID + ".glow.desc", "Targets hit glow for 3 seconds, and a javelin stuck in a target keeps it glowing and increases the damage it takes by %s%%");
+		add("weapon_trait." + AssortedArmaments.ID + ".super_heavy", "Super Heavy");
+		add("weapon_trait." + AssortedArmaments.ID + ".super_heavy.desc", "Attacking while falling after jumping from flat ground triggers a smash attack with a base damage bonus and inflicts a longer stun");
+		add("weapon_trait." + AssortedArmaments.ID + ".mushroom_gift", "Mushroom Gift");
+		add("weapon_trait." + AssortedArmaments.ID + ".mushroom_gift.desc", "Fully charged attacks randomly trigger one of: Poison II for 6s, restore 1 hunger and saturation, set the target on fire for 12s, or a 1.5-block spore explosion dealing 50% weapon damage");
+		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire", "Dragon Fire");
+		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire.desc", "Attacks deal Dragon's Breath damage to enemies");
+
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "Neptune's Grace");
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might.desc", "Increases damage against enemies underwater");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".grace", "Grace");
+		add("weapon_trait." + AssortedArmaments.ID + ".grace.desc", "Doubles mob drops when killing with a full-strength attack or a thrown weapon");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".crystallize", "Crystallize");
+		add("weapon_trait." + AssortedArmaments.ID + ".crystallize.desc", "Has a 1/25 chance to drop an Ambrosium Shard on a full-strength hit");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".sharpen", "Sharpen");
+		add("weapon_trait." + AssortedArmaments.ID + ".sharpen.desc", "Increases attack damage as durability decreases, up to +150%");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity", "Shift Gravity");
+		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity.desc", "Full-strength hits launch the target into the air");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine", "Shine");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine.desc", "A javelin stuck in a target explodes when the target dies, passing this effect on");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".light_dance", "Light Dance");
+		add("weapon_trait." + AssortedArmaments.ID + ".light_dance.desc", "Increases attack speed by 10%");
+		add("weapon_trait." + AssortedArmaments.ID + ".bane_undead", "Bane of Undead");
+		add("weapon_trait." + AssortedArmaments.ID + ".bane_undead.desc", "Deals 25% more damage to undead");
+		add("weapon_trait." + AssortedArmaments.ID + ".poison_immune", "Poison Immunity");
+		add("weapon_trait." + AssortedArmaments.ID + ".poison_immune.desc", "Immune to poison");
+		add("weapon_trait." + AssortedArmaments.ID + ".heat", "Heat");
+		add("weapon_trait." + AssortedArmaments.ID + ".heat.desc", "Ignites the target for 5 seconds on hit");
+		add("weapon_trait." + AssortedArmaments.ID + ".fire_immune", "Fire Immunity");
+		add("weapon_trait." + AssortedArmaments.ID + ".fire_immune.desc", "Immune to fire damage");
+		add("weapon_trait." + AssortedArmaments.ID + ".chill", "Chill");
+		add("weapon_trait." + AssortedArmaments.ID + ".chill.desc", "Slows the target on hit, stacking up; higher stacks also apply Mining Fatigue");
+		add("weapon_trait." + AssortedArmaments.ID + ".cold_immune", "Cold Immunity");
+		add("weapon_trait." + AssortedArmaments.ID + ".cold_immune.desc", "Immune to Slowness and Mining Fatigue");
 
 		add("weapon_trait.modify_interaction_range.desc", "Increases attack range by %s and block interaction range by %s");
 
@@ -126,6 +168,8 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("effect." + AssortedArmaments.ID + ".syncope.description", "Completely immobilizes the target");
 		add("effect." + AssortedArmaments.ID + ".perforation", "Perforation");
 		add("effect." + AssortedArmaments.ID + ".perforation.description", "The target takes 1 additional armor-piercing damage whenever it takes damage");
+		add("effect." + AssortedArmaments.ID + ".extract", "Extract");
+		add("effect." + AssortedArmaments.ID + ".extract.description", "On death, applies this effect to all hostile mobs within a 5 block radius for 10 seconds and deals damage equal to 20% of the dead entity's maximum health");
 
 		add("tooltip." + AssortedArmaments.ID + ".knightmetal_weapon", "Extra damage to armored targets");
 		add("tooltip." + AssortedArmaments.ID + ".knightmetal_tool", "Extra damage to unarmored targets");
@@ -137,9 +181,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("subtitles." + AssortedArmaments.ID + ".flail.thrown", "Flail Thrown");
 		add("subtitles." + AssortedArmaments.ID + ".javelin.pull_out", "Javelin Pull Out");
 
-		EternalStarlightHelper.addTranslations(this, true);
-		TwilightForestHelper.addTranslations(this, true);
-		AquacultureHelper.addTranslations(this, true);
+		AACompatManager.addTranslations(this, true);
 	}
 
 	public static String toTitleCase(String raw) {

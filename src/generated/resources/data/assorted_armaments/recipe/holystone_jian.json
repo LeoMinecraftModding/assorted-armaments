@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aether"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "aether:skyroot_stick"
+    },
+    "X": {
+      "tag": "aether:holystone"
+    }
+  },
+  "pattern": [
+    "  #",
+    " X ",
+    "X  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "assorted_armaments:holystone_jian"
+  }
+}

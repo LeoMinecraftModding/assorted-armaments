@@ -6,6 +6,8 @@ import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.integration.aether.AetherHelper;
+import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.tags.AAEntityTypeTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -31,6 +33,10 @@ public class AAEntityTagsProvider extends EntityTypeTagsProvider {
 			EntityType.WARDEN,
 			EntityType.WITHER,
 			EntityType.ENDER_DRAGON
+		);
+		tag(AetherHelper.TREATED_AS_AETHER_ENTITY).add(
+			AAEntityTypes.FLAIL.get(),
+			AAEntityTypes.JAVELIN.get()
 		);
 	}
 }

@@ -20,6 +20,14 @@ public class AANetwork {
 				UpdateBlockAbilityPayload::handle
 			)
 		);
+		registrar.playToClient(
+			SyncopeStarsPayload.TYPE,
+			SyncopeStarsPayload.STREAM_CODEC,
+			new DirectionalPayloadHandler<>(
+				SyncopeStarsPayload::handle,
+				SyncopeStarsPayload::handle
+			)
+		);
 		registrar.commonToServer(
 			RemoveJavelinPayload.TYPE,
 			RemoveJavelinPayload.STREAM_CODEC,

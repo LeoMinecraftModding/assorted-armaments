@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/mace_gravitite",
+  "textures": {
+    "mace": "assorted_armaments:item/gravitite_mace"
+  }
+}

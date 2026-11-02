@@ -5,8 +5,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import team.leomc.assortedarmaments.AssortedArmaments;
 
-import java.util.List;
-
 public class AAItemTags {
 	public static final TagKey<Item> TWO_HANDED = create("two_handed");
 	public static final TagKey<Item> CAN_BLOCK = create("can_block");
@@ -38,22 +36,6 @@ public class AAItemTags {
 	public static final TagKey<Item> FLAIL_ENCHANTABLE = create("enchantable/flail");
 	public static final TagKey<Item> JAVELIN_ENCHANTABLE = create("enchantable/javelin");
 	public static final TagKey<Item> JIAN_ENCHANTABLE = create("enchantable/jian");
-
-	public static final List<TagKey<Item>> TOOLTIP_TAGS = List.of(
-		TWO_HANDED,
-		CAN_BLOCK,
-		STRONG_SWEEP,
-		ARMOR_BASED_DAMAGE,
-		DISABLES_BLOCKING_ON_ATTACK,
-		EXTRA_KNOCKBACK,
-		EXTRA_DAMAGE_WHEN_SPRINTING,
-		MACES,
-		FLAILS,
-		JAVELINS,
-		JIANS,
-		RAPIERS,
-		HEAVY_SHIELDS
-	);
 
 	private static TagKey<Item> create(String id) {
 		return TagKey.create(Registries.ITEM, AssortedArmaments.id(id));

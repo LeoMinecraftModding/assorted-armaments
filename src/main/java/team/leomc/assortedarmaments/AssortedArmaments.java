@@ -25,7 +25,9 @@ public class AssortedArmaments {
 		AADataComponents.register(modBus);
 		AADataAttachments.ATTACHMENT_TYPES.register(modBus);
 		AAWeaponTraits.WEAPON_TRAITS.register(modBus);
+		AALootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modBus);
 		AASounds.SOUND_EVENTS.register(modBus);
+		AAParticleTypes.PARTICLE_TYPES.register(modBus);
 	}
 
 	public static ResourceLocation id(String string) {

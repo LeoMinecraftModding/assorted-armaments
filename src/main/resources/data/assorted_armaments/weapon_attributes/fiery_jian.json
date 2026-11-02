@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:jian",
+  "attributes" : {
+    "range_bonus": 0.0,
+	"category": "jian"
+  }
+}

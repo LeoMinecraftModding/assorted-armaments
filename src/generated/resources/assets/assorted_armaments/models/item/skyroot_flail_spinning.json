@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/spinning_flail_skyroot",
+  "textures": {
+    "flail": "assorted_armaments:item/skyroot_flail_spinning",
+    "particle": "assorted_armaments:item/skyroot_flail"
+  }
+}

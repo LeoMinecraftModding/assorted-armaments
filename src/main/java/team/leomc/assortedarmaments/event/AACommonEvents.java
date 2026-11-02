@@ -2,35 +2,29 @@ package team.leomc.assortedarmaments.event;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.providers.VanillaEnchantmentProviders;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -51,17 +45,16 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import team.leomc.assortedarmaments.AACommonConfig;
 import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.data.AAEnchantments;
+import team.leomc.assortedarmaments.effect.ExtractEffect;
 import team.leomc.assortedarmaments.effect.SyncopeEffect;
+import team.leomc.assortedarmaments.entity.ThrownFlail;
 import team.leomc.assortedarmaments.entity.ThrownJavelin;
-import team.leomc.assortedarmaments.integration.MaterialsComponent;
 import team.leomc.assortedarmaments.network.UpdateBlockAbilityPayload;
 import team.leomc.assortedarmaments.registry.*;
 import team.leomc.assortedarmaments.tags.AAEntityTypeTags;
 import team.leomc.assortedarmaments.tags.AAItemTags;
-import team.leomc.assortedarmaments.trait.DualWieldWeaponTrait;
-import team.leomc.assortedarmaments.trait.StrongSweepWeaponTrait;
-import team.leomc.assortedarmaments.trait.WeaponTrait;
-import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
+import team.leomc.assortedarmaments.trait.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -103,68 +96,59 @@ public class AACommonEvents {
 
 	@SubscribeEvent
 	private static void onIncomingDamage(LivingIncomingDamageEvent event) {
+		if (event.getSource().is(DamageTypes.DRAGON_BREATH)) {
+			return;
+		}
 		LivingEntity victim = event.getEntity();
-		ItemStack weapon = event.getSource().getWeaponItem();
 		if (event.getSource().getDirectEntity() instanceof LivingEntity living) {
-			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.SHOCK, living.getWeaponItem())) {
-				event.setAmount((float) (event.getAmount() + victim.getArmorValue() * AACommonConfig.armorBasedAttackDamagePercentage));
+			ItemStack attackerWeapon = WeaponTraitHelper.getAttackingWeapon(living);
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.SHOCK, attackerWeapon)) {
+				ShockWeaponTrait.onIncomingDamage(event, victim);
 			}
-			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STAB, living.getWeaponItem()) && living.isSprinting()) {
-				event.setAmount((float) (event.getAmount() * (1 + AACommonConfig.sprintExtraAttackDamagePercentage)));
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STAB, attackerWeapon)) {
+				StabWeaponTrait.onIncomingDamage(event, living);
 			}
-			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.QUICK_ATTACK, living.getWeaponItem()) && living.isSprinting()) {
-				event.setInvulnerabilityTicks(5);
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.QUICK_ATTACK, attackerWeapon) || WeaponTraitHelper.hasTrait(AAWeaponTraits.DUAL_WIELD, attackerWeapon)) {
+				QuickAttackWeaponTrait.onIncomingDamage(event);
 			}
-			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.PARRY, living.getWeaponItem()) && AAUtils.isFullAttack(living)) {
-				AAUtils.grantParry(living, living.getWeaponItem(), victim, event.getSource());
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.PARRY, attackerWeapon)) {
+				ParryWeaponTrait.onIncomingDamage(event, living, victim, attackerWeapon);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.DRAGON_FIRE, attackerWeapon)) {
+				DragonFireWeaponTrait.onIncomingDamage(victim);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.BANE_UNDEAD, attackerWeapon)) {
+				BaneUndeadWeaponTrait.onIncomingDamage(event);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.CHILL, attackerWeapon)) {
+				ChillWeaponTrait.onIncomingDamage(event);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.HEAT, attackerWeapon)) {
+				HeatWeaponTrait.onIncomingDamage(event);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.IGNIT, attackerWeapon)) {
+				IgnitWeaponTrait.onIncomingDamage(event);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.KNIGHT, attackerWeapon)) {
+				KnightWeaponTrait.onIncomingDamage(event);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.NEPTUNES_MIGHT, attackerWeapon)) {
+				NeptunesMightWeaponTrait.onIncomingDamage(event);
 			}
 		}
-		if (weapon != null) {
-			MaterialsComponent.applyMaterials(weapon, material -> material.onIncomingDamage(event));
-		}
-		event.getContainer().setPostAttackInvulnerabilityTicks(DualWieldWeaponTrait.onModifyPostAttackInvulnerabilityTicks(event.getEntity(), event.getSource(), event.getAmount(), event.getContainer().getPostAttackInvulnerabilityTicks()));
-		if (isParrying(victim) && event.getSource().getDirectEntity() instanceof LivingEntity) {
+		if (ParryWeaponTrait.isParrying(victim) && event.getSource().getDirectEntity() instanceof LivingEntity) {
 			event.setAmount(event.getAmount() * (float) (1.0 - AACommonConfig.parryMeleeDamageReduction));
 		}
 	}
 
-	public static boolean isParrying(LivingEntity entity) {
-		Long parryExpire = entity.getExistingDataOrNull(AADataAttachments.PARRY_EXPIRE);
-		return parryExpire != null && entity.level().getGameTime() < parryExpire;
-	}
-
 	@SubscribeEvent
 	private static void onProjectileImpact(ProjectileImpactEvent event) {
-		if (!(event.getRayTraceResult() instanceof EntityHitResult entityHit) || !(entityHit.getEntity() instanceof LivingEntity entity)) {
-			return;
-		}
-		Projectile projectile = event.getProjectile();
-		if (!canSplitAirBlock(entity, projectile)) {
-			return;
-		}
-		event.setCanceled(true);
-		projectile.deflect(ProjectileDeflection.REVERSE, entity, projectile.getOwner(), false);
-		projectile.setDeltaMovement(projectile.getDeltaMovement().scale(0.2));
-	}
-
-	private static boolean canSplitAirBlock(LivingEntity entity, Projectile projectile) {
-		if (!isParrying(entity) || !AAUtils.hasSplitAir(entity)) {
-			return false;
-		}
-		if (projectile instanceof AbstractArrow arrow && arrow.getPierceLevel() > 0) {
-			return false;
-		}
-		Vec3 viewVector = entity.calculateViewVector(0.0F, entity.getYHeadRot());
-		Vec3 toEntity = projectile.position().vectorTo(entity.position());
-		toEntity = new Vec3(toEntity.x, 0.0, toEntity.z).normalize();
-		return toEntity.dot(viewVector) < 0.0;
+		ParryWeaponTrait.onProjectileImpact(event);
 	}
 
 	@SubscribeEvent
 	private static void onLivingKnockBack(LivingKnockBackEvent event) {
-		if (isParrying(event.getEntity())) {
-			event.setCanceled(true);
-		}
+		ParryWeaponTrait.onKnockback(event);
 	}
 
 	@SubscribeEvent
@@ -172,6 +156,17 @@ public class AACommonEvents {
 		LivingEntity entity = event.getEntity();
 		if (entity.hasEffect(AAEffects.PERFORATION) && event.getNewDamage() > 0.0F) {
 			event.setNewDamage(event.getNewDamage() + 1.0F);
+		}
+		if (GlowWeaponTrait.hasStuckJavelin(entity)) {
+			event.setNewDamage(event.getNewDamage() * (float) (1.0 + AACommonConfig.glowStuckDamageBonus));
+		}
+	}
+
+	@SubscribeEvent
+	private static void onLivingDeath(LivingDeathEvent event) {
+		LivingEntity entity = event.getEntity();
+		if (entity.hasEffect(AAEffects.EXTRACT)) {
+			ExtractEffect.onDeath(entity);
 		}
 	}
 
@@ -181,22 +176,36 @@ public class AACommonEvents {
 		DamageSource source = event.getSource();
 		ItemStack weaponItem = source.getWeaponItem();
 		if (source.getEntity() instanceof Player attacker && weaponItem != null) {
-			if (attacker.getAttackStrengthScale(0.5F) > 0.9f && attacker.onGround()) {
+			if (AAUtils.isFullAttack(attacker) && attacker.onGround()) {
 				if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, weaponItem)) {
 					StrongSweepWeaponTrait.performSweepAttack(attacker, attacker.getWeaponItem());
 				}
 				if (WeaponTraitHelper.hasTrait(AAWeaponTraits.CONCENTRATION, weaponItem)) {
-
-					if (target == attacker.getData(AADataAttachments.CONCENTRATED_TARGET) && weaponItem == attacker.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
-						attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
-						attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, Math.min(attacker.getData(AADataAttachments.CONCENTRATION_LEVEL) + 1, 4));
-					} else {
-						attacker.setData(AADataAttachments.CONCENTRATED_TARGET, target);
-						attacker.setData(AADataAttachments.CONCENTRATED_WEAPON, weaponItem);
-						attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
-						attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, 0);
-					}
+					ConcentrationWeaponTrait.onHit(attacker, target, weaponItem);
 				}
+			}
+		}
+		if (source.getDirectEntity() instanceof LivingEntity attacker) {
+			ItemStack weapon = WeaponTraitHelper.getAttackingWeapon(attacker);
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.MUSHROOM_GIFT, weapon)) {
+				MushroomGiftWeaponTrait.onHit(attacker, target);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.GLOW, weapon)) {
+				GlowWeaponTrait.onHit(target);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.CRYSTALLIZE, weapon)) {
+				CrystallizeWeaponTrait.onHit(attacker, target);
+			}
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.SHIFT_GRAVITY, weapon)) {
+				ShiftGravityWeaponTrait.onHit(attacker, target);
+			}
+		} else if (source.getDirectEntity() instanceof ThrownFlail flail) {
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.SHIFT_GRAVITY, flail.getItem())) {
+				ShiftGravityWeaponTrait.launch(target);
+			}
+		} else if (source.getDirectEntity() instanceof ThrownJavelin javelin) {
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.SHIFT_GRAVITY, javelin.getWeaponItem())) {
+				ShiftGravityWeaponTrait.launch(target);
 			}
 		}
 	}
@@ -207,7 +216,7 @@ public class AACommonEvents {
 		if (event.isSweeping()) {
 			player.setData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK, true);
 			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, player.getWeaponItem())) {
-				event.setSweeping(false);
+				StrongSweepWeaponTrait.onSweepAttack(event);
 			}
 		}
 	}
@@ -215,11 +224,12 @@ public class AACommonEvents {
 	@SubscribeEvent
 	private static void onCriticalHit(CriticalHitEvent event) {
 		Player player = event.getEntity();
-		Entity target = event.getTarget();
 		if (event.isCriticalHit()) {
-			AttributeInstance multiplier = player.getAttribute(AAAttributes.CRITICAL_ATTACK_DAMAGE_MULTIPLIER);
-			if (multiplier != null) {
-				event.setDamageMultiplier(event.getDamageMultiplier() * (float) multiplier.getValue());
+			ItemStack weapon = player.getWeaponItem();
+			Holder<Enchantment> crit = player.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(AAEnchantments.CRIT);
+			int level = EnchantmentHelper.getItemEnchantmentLevel(crit, weapon);
+			if (level > 0) {
+				event.setDamageMultiplier(event.getDamageMultiplier() * (1 + level * 0.25F));
 			}
 		}
 	}
@@ -230,15 +240,8 @@ public class AACommonEvents {
 	}
 
 	@SubscribeEvent
-	private static void onChangeTarget(LivingChangeTargetEvent event) {
-		if (event.getEntity().getData(AADataAttachments.NO_TARGET_TIME) > 0) {
-			event.setNewAboutToBeSetTarget(null);
-		}
-	}
-
-	@SubscribeEvent
 	private static void onSyncopeApplicable(MobEffectEvent.Applicable event) {
-		if (event.getEffectInstance().is(AAEffects.SYNCOPE) && (event.getEntity().getType().is(AAEntityTypeTags.SYNCOPE_IMMUNE) || event.getEntity().hasEffect(AAEffects.SYNCOPE))) {
+		if (!event.getEntity().level().isClientSide && event.getEffectInstance().is(AAEffects.SYNCOPE) && (event.getEntity().getType().is(AAEntityTypeTags.SYNCOPE_IMMUNE) || event.getEntity().hasEffect(AAEffects.SYNCOPE))) {
 			event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
 		}
 	}
@@ -249,54 +252,20 @@ public class AACommonEvents {
 			LivingEntity blocker = event.getEntity();
 			DamageSource source = event.getDamageSource();
 			if (blocker.isUsingItem() && WeaponTraitHelper.hasTrait(AAWeaponTraits.CAN_BLOCK, blocker.getUseItem())) {
-				double damage = 0;
-				AttributeInstance damageInstance = blocker.getAttribute(Attributes.ATTACK_DAMAGE);
-				if (damageInstance != null) {
-					damage = damageInstance.getValue();
-				}
-				event.setBlockedDamage((float) (damage / 2));
+				CanBlockWeaponTrait.onShieldBlock(event, blocker);
 			}
 			if (blocker.isUsingItem() && blocker.getUseItem().is(AAItemTags.HEAVY_SHIELDS)) {
-				if (blocker.getTicksUsingItem() <= AACommonConfig.heavyShieldFastBlockTime && source.getDirectEntity() instanceof LivingEntity living) {
-					double damage = 0;
-					AttributeInstance damageInstance = blocker.getAttribute(Attributes.ATTACK_DAMAGE);
-					if (damageInstance != null) {
-						damage = damageInstance.getValue();
-					}
-					DamageSource damageSource = blocker instanceof Player player ? blocker.damageSources().playerAttack(player) : blocker.damageSources().mobAttack(living);
-					if (blocker.level() instanceof ServerLevel serverLevel) {
-						damage = EnchantmentHelper.modifyDamage(serverLevel, blocker.getWeaponItem(), living, damageSource, (float) damage);
-					}
-					if (living.hurt(damageSource, (float) (damage * AACommonConfig.heavyShieldFastBlockDamageReflectionPercentage)) && blocker.level() instanceof ServerLevel serverLevel) {
-						EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, living, damageSource, blocker.getWeaponItem());
-					}
-				}
-				blocker.setData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE, event.getDamageContainer().getNewDamage());
-				blocker.setData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE_TIME, blocker.tickCount);
+				HeavyBlockingWeaponTrait.onShieldBlock(event, blocker, source);
 			}
-			if (event.getDamageSource().getDirectEntity() instanceof LivingEntity living && WeaponTraitHelper.hasTrait(AAWeaponTraits.KNOCK, living.getWeaponItem()) && blocker instanceof ServerPlayer serverPlayer) {
-				blocker.stopUsingItem();
-				blocker.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(blocker.getData(AADataAttachments.BLOCKING_DISABLED_TIME), 100));
-				blocker.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 1));
-				PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(true));
+			Entity directEntity = source.getDirectEntity();
+			ItemStack weapon = directEntity instanceof LivingEntity living ? living.getWeaponItem()
+				: directEntity instanceof ThrownFlail flail ? flail.getItem()
+				: directEntity instanceof ThrownJavelin javelin ? javelin.getItem()
+				: ItemStack.EMPTY;
+			if (!weapon.isEmpty() && WeaponTraitHelper.hasTrait(AAWeaponTraits.KNOCK, weapon) && blocker instanceof ServerPlayer serverPlayer) {
+				KnockWeaponTrait.onShieldBlock(blocker, serverPlayer);
 			}
 		}
-	}
-
-	public static AttributeModifier getBlockSpeedModifier() {
-		return new AttributeModifier(ResourceLocation.fromNamespaceAndPath(AAWeaponTraits.CAN_BLOCK.getId().getNamespace(), "weapon_trait/" + AAWeaponTraits.CAN_BLOCK.getId().getPath() + "/" + Attributes.MOVEMENT_SPEED.unwrapKey().orElseThrow().location().getPath()), -AACommonConfig.blockWalkSpeedModifier, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-	}
-
-	public static AttributeModifier getHeavyShieldBlockSpeedModifier() {
-		return new AttributeModifier(AssortedArmaments.id("heavy_shield_block_speed"), -AACommonConfig.heavyShieldBlockWalkSpeedModifier, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-	}
-
-	public static AttributeModifier getHeavyShieldBlockDamageModifier() {
-		return new AttributeModifier(AssortedArmaments.id("heavy_shield_block_damage"), -AACommonConfig.heavyShieldBlockAttackDamageModifier, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-	}
-
-	public static AttributeModifier getLightweightSpeedModifier() {
-		return new AttributeModifier(ResourceLocation.fromNamespaceAndPath(AAWeaponTraits.LIGHTWEIGHT.getId().getNamespace(), "weapon_trait/" + AAWeaponTraits.LIGHTWEIGHT.getId().getPath() + "/" + Attributes.MOVEMENT_SPEED.unwrapKey().orElseThrow().location().getPath()), 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	}
 
 	@SubscribeEvent
@@ -320,15 +289,13 @@ public class AACommonEvents {
 	private static void onPostEntityTick(EntityTickEvent.Post event) {
 		Entity entity = event.getEntity();
 		if (entity instanceof LivingEntity living && !living.level().isClientSide) {
-//			if (living.hasData(AADataAttachments.PARRY_EXPIRE) && !isParrying(living)) {
-//				living.removeData(AADataAttachments.PARRY_EXPIRE);
-//			}
 			MobEffectInstance syncope = living.getEffect(AAEffects.SYNCOPE);
 			if (syncope != null && (syncope.isInfiniteDuration() || syncope.getDuration() > SyncopeEffect.MAX_DURATION)) {
 				int syncopeAmplifier = syncope.getAmplifier();
 				living.removeEffect(AAEffects.SYNCOPE);
 				living.addEffect(new MobEffectInstance(AAEffects.SYNCOPE, SyncopeEffect.MAX_DURATION, syncopeAmplifier));
 			}
+			DragonFireWeaponTrait.onTick(living);
 			if (living.hasData(AADataAttachments.PIN_UP_EXPIRE)) {
 				int pinUpExpire = living.getData(AADataAttachments.PIN_UP_EXPIRE);
 				Vec3 pinUpDirection = living.getData(AADataAttachments.PIN_UP_KNOCKBACK_DIRECTION);
@@ -350,6 +317,13 @@ public class AACommonEvents {
 					player.setData(AADataAttachments.LAST_OFFHAND_ITEM, living.getOffhandItem().copy());
 				}
 			}
+			if (living.getData(AADataAttachments.GRAVITY_LAUNCH)) {
+				living.setData(AADataAttachments.GRAVITY_LAUNCH, false);
+				living.push(0.0, 1.0, 0.0);
+				if (living instanceof ServerPlayer serverPlayer) {
+					serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
+				}
+			}
 			if (living instanceof ServerPlayer serverPlayer) {
 				if (living.getData(AADataAttachments.BLOCKING_DISABLED_TIME) == 1) {
 					PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(false));
@@ -357,88 +331,11 @@ public class AACommonEvents {
 				living.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(living.getData(AADataAttachments.BLOCKING_DISABLED_TIME) - 1, 0));
 				living.setData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK, false);
 			}
-			int noTargetTime = living.getData(AADataAttachments.NO_TARGET_TIME);
-			if (noTargetTime > 0) {
-				living.setData(AADataAttachments.NO_TARGET_TIME, noTargetTime - 1);
-				if (living instanceof Mob mob && mob.getTarget() != null) {
-					mob.setTarget(null);
-					living.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
-					mob.getNavigation().stop();
-					mob.setLastHurtByMob(null);
-				}
-			}
-			AttributeInstance speedInstance = living.getAttribute(Attributes.MOVEMENT_SPEED);
-			if (speedInstance != null) {
-				AttributeModifier blockSpeedModifier = getBlockSpeedModifier();
-				if (living.isUsingItem() && WeaponTraitHelper.hasTrait(AAWeaponTraits.CAN_BLOCK, living.getUseItem())) {
-					if (!speedInstance.hasModifier(blockSpeedModifier.id())) {
-						speedInstance.addPermanentModifier(blockSpeedModifier);
-					}
-				} else {
-					if (speedInstance.hasModifier(blockSpeedModifier.id())) {
-						speedInstance.removeModifier(blockSpeedModifier.id());
-					}
-				}
-				AttributeModifier heavyShieldBlockSpeedModifier = getHeavyShieldBlockSpeedModifier();
-				if (living.isUsingItem() && living.getUseItem().is(AAItemTags.HEAVY_SHIELDS)) {
-					if (!speedInstance.hasModifier(heavyShieldBlockSpeedModifier.id())) {
-						speedInstance.addPermanentModifier(heavyShieldBlockSpeedModifier);
-					}
-				} else {
-					if (speedInstance.hasModifier(heavyShieldBlockSpeedModifier.id())) {
-						speedInstance.removeModifier(heavyShieldBlockSpeedModifier.id());
-					}
-				}
-				AttributeModifier lightweightSpeedModifier = getLightweightSpeedModifier();
-				if ((WeaponTraitHelper.hasTrait(AAWeaponTraits.LIGHTWEIGHT, living.getMainHandItem()) || WeaponTraitHelper.hasTrait(AAWeaponTraits.LIGHTWEIGHT, living.getOffhandItem())) && living.isSprinting()) {
-					if (!speedInstance.hasModifier(lightweightSpeedModifier.id())) {
-						speedInstance.addPermanentModifier(lightweightSpeedModifier);
-					}
-				} else {
-					if (speedInstance.hasModifier(lightweightSpeedModifier.id())) {
-						speedInstance.removeModifier(lightweightSpeedModifier.id());
-					}
-				}
-			}
-			AttributeInstance damageInstance = living.getAttribute(Attributes.ATTACK_DAMAGE);
-			if (damageInstance != null) {
-				AttributeModifier heavyShieldBlockDamageModifier = getHeavyShieldBlockDamageModifier();
-				if (living.isUsingItem() && living.getUseItem().is(AAItemTags.HEAVY_SHIELDS)) {
-					if (!damageInstance.hasModifier(heavyShieldBlockDamageModifier.id())) {
-						damageInstance.addPermanentModifier(heavyShieldBlockDamageModifier);
-					}
-				} else {
-					if (damageInstance.hasModifier(heavyShieldBlockDamageModifier.id())) {
-						damageInstance.removeModifier(heavyShieldBlockDamageModifier.id());
-					}
-				}
-			}
+			CanBlockWeaponTrait.onTick(living);
+			HeavyBlockingWeaponTrait.onTick(living);
+			LightweightWeaponTrait.onTick(living);
 			if (living.getData(AADataAttachments.CONCENTRATION_LEVEL) > 0) {
-				int level = living.getData(AADataAttachments.CONCENTRATION_LEVEL);
-				AttributeInstance attackDamageInstance = living.getAttribute(Attributes.ATTACK_DAMAGE);
-				ResourceLocation attackDamageLocation = ResourceLocation.fromNamespaceAndPath(AAWeaponTraits.CONCENTRATION.getId().getNamespace(), "weapon_trait/" + AAWeaponTraits.CONCENTRATION.getId().getPath() + "/" + Attributes.ATTACK_DAMAGE.unwrapKey().orElseThrow().location().getPath());
-				if (attackDamageInstance != null) {
-					attackDamageInstance.removeModifier(attackDamageLocation);
-					attackDamageInstance.addTransientModifier(new AttributeModifier(attackDamageLocation, 0.5 * level, AttributeModifier.Operation.ADD_VALUE));
-				}
-				AttributeInstance attackSpeedInstance = living.getAttribute(Attributes.ATTACK_SPEED);
-				ResourceLocation attackSpeedLocation = ResourceLocation.fromNamespaceAndPath(AAWeaponTraits.CONCENTRATION.getId().getNamespace(), "weapon_trait/" + AAWeaponTraits.CONCENTRATION.getId().getPath() + "/" + Attributes.ATTACK_SPEED.unwrapKey().orElseThrow().location().getPath());
-				if (attackSpeedInstance != null) {
-					attackSpeedInstance.removeModifier(attackSpeedLocation);
-					attackSpeedInstance.addTransientModifier(new AttributeModifier(attackSpeedLocation, 0.1 * level, AttributeModifier.Operation.ADD_VALUE));
-				}
-				if (living.tickCount - living.getData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME) > 100 || living.getWeaponItem() != living.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
-					living.removeData(AADataAttachments.CONCENTRATED_TARGET);
-					living.removeData(AADataAttachments.CONCENTRATED_WEAPON);
-					living.removeData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME);
-					living.removeData(AADataAttachments.CONCENTRATION_LEVEL);
-					if (attackDamageInstance != null) {
-						attackDamageInstance.removeModifier(attackDamageLocation);
-					}
-					if (attackSpeedInstance != null) {
-						attackSpeedInstance.removeModifier(attackSpeedLocation);
-					}
-				}
+				ConcentrationWeaponTrait.onTick(living);
 				if (!living.getWeaponItem().is(AAItemTags.FLAILS)) {
 					living.removeData(AADataAttachments.FLAIL_KINETIC_POWER);
 				}
@@ -494,24 +391,22 @@ public class AACommonEvents {
 			}
 		}
 
-		MaterialsComponent.applyMaterials(stack, material -> material.onItemAttributeModifier(event));
+		WeaponTraitHelper.forEachTrait(stack, trait -> trait.onItemAttributeModifier(event));
 	}
 
 	@SubscribeEvent
 	public static void onMobEffectApplicable(MobEffectEvent.Applicable event) {
-		MaterialsComponent.applyMaterials(event.getEntity().getWeaponItem(), material -> material.onMobEffectApplicable(event));
+		WeaponTraitHelper.forEachTrait(event.getEntity().getWeaponItem(), trait -> trait.onMobEffectApplicable(event));
 	}
 
 	@SubscribeEvent
 	public static void onEntityInvulnerabilityCheck(EntityInvulnerabilityCheckEvent event) {
 		if (!(event.getEntity() instanceof LivingEntity living)) return;
-		MaterialsComponent.applyMaterials(living.getWeaponItem(), material -> material.onEntityInvulnerabilityCheck(event));
+		WeaponTraitHelper.forEachTrait(living.getWeaponItem(), trait -> trait.onEntityInvulnerabilityCheck(event));
 	}
 
 	@SubscribeEvent
 	public static void onSwapHands(LivingSwapItemsEvent.Hands event) {
-		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.TWO_HANDED, event.getItemSwappedToOffHand())) {
-			event.setCanceled(true);
-		}
+		TwoHandedWeaponTrait.onSwapHands(event);
 	}
 }

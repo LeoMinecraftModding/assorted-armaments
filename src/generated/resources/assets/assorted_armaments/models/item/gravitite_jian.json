@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/jian_gravitite",
+  "textures": {
+    "jian": "assorted_armaments:item/gravitite_jian"
+  }
+}

@@ -91,6 +91,7 @@ public record WeaponTraitsComponent(List<Holder<WeaponTrait>> traits, boolean sh
 
 		for (Holder<WeaponTrait> holder : traits) {
 			WeaponTrait trait = holder.value();
+			if (trait.hidden()) continue;
 			tooltipAdder.accept(trait.getName().copy().append(shift ? Component.literal(":") : CommonComponents.space().append(Component.translatable("desc.assorted_armaments.shift").withStyle(ChatFormatting.DARK_GRAY))));
 
 			if (shift) {

@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/thrown_javelin_skyroot",
+  "textures": {
+    "javelin": "assorted_armaments:item/skyroot_javelin_thrown",
+    "particle": "assorted_armaments:item/skyroot_javelin"
+  }
+}

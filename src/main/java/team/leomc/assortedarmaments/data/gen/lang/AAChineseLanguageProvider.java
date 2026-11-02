@@ -6,9 +6,7 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.event.AAClientSetupEvents;
 import team.leomc.assortedarmaments.data.AAEnchantments;
-import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
-import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
-import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
+import team.leomc.assortedarmaments.integration.AACompatManager;
 import team.leomc.assortedarmaments.registry.AAAttributes;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
@@ -27,12 +25,14 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add(Util.makeDescriptionId("key", AssortedArmaments.id("remove_javelin")), "拔出标枪");
 
 		add(AssortedArmaments.ID + ".configuration.blockWalkSpeedModifier", "格挡行走速度因数");
+		add(AssortedArmaments.ID + ".configuration.canBlockDamagePercentage", "格挡武器伤害百分比");
 		add(AssortedArmaments.ID + ".configuration.armorBasedAttackDamagePercentage", "基于盔甲的伤害百分比");
 		add(AssortedArmaments.ID + ".configuration.sprintExtraAttackDamagePercentage", "疾跑额外伤害百分比");
 		add(AssortedArmaments.ID + ".configuration.claymoreSweepAttackCooldown", "大剑横扫攻击冷却");
 		add(AssortedArmaments.ID + ".configuration.flailTimePerPowerLevel", "流星锤强度级数增加时间");
 		add(AssortedArmaments.ID + ".configuration.flailSpinDamageFactor", "流星锤旋转伤害因数");
 		add(AssortedArmaments.ID + ".configuration.flailSpinKnockbackFactor", "流星锤旋转击退因数");
+		add(AssortedArmaments.ID + ".configuration.glowStuckDamageBonus", "荧光标枪伤害加成");
 		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockWalkSpeedModifier", "重型战盾格挡行走速度因数");
 		add(AssortedArmaments.ID + ".configuration.heavyShieldBlockAttackDamageModifier", "重型战盾格挡攻击伤害因数");
 		add(AssortedArmaments.ID + ".configuration.heavyShieldFastBlockTime", "重型战盾快速格挡时间");
@@ -48,7 +48,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("desc." + AssortedArmaments.ID + ".shift", "按[SHIFT]查看更多信息");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".can_block", "格挡");
-		add("weapon_trait." + AssortedArmaments.ID + ".can_block.desc", "可以格挡武器伤害一半大小的近战伤害");
+		add("weapon_trait." + AssortedArmaments.ID + ".can_block.desc", "可以格挡武器伤害 %s%% 大小的近战伤害");
 		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep", "横扫");
 		add("weapon_trait." + AssortedArmaments.ID + ".strong_sweep.desc", "横扫攻击时范围内所有目标受到75%的伤害");
 		add("weapon_trait." + AssortedArmaments.ID + ".two_handed", "双手武器");
@@ -61,7 +61,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".knock", "强打");
 		add("weapon_trait." + AssortedArmaments.ID + ".knock.desc", "攻击被格挡时使目标失去格挡能力");
 		add("weapon_trait." + AssortedArmaments.ID + ".thump", "重击");
-		add("weapon_trait." + AssortedArmaments.ID + ".thump.desc", "下落攻击会暂时击晕目标");
+		add("weapon_trait." + AssortedArmaments.ID + ".thump.desc", "下落攻击会暂时击晕目标但无基础加伤");
 		add("weapon_trait." + AssortedArmaments.ID + ".stab", "刺击");
 		add("weapon_trait." + AssortedArmaments.ID + ".stab.desc", "疾跑时增加伤害");
 		add("weapon_trait." + AssortedArmaments.ID + ".see_through", "看破");
@@ -79,7 +79,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking", "重防");
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking.desc", "右键可像盾牌一样格挡，但不会被斧或监守者的攻击禁用");
 		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry", "盾反");
-		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "在格挡时仍可以攻击；开始举盾的短时间内格挡近战攻击会对攻击者造成伤害；使用它格挡伤害并在短时间内使用它伤害攻击者可以将挡下的伤害反还给攻击者");
+		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "开始举盾的短时间内格挡近战攻击会对攻击者造成伤害；使用它格挡伤害并在短时间内使用它伤害攻击者可以将挡下的伤害反还给攻击者");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad", "铁壁");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad.desc", "手持时增加 %s 护甲值和等同于武器伤害100%%的盔甲韧性");
 		add("weapon_trait." + AssortedArmaments.ID + ".parry", "招架");
@@ -87,11 +87,50 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 
 		add("weapon_trait." + AssortedArmaments.ID + ".flail_spin", "旋锤");
 		add("weapon_trait." + AssortedArmaments.ID + ".flail_spin.desc", "长按挥动流星锤2秒后，对附近目标造成伤害和击退，松开时抛出流星锤");
+		add("weapon_trait." + AssortedArmaments.ID + ".torrent", "奔流");
+		add("weapon_trait." + AssortedArmaments.ID + ".torrent.desc", "在水中或雨中旋锤时不会降低移动速度且投掷得更远，投掷出的流星锤在水中不受液体阻力影响");
 		add("weapon_trait." + AssortedArmaments.ID + ".javelin_throw", "投掷");
 		add("weapon_trait." + AssortedArmaments.ID + ".javelin_throw.desc", "可投掷并插入目标体内，从目标身上拔出时会造成200%伤害");
 
+		add("weapon_trait." + AssortedArmaments.ID + ".glittering", "金耀");
+		add("weapon_trait." + AssortedArmaments.ID + ".glittering.desc", "手持时猪灵会对你保持中立");
+		add("weapon_trait." + AssortedArmaments.ID + ".glow", "荧光");
+		add("weapon_trait." + AssortedArmaments.ID + ".glow.desc", "被攻击的目标会发光3秒，标枪留在目标身上时会持续使其发光，并使其受到的伤害增加 %s%%");
+		add("weapon_trait." + AssortedArmaments.ID + ".super_heavy", "沉重");
+		add("weapon_trait." + AssortedArmaments.ID + ".super_heavy.desc", "平地跳跃下落时攻击可触发下落攻击且有基础加伤，造成更长时间晕厥");
+		add("weapon_trait." + AssortedArmaments.ID + ".mushroom_gift", "蘑菇礼包");
+		add("weapon_trait." + AssortedArmaments.ID + ".mushroom_gift.desc", "满蓄力攻击时随机触发一种效果：6秒中毒II、恢复1点饥饿值与饱和度、着火12秒，或引发1.5格半径的孢子爆炸（造成武器伤害50%）");
+		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire", "龙火");
+		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire.desc", "攻击会产生龙息伤害敌人");
+
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "海王之力");
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might.desc", "增加在水下对敌人造成的伤害");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".grace", "恩惠");
+		add("weapon_trait." + AssortedArmaments.ID + ".grace.desc", "满蓄力攻击或投掷武器击杀生物时掉落物翻倍");
+		add("weapon_trait." + AssortedArmaments.ID + ".crystallize", "结晶");
+		add("weapon_trait." + AssortedArmaments.ID + ".crystallize.desc", "满蓄力命中时有 1/25 概率掉落神能晶片");
+		add("weapon_trait." + AssortedArmaments.ID + ".sharpen", "磨砺");
+		add("weapon_trait." + AssortedArmaments.ID + ".sharpen.desc", "耐久越低攻击伤害越高，最多提升 150%");
+		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity", "重力操控");
+		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity.desc", "满蓄力命中会将目标击飞");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine", "耀光");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine.desc", "标枪留在目标身上会在目标死时爆炸，并传递此效果");
+
+		add("weapon_trait." + AssortedArmaments.ID + ".light_dance", "光舞");
+		add("weapon_trait." + AssortedArmaments.ID + ".light_dance.desc", "攻击速度提高 10%");
+		add("weapon_trait." + AssortedArmaments.ID + ".bane_undead", "亡灵克星");
+		add("weapon_trait." + AssortedArmaments.ID + ".bane_undead.desc", "对亡灵造成 25% 额外伤害");
+		add("weapon_trait." + AssortedArmaments.ID + ".poison_immune", "抗毒");
+		add("weapon_trait." + AssortedArmaments.ID + ".poison_immune.desc", "免疫中毒");
+		add("weapon_trait." + AssortedArmaments.ID + ".heat", "炙热");
+		add("weapon_trait." + AssortedArmaments.ID + ".heat.desc", "命中时点燃目标 5 秒");
+		add("weapon_trait." + AssortedArmaments.ID + ".fire_immune", "抗火");
+		add("weapon_trait." + AssortedArmaments.ID + ".fire_immune.desc", "免疫火焰伤害");
+		add("weapon_trait." + AssortedArmaments.ID + ".chill", "冰寒");
+		add("weapon_trait." + AssortedArmaments.ID + ".chill.desc", "命中时使目标缓慢，可叠加；叠加较高时额外施加挖掘疲劳");
+		add("weapon_trait." + AssortedArmaments.ID + ".cold_immune", "抗寒");
+		add("weapon_trait." + AssortedArmaments.ID + ".cold_immune.desc", "免疫缓慢与挖掘疲劳");
 
 		add("weapon_trait.modify_interaction_range.desc", "增加 %s 攻击距离和 %s 方块交互距离");
 
@@ -167,6 +206,12 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add(AAItems.DIAMOND_JIAN.get(), "钻石锏");
 		add(AAItems.NETHERITE_JIAN.get(), "下界合金锏");
 
+		add(AAItems.ENDER_DRAGON_CLAYMORE.get(), "末影龙玄刃");
+		add(AAItems.GOLDEN_PUMPKIN_MACE.get(), "金瓜锤");
+		add(AAItems.ELDER_ROLL_FLAIL.get(), "远古碾碎者");
+		add(AAItems.ENDER_LANTERN_JAVELIN.get(), "终界冥灯");
+		add(AAItems.MUSHROOM_SKEWERS_JIAN.get(), "串烧蘑菇");
+
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.KINETIC_ENERGY.location()), "动能");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.KINETIC_ENERGY.location()) + ".desc", "使扔出的流星锤可以造成暴击");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.SUPER_THUMP.location()), "超重击");
@@ -192,6 +237,8 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("effect." + AssortedArmaments.ID + ".syncope.description", "令目标完全无法动弹");
 		add("effect." + AssortedArmaments.ID + ".perforation", "穿孔");
 		add("effect." + AssortedArmaments.ID + ".perforation.description", "每次受到伤害时额外受到1点无视护甲伤害");
+		add("effect." + AssortedArmaments.ID + ".extract", "拔除");
+		add("effect." + AssortedArmaments.ID + ".extract.description", "死亡时对半径5格内的敌对生物附加10s此效果，并造成死亡实体最大生命值20%的伤害");
 
 		add("tooltip." + AssortedArmaments.ID + ".knightmetal_weapon", "对有护甲的目标造成额外伤害");
 		add("tooltip." + AssortedArmaments.ID + ".knightmetal_tool", "对无护甲目标造成额外伤害");
@@ -203,8 +250,6 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("subtitles." + AssortedArmaments.ID + ".flail.thrown", "流星锤：扔出");
 		add("subtitles." + AssortedArmaments.ID + ".javelin.pull_out", "矛：拔出");
 
-		EternalStarlightHelper.addTranslations(this, false);
-		TwilightForestHelper.addTranslations(this, false);
-		AquacultureHelper.addTranslations(this, false);
+		AACompatManager.addTranslations(this, false);
 	}
 }

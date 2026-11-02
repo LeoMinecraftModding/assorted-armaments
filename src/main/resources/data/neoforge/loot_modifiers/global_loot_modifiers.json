@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "entries": [
+    "assorted_armaments:add_loot_bastion_treasure",
+    "assorted_armaments:add_loot_bastion_other",
+    "assorted_armaments:add_loot_ender_dragon",
+    "assorted_armaments:add_loot_elder_guardian",
+    "assorted_armaments:grace"
+  ]
+}

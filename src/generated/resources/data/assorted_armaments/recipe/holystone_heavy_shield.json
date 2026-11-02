@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aether"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:shield"
+    },
+    "X": {
+      "tag": "aether:holystone"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "X#X",
+    " X "
+  ],
+  "result": {
+    "count": 1,
+    "id": "assorted_armaments:holystone_heavy_shield"
+  }
+}

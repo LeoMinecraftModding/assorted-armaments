@@ -17,7 +17,6 @@ public class AADataAttachments {
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> NO_INTENTIONAL_SWEEP_ATTACK = ATTACHMENT_TYPES.register("no_intentional_sweep_attack", () -> AttachmentType.builder(() -> false).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> SWEEP_ATTACK_ACTIVE = ATTACHMENT_TYPES.register("sweep_attack_active", () -> AttachmentType.builder(() -> false).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> BLOCKING_DISABLED_TIME = ATTACHMENT_TYPES.register("blocking_disabled_time", () -> AttachmentType.builder(() -> 0).build());
-	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> NO_TARGET_TIME = ATTACHMENT_TYPES.register("no_target_time", () -> AttachmentType.builder(() -> 0).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ThrownFlail>> FLAIL = ATTACHMENT_TYPES.register("flail", () -> AttachmentType.builder(() -> (ThrownFlail) null).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> FLAIL_KINETIC_POWER = ATTACHMENT_TYPES.register("flail_kinetic_power", () -> AttachmentType.builder(() -> 0f).sync(ByteBufCodecs.FLOAT).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<LivingEntity>> CONCENTRATED_TARGET = ATTACHMENT_TYPES.register("concentrated_target", () -> AttachmentType.builder(() -> (LivingEntity) null).build());
@@ -32,4 +31,7 @@ public class AADataAttachments {
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemStack>> LAST_OFFHAND_ITEM = ATTACHMENT_TYPES.register("last_offhand_item", () -> AttachmentType.builder(() -> ItemStack.EMPTY).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Vec3>> PIN_UP_KNOCKBACK_DIRECTION = ATTACHMENT_TYPES.register("pin_up_knockback_direction", () -> AttachmentType.builder(() -> Vec3.ZERO).build());
 	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> PIN_UP_EXPIRE = ATTACHMENT_TYPES.register("pin_up_expire", () -> AttachmentType.builder(() -> 0).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> DRAGON_FIRE_TICKS = ATTACHMENT_TYPES.register("dragon_fire_ticks", () -> AttachmentType.builder(() -> 0).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> GRAVITY_LAUNCH = ATTACHMENT_TYPES.register("gravity_launch", () -> AttachmentType.builder(() -> false).build());
+	public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> GLOW_STUCK_JAVELINS = ATTACHMENT_TYPES.register("glow_stuck_javelins", () -> AttachmentType.builder(() -> 0).build());
 }

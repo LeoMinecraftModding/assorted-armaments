@@ -1,0 +1,164 @@
+{
+  "values": [
+    {
+      "id": "assorted_armaments:skyroot_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_jian",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_jian",
+      "required": false
+    }
+  ]
+}

@@ -6,6 +6,7 @@
     "assorted_armaments:golden_javelin",
     "assorted_armaments:diamond_javelin",
     "assorted_armaments:netherite_javelin",
+    "assorted_armaments:ender_lantern_javelin",
     {
       "id": "assorted_armaments:ironwood_javelin",
       "required": false
@@ -24,6 +25,22 @@
     },
     {
       "id": "assorted_armaments:neptunium_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_javelin",
       "required": false
     }
   ]

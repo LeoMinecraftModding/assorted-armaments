@@ -5,6 +5,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -25,6 +27,7 @@ import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AAEffects;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.trait.WeaponTrait;
+import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
 import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
 import java.util.List;
@@ -76,22 +79,51 @@ public class MaceItem extends net.minecraft.world.item.MaceItem {
 
 	@Override
 	public float getAttackDamageBonus(Entity target, float damage, DamageSource damageSource) {
-		Entity var5 = damageSource.getDirectEntity();
-		if (var5 instanceof LivingEntity livingentity) {
-			if (!canSmashAttack(livingentity)) {
-				return 0.0F;
+		if (!(damageSource.getDirectEntity() instanceof LivingEntity attacker)) {
+			return damage;
+		}
+		if (!(attacker.level() instanceof ServerLevel serverLevel)) {
+			return 0.0F;
+		}
+
+		boolean smash = canSmashAttack(attacker);
+		boolean superHeavy = !smash && canSmashAttackWithSuperHeavy(attacker);
+		if (!smash && !superHeavy) {
+			return 0.0F;
+		}
+
+
+		if (superHeavy && !(target instanceof LivingEntity)) {
+			return 0.0F;
+		}
+
+		boolean hasSuperHeavy = WeaponTraitHelper.hasTrait(AAWeaponTraits.SUPER_HEAVY, attacker.getWeaponItem());
+		if (target instanceof LivingEntity livingTarget) {
+			livingTarget.addEffect(new MobEffectInstance(AAEffects.SYNCOPE, hasSuperHeavy ? 60 : 20));
+		}
+
+		if (superHeavy && attacker instanceof ServerPlayer serverPlayer) {
+			if (target.onGround()) {
+				serverPlayer.setSpawnExtraParticlesOnFall(true);
+				serverLevel.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEvents.MACE_SMASH_GROUND, serverPlayer.getSoundSource(), 1.0F, 1.0F);
 			} else {
-				if (livingentity.level() instanceof ServerLevel serverlevel) {
-					if (target instanceof LivingEntity livingTarget) {
-						livingTarget.addEffect(new MobEffectInstance(AAEffects.SYNCOPE, 20));
-					}
-					return EnchantmentHelper.modifyFallBasedDamage(serverlevel, livingentity.getWeaponItem(), target, damageSource, 0.0F) * livingentity.fallDistance;
-				} else {
-					return 0.0F;
-				}
+				serverLevel.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEvents.MACE_SMASH_AIR, serverPlayer.getSoundSource(), 1.0F, 1.0F);
 			}
 		}
-		return damage;
+
+		float fallDistance = attacker.fallDistance;
+		float fallBonus = hasSuperHeavy ? getVanillaFallBonus(fallDistance) : 0.0F;
+		return fallBonus + EnchantmentHelper.modifyFallBasedDamage(serverLevel, attacker.getWeaponItem(), target, damageSource, 0.0F) * fallDistance;
+	}
+
+	private static float getVanillaFallBonus(float fallDistance) {
+		if (fallDistance <= 3.0F) {
+			return 4.0F * fallDistance;
+		} else if (fallDistance <= 8.0F) {
+			return 12.0F + 2.0F * (fallDistance - 3.0F);
+		} else {
+			return 22.0F + fallDistance - 8.0F;
+		}
 	}
 
 	@Override
@@ -100,5 +132,9 @@ public class MaceItem extends net.minecraft.world.item.MaceItem {
 		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
 		AAUtils.addKnightMetalTooltip(stack, tooltips);
 		AAUtils.addFieryTooltip(path, tooltips);
+	}
+
+	public boolean canSmashAttackWithSuperHeavy(LivingEntity entity) {
+		return entity.fallDistance > 0.1F && !entity.isFallFlying() && entity instanceof LivingEntity && WeaponTraitHelper.hasTrait(AAWeaponTraits.SUPER_HEAVY, this.getDefaultInstance());
 	}
 }

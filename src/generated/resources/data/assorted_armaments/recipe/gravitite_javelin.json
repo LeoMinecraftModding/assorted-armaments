@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aether"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "tag": "aether:processed/gravitite"
+    }
+  },
+  "pattern": [
+    "  X",
+    " X ",
+    "X  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "assorted_armaments:gravitite_javelin"
+  }
+}

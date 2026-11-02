@@ -11,10 +11,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 
 public class StrongSweepWeaponTrait extends WeaponTrait {
+	public static void onSweepAttack(SweepAttackEvent event) {
+		event.setSweeping(false);
+	}
+
 	public static boolean performSweepAttack(Player player, ItemStack stack) {
 		if (player.getData(AADataAttachments.SWEEP_ATTACK_ACTIVE)) {
 			return false;

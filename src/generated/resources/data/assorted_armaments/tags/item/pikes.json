@@ -25,6 +25,22 @@
     {
       "id": "assorted_armaments:neptunium_pike",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_pike",
+      "required": false
     }
   ]
 }

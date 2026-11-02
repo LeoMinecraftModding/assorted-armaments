@@ -20,7 +20,6 @@ import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.tags.AAItemTags;
-import team.leomc.assortedarmaments.trait.DualWieldWeaponTrait;
 import team.leomc.assortedarmaments.trait.StrongSweepWeaponTrait;
 import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
 
@@ -71,9 +70,9 @@ public abstract class LivingEntityMixin {
 		return source.getWeaponItem() != null && WeaponTraitHelper.hasTrait(AAWeaponTraits.SEE_THROUGH, source.getWeaponItem());
 	}
 
-	@Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;actuallyHurt(Lnet/minecraft/world/damagesource/DamageSource;F)V", shift = At.Shift.AFTER))
-	private void modifyPostAttackInvulnerabilityTicks(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-		LivingEntity living = (LivingEntity) (Object) this;
-		living.invulnerableTime = DualWieldWeaponTrait.onModifyPostAttackInvulnerabilityTicks(living, source, amount, living.invulnerableTime);
-	}
+//	@Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;actuallyHurt(Lnet/minecraft/world/damagesource/DamageSource;F)V", shift = At.Shift.AFTER))
+//	private void modifyPostAttackInvulnerabilityTicks(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+//		LivingEntity living = (LivingEntity) (Object) this;
+//		living.invulnerableTime = DualWieldWeaponTrait.onModifyPostAttackInvulnerabilityTicks(living, source, amount, living.invulnerableTime);
+//	}
 }

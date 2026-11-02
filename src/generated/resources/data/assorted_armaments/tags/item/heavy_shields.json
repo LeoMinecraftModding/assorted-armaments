@@ -25,6 +25,22 @@
     {
       "id": "assorted_armaments:neptunium_heavy_shield",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:skyroot_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:holystone_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:zanite_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:gravitite_heavy_shield",
+      "required": false
     }
   ]
 }

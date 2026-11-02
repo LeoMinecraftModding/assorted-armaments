@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/mace_zanite",
+  "textures": {
+    "mace": "assorted_armaments:item/zanite_mace"
+  }
+}

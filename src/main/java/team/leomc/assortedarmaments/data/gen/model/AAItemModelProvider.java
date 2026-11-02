@@ -9,14 +9,23 @@ import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
-import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
-import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
+import team.leomc.assortedarmaments.integration.AACompatManager;
+import team.leomc.assortedarmaments.integration.AACompatStyle;
+import team.leomc.assortedarmaments.integration.AAWeaponType;
 import team.leomc.assortedarmaments.registry.AAItems;
 
 public class AAItemModelProvider extends ItemModelProvider {
+	private static final AACompatStyle GOLDEN_PUMPKIN = AACompatStyle.of("golden_pumpkin")
+		.types(AAWeaponType.MACE);
+	private static final AACompatStyle MUSHROOM_SKEWERS = AACompatStyle.of("mushroom_skewers")
+		.types(AAWeaponType.JIAN);
+	private static final AACompatStyle ELDER_ROLL = AACompatStyle.of("elder_roll")
+		.types(AAWeaponType.FLAIL);
+	private static final AACompatStyle ENDER_LANTERN = AACompatStyle.of("ender_lantern")
+		.layer("end_layer")
+		.types(AAWeaponType.JAVELIN);
+
 	public AAItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
 		super(output, AssortedArmaments.ID, existingFileHelper);
 	}
@@ -35,13 +44,23 @@ public class AAItemModelProvider extends ItemModelProvider {
 		inventoryHandheld(AAItems.DIAMOND_CLAYMORE.get());
 		claymore(AAItems.NETHERITE_CLAYMORE.get());
 		inventoryHandheld(AAItems.NETHERITE_CLAYMORE.get());
+		claymore(AAItems.ENDER_DRAGON_CLAYMORE.get());
+		inventoryHandheld(AAItems.ENDER_DRAGON_CLAYMORE.get());
 
-		handheld(AAItems.WOODEN_MACE.get());
-		handheld(AAItems.STONE_MACE.get());
-		handheld(AAItems.IRON_MACE.get());
-		handheld(AAItems.GOLDEN_MACE.get());
-		handheld(AAItems.DIAMOND_MACE.get());
-		handheld(AAItems.NETHERITE_MACE.get());
+		mace(AAItems.WOODEN_MACE.get());
+		inventoryHandheld(AAItems.WOODEN_MACE.get());
+		mace(AAItems.STONE_MACE.get());
+		inventoryHandheld(AAItems.STONE_MACE.get());
+		mace(AAItems.IRON_MACE.get());
+		inventoryHandheld(AAItems.IRON_MACE.get());
+		mace(AAItems.GOLDEN_MACE.get());
+		inventoryHandheld(AAItems.GOLDEN_MACE.get());
+		mace(AAItems.DIAMOND_MACE.get());
+		inventoryHandheld(AAItems.DIAMOND_MACE.get());
+		mace(AAItems.NETHERITE_MACE.get());
+		inventoryHandheld(AAItems.NETHERITE_MACE.get());
+		mace(key(AAItems.GOLDEN_PUMPKIN_MACE.get()), GOLDEN_PUMPKIN);
+		inventoryHandheld(AAItems.GOLDEN_PUMPKIN_MACE.get());
 
 		flail(AAItems.WOODEN_FLAIL.get());
 		spinningFlail(AAItems.WOODEN_FLAIL.get());
@@ -61,6 +80,9 @@ public class AAItemModelProvider extends ItemModelProvider {
 		flail(AAItems.NETHERITE_FLAIL.get());
 		spinningFlail(AAItems.NETHERITE_FLAIL.get());
 		thrownFlail(AAItems.NETHERITE_FLAIL.get());
+		flail(key(AAItems.ELDER_ROLL_FLAIL.get()), ELDER_ROLL);
+		spinningFlail(key(AAItems.ELDER_ROLL_FLAIL.get()), ELDER_ROLL);
+		thrownFlail(key(AAItems.ELDER_ROLL_FLAIL.get()), ELDER_ROLL);
 
 		javelin(AAItems.WOODEN_JAVELIN.get());
 		thrownJavelin(AAItems.WOODEN_JAVELIN.get());
@@ -74,6 +96,8 @@ public class AAItemModelProvider extends ItemModelProvider {
 		thrownJavelin(AAItems.DIAMOND_JAVELIN.get());
 		javelin(AAItems.NETHERITE_JAVELIN.get());
 		thrownJavelin(AAItems.NETHERITE_JAVELIN.get());
+		javelin(AAItems.ENDER_LANTERN_JAVELIN.get());
+		thrownJavelin(key(AAItems.ENDER_LANTERN_JAVELIN.get()), ENDER_LANTERN);
 
 		pike(AAItems.WOODEN_PIKE.get());
 		inventoryHandheld(AAItems.WOODEN_PIKE.get());
@@ -128,16 +152,22 @@ public class AAItemModelProvider extends ItemModelProvider {
 		claw(AAItems.DIAMOND_CLAW.get());
 		claw(AAItems.NETHERITE_CLAW.get());
 
-		handheld(AAItems.WOODEN_JIAN.get());
-		handheld(AAItems.STONE_JIAN.get());
-		handheld(AAItems.IRON_JIAN.get());
-		handheld(AAItems.GOLDEN_JIAN.get());
-		handheld(AAItems.DIAMOND_JIAN.get());
-		handheld(AAItems.NETHERITE_JIAN.get());
+		jian(AAItems.WOODEN_JIAN.get());
+		inventoryHandheld(AAItems.WOODEN_JIAN.get());
+		jian(AAItems.STONE_JIAN.get());
+		inventoryHandheld(AAItems.STONE_JIAN.get());
+		jian(AAItems.IRON_JIAN.get());
+		inventoryHandheld(AAItems.IRON_JIAN.get());
+		jian(AAItems.GOLDEN_JIAN.get());
+		inventoryHandheld(AAItems.GOLDEN_JIAN.get());
+		jian(AAItems.DIAMOND_JIAN.get());
+		inventoryHandheld(AAItems.DIAMOND_JIAN.get());
+		jian(AAItems.NETHERITE_JIAN.get());
+		inventoryHandheld(AAItems.NETHERITE_JIAN.get());
+		jian(key(AAItems.MUSHROOM_SKEWERS_JIAN.get()), MUSHROOM_SKEWERS);
+		inventoryHandheld(AAItems.MUSHROOM_SKEWERS_JIAN.get());
 
-		EternalStarlightHelper.registerModels(this);
-		TwilightForestHelper.registerModels(this);
-		AquacultureHelper.registerModels(this);
+		AACompatManager.registerModels(this);
 	}
 
 	public void claymore(ResourceLocation item) {
@@ -152,15 +182,36 @@ public class AAItemModelProvider extends ItemModelProvider {
 		claymore(key(item));
 	}
 
-	public void flail(ResourceLocation item) {
-		ModelFile spinning = spinningFlail(item);
+	public void flail(ResourceLocation item, AACompatStyle style) {
+		ModelFile spinning = spinningFlail(item, style);
 		withExistingParent(item.getPath(), AssortedArmaments.id("item/flail"))
 			.texture("layer0", texture(item, ModelProvider.ITEM_FOLDER))
 			.override().predicate(AssortedArmaments.id("spinning"), 1).model(spinning).end();
 	}
 
 	private void flail(Item item) {
-		flail(key(item));
+		flail(key(item), AACompatStyle.NONE);
+	}
+
+	public void mace(ResourceLocation item, AACompatStyle style) {
+		ItemModelBuilder builder = withExistingParent(item.getPath(), parent("mace", style, AAWeaponType.MACE))
+			.texture("mace", texture(item, ModelProvider.ITEM_FOLDER));
+		applyLayer(builder, style);
+	}
+
+	private void mace(Item item) {
+		mace(key(item), AACompatStyle.NONE);
+	}
+
+	public ItemModelBuilder jian(ResourceLocation item, AACompatStyle style) {
+		ItemModelBuilder builder = withExistingParent(item.getPath(), parent("jian", style, AAWeaponType.JIAN))
+			.texture("jian", texture(item, ModelProvider.ITEM_FOLDER));
+		applyLayer(builder, style);
+		return builder;
+	}
+
+	private void jian(Item item) {
+		jian(key(item), AACompatStyle.NONE);
 	}
 
 	public void javelin(ResourceLocation item) {
@@ -181,52 +232,58 @@ public class AAItemModelProvider extends ItemModelProvider {
 		claw(key(item));
 	}
 
-	private ItemModelBuilder handheld(Item item) {
-		return handheld(item, itemTexture(item), false);
-	}
-
-	private ItemModelBuilder handheld(Item item, ResourceLocation texture, boolean large) {
-		return getBuilder(item.toString())
-			.parent(large ? new ModelFile.UncheckedModelFile(AssortedArmaments.id("item/large_handheld")) : new ModelFile.UncheckedModelFile("item/handheld"))
-			.texture("layer0", texture);
-	}
+//	private ItemModelBuilder handheld(Item item) {
+//		return handheld(item, itemTexture(item), false);
+//	}
+//
+//	private ItemModelBuilder handheld(Item item, ResourceLocation texture, boolean large) {
+//		return getBuilder(item.toString())
+//			.parent(large ? new ModelFile.UncheckedModelFile(AssortedArmaments.id("item/large_handheld")) : new ModelFile.UncheckedModelFile("item/handheld"))
+//			.texture("layer0", texture);
+//	}
 
 	public ResourceLocation itemTexture(Item item) {
 		ResourceLocation name = key(item);
 		return texture(name, ModelProvider.ITEM_FOLDER);
 	}
 
-	public ItemModelBuilder spinningFlail(ResourceLocation item) {
-		return getBuilder(item.getPath() + "_spinning")
-			.parent(new ModelFile.UncheckedModelFile(AAUtils.flailCompatParent(item, "spinning_flail")))
+	public ItemModelBuilder spinningFlail(ResourceLocation item, AACompatStyle style) {
+		ItemModelBuilder builder = getBuilder(item.getPath() + "_spinning")
+			.parent(new ModelFile.UncheckedModelFile(parent("spinning_flail", style, AAWeaponType.FLAIL)))
 			.texture("flail", texture(item, ModelProvider.ITEM_FOLDER) + "_spinning")
 			.texture("particle", texture(item, ModelProvider.ITEM_FOLDER));
+		applyLayer(builder, style);
+		return builder;
 	}
 
 	private ItemModelBuilder spinningFlail(Item item) {
-		return spinningFlail(key(item));
+		return spinningFlail(key(item), AACompatStyle.NONE);
 	}
 
-	public ItemModelBuilder thrownFlail(ResourceLocation item) {
-		return getBuilder(item.getPath() + "_thrown")
-			.parent(new ModelFile.UncheckedModelFile(AAUtils.flailCompatParent(item, "thrown_flail")))
+	public ItemModelBuilder thrownFlail(ResourceLocation item, AACompatStyle style) {
+		ItemModelBuilder builder = getBuilder(item.getPath() + "_thrown")
+			.parent(new ModelFile.UncheckedModelFile(parent("thrown_flail", style, AAWeaponType.FLAIL)))
 			.texture("flail", texture(item, ModelProvider.ITEM_FOLDER) + "_spinning")
 			.texture("particle", texture(item, ModelProvider.ITEM_FOLDER));
+		applyLayer(builder, style);
+		return builder;
 	}
 
 	private ItemModelBuilder thrownFlail(Item item) {
-		return thrownFlail(key(item));
+		return thrownFlail(key(item), AACompatStyle.NONE);
 	}
 
-	public ItemModelBuilder thrownJavelin(ResourceLocation item) {
-		return getBuilder(item.getPath() + "_thrown")
-			.parent(new ModelFile.UncheckedModelFile(AAUtils.javelinCompatParent(item, "thrown_javelin")))
+	public ItemModelBuilder thrownJavelin(ResourceLocation item, AACompatStyle style) {
+		ItemModelBuilder builder = getBuilder(item.getPath() + "_thrown")
+			.parent(new ModelFile.UncheckedModelFile(parent("thrown_javelin", style, AAWeaponType.JAVELIN)))
 			.texture("javelin", texture(item, ModelProvider.ITEM_FOLDER) + "_thrown")
 			.texture("particle", texture(item, ModelProvider.ITEM_FOLDER));
+		applyLayer(builder, style);
+		return builder;
 	}
 
 	private ItemModelBuilder thrownJavelin(Item item) {
-		return thrownJavelin(key(item));
+		return thrownJavelin(key(item), AACompatStyle.NONE);
 	}
 
 	private ItemModelBuilder inventoryHandheld(Item item) {
@@ -266,24 +323,30 @@ public class AAItemModelProvider extends ItemModelProvider {
 		rapier(key(item));
 	}
 
-	public void heavyShield(ResourceLocation item) {
-		boolean fiery = AAUtils.isFiery(item.getPath());
-		ItemModelBuilder blocking = withExistingParent(item.getPath() + "_blocking", AAUtils.heavyShieldCompatParent(item, "heavy_shield_blocking"))
+	public void heavyShield(ResourceLocation item, AACompatStyle style) {
+		ItemModelBuilder blocking = withExistingParent(item.getPath() + "_blocking", parent("heavy_shield_blocking", style, AAWeaponType.HEAVY_SHIELD))
 			.texture("shield", texture(item, ModelProvider.ITEM_FOLDER))
 			.texture("particle", texture(item, ModelProvider.ITEM_FOLDER) + "_inventory");
-		ItemModelBuilder builder = withExistingParent(item.getPath(), AAUtils.heavyShieldCompatParent(item, "heavy_shield"))
+		ItemModelBuilder builder = withExistingParent(item.getPath(), parent("heavy_shield", style, AAWeaponType.HEAVY_SHIELD))
 			.texture("shield", texture(item, ModelProvider.ITEM_FOLDER))
 			.texture("particle", texture(item, ModelProvider.ITEM_FOLDER) + "_inventory");
-		if (fiery) {
-			ResourceLocation layer = AssortedArmaments.id("item/fiery_layer");
-			blocking.texture("layer", layer);
-			builder.texture("layer", layer);
-		}
+		applyLayer(blocking, style);
+		applyLayer(builder, style);
 		builder.override().predicate(AssortedArmaments.id("blocking"), 1).model(blocking).end();
 	}
 
 	private void heavyShield(Item item) {
-		heavyShield(key(item));
+		heavyShield(key(item), AACompatStyle.NONE);
+	}
+
+	private ResourceLocation parent(String base, AACompatStyle style, AAWeaponType type) {
+		return style.supports(type) ? style.parent(base, type) : AssortedArmaments.id("item/" + base);
+	}
+
+	private void applyLayer(ItemModelBuilder builder, AACompatStyle style) {
+		if (style.layerTexture() != null) {
+			builder.texture("layer", AssortedArmaments.id("item/" + style.layerTexture()));
+		}
 	}
 
 	public ResourceLocation texture(ResourceLocation key, String prefix) {
@@ -292,9 +355,5 @@ public class AAItemModelProvider extends ItemModelProvider {
 
 	private ResourceLocation key(Item item) {
 		return BuiltInRegistries.ITEM.getKey(item);
-	}
-
-	private String name(Item item) {
-		return key(item).getPath();
 	}
 }

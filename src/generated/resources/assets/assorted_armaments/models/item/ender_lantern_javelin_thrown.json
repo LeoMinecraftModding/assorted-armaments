@@ -1,0 +1,8 @@
+{
+  "parent": "assorted_armaments:item/thrown_javelin_ender_lantern",
+  "textures": {
+    "javelin": "assorted_armaments:item/ender_lantern_javelin_thrown",
+    "layer": "assorted_armaments:item/end_layer",
+    "particle": "assorted_armaments:item/ender_lantern_javelin"
+  }
+}
