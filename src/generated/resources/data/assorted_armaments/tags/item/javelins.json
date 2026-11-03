@@ -42,6 +42,10 @@
     {
       "id": "assorted_armaments:gravitite_javelin",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_javelin",
+      "required": false
     }
   ]
 }

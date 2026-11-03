@@ -89,6 +89,9 @@ public final class AACompatManager {
 
 	public static void buildRecipes(Map<ResourceLocation, JsonObject> jsons) {
 		for (RegisteredWeapon entry : ENTRIES) {
+			if (!entry.weapon().material().craftable()) {
+				continue;
+			}
 			jsons.put(entry.id(), recipe(entry));
 		}
 	}

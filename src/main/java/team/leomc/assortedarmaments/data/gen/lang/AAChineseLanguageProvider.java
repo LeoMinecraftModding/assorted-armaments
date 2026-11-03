@@ -102,6 +102,8 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".mushroom_gift.desc", "满蓄力攻击时随机触发一种效果：6秒中毒II、恢复1点饥饿值与饱和度、着火12秒，或引发1.5格半径的孢子爆炸（造成武器伤害50%）");
 		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire", "龙火");
 		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire.desc", "攻击会产生龙息伤害敌人");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine", "耀光");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine.desc", "标枪留在目标身上会在目标死时爆炸，并传递此效果");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "海王之力");
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might.desc", "增加在水下对敌人造成的伤害");
@@ -114,8 +116,8 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".sharpen.desc", "耐久越低攻击伤害越高，最多提升 150%");
 		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity", "重力操控");
 		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity.desc", "满蓄力命中会将目标击飞");
-		add("weapon_trait." + AssortedArmaments.ID + ".shine", "耀光");
-		add("weapon_trait." + AssortedArmaments.ID + ".shine.desc", "标枪留在目标身上会在目标死时爆炸，并传递此效果");
+		add("weapon_trait." + AssortedArmaments.ID + ".long_pole", "加长杠杆");
+		add("weapon_trait." + AssortedArmaments.ID + ".long_pole.desc", "实体与方块交互距离增加 %s 格");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".light_dance", "光舞");
 		add("weapon_trait." + AssortedArmaments.ID + ".light_dance.desc", "攻击速度提高 10%");
@@ -248,7 +250,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("subtitles." + AssortedArmaments.ID + ".flail.fully_charge", "流星锤：充能完毕");
 		add("subtitles." + AssortedArmaments.ID + ".flail.spin", "流星锤：旋转");
 		add("subtitles." + AssortedArmaments.ID + ".flail.thrown", "流星锤：扔出");
-		add("subtitles." + AssortedArmaments.ID + ".javelin.pull_out", "矛：拔出");
+		add("subtitles." + AssortedArmaments.ID + ".javelin.pull_out", "标枪：拔出");
 
 		AACompatManager.addTranslations(this, false);
 	}

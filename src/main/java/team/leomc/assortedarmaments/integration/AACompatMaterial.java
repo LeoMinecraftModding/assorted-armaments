@@ -17,9 +17,14 @@ public record AACompatMaterial(
 	String components,
 	UnaryOperator<Item.Properties> extra,
 	AACompatStyle style,
-	List<Holder<WeaponTrait>> traits
+	List<Holder<WeaponTrait>> traits,
+	boolean craftable
 ) {
+	public AACompatMaterial(String prefix, Supplier<Tier> tier, String ingotTag, String rodTag, String components, UnaryOperator<Item.Properties> extra, AACompatStyle style, List<Holder<WeaponTrait>> traits) {
+		this(prefix, tier, ingotTag, rodTag, components, extra, style, traits, true);
+	}
+
 	public AACompatMaterial(String prefix, Supplier<Tier> tier, String ingotTag, String rodTag, String components, UnaryOperator<Item.Properties> extra, AACompatStyle style) {
-		this(prefix, tier, ingotTag, rodTag, components, extra, style, List.of());
+		this(prefix, tier, ingotTag, rodTag, components, extra, style, List.of(), true);
 	}
 }

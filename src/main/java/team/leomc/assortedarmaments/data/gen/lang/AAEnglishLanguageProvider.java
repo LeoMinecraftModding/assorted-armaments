@@ -105,23 +105,22 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".mushroom_gift.desc", "Fully charged attacks randomly trigger one of: Poison II for 6s, restore 1 hunger and saturation, set the target on fire for 12s, or a 1.5-block spore explosion dealing 50% weapon damage");
 		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire", "Dragon Fire");
 		add("weapon_trait." + AssortedArmaments.ID + ".dragon_fire.desc", "Attacks deal Dragon's Breath damage to enemies");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine", "Shine");
+		add("weapon_trait." + AssortedArmaments.ID + ".shine.desc", "A javelin stuck in a target explodes when the target dies, passing this effect on");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "Neptune's Grace");
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might.desc", "Increases damage against enemies underwater");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".grace", "Grace");
 		add("weapon_trait." + AssortedArmaments.ID + ".grace.desc", "Doubles mob drops when killing with a full-strength attack or a thrown weapon");
-
 		add("weapon_trait." + AssortedArmaments.ID + ".crystallize", "Crystallize");
 		add("weapon_trait." + AssortedArmaments.ID + ".crystallize.desc", "Has a 1/25 chance to drop an Ambrosium Shard on a full-strength hit");
-
 		add("weapon_trait." + AssortedArmaments.ID + ".sharpen", "Sharpen");
 		add("weapon_trait." + AssortedArmaments.ID + ".sharpen.desc", "Increases attack damage as durability decreases, up to +150%");
-
 		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity", "Shift Gravity");
 		add("weapon_trait." + AssortedArmaments.ID + ".shift_gravity.desc", "Full-strength hits launch the target into the air");
-		add("weapon_trait." + AssortedArmaments.ID + ".shine", "Shine");
-		add("weapon_trait." + AssortedArmaments.ID + ".shine.desc", "A javelin stuck in a target explodes when the target dies, passing this effect on");
+		add("weapon_trait." + AssortedArmaments.ID + ".long_pole", "Long Pole");
+		add("weapon_trait." + AssortedArmaments.ID + ".long_pole.desc", "Increases entity and block interaction range by %s blocks");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".light_dance", "Light Dance");
 		add("weapon_trait." + AssortedArmaments.ID + ".light_dance.desc", "Increases attack speed by 10%");

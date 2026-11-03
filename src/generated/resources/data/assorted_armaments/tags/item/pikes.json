@@ -41,6 +41,10 @@
     {
       "id": "assorted_armaments:gravitite_pike",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_pike",
+      "required": false
     }
   ]
 }

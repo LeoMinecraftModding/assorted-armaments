@@ -41,6 +41,10 @@
     {
       "id": "assorted_armaments:gravitite_halberd",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_halberd",
+      "required": false
     }
   ]
 }

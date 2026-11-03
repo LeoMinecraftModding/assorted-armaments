@@ -42,6 +42,10 @@
     {
       "id": "assorted_armaments:gravitite_flail",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_flail",
+      "required": false
     }
   ]
 }

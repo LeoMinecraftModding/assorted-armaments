@@ -41,6 +41,10 @@
     {
       "id": "assorted_armaments:gravitite_rapier",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_rapier",
+      "required": false
     }
   ]
 }

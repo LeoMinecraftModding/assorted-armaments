@@ -1,0 +1,44 @@
+{
+  "values": [
+    {
+      "id": "assorted_armaments:valkyrie_claymore",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_mace",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_flail",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_javelin",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_pike",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_rapier",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_halberd",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_heavy_shield",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_claw",
+      "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_jian",
+      "required": false
+    }
+  ]
+}

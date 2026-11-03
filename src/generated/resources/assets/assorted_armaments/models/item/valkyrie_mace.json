@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/mace_valkyrie",
+  "textures": {
+    "mace": "assorted_armaments:item/valkyrie_mace"
+  }
+}

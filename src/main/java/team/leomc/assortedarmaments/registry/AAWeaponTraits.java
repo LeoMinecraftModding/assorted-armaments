@@ -93,6 +93,8 @@ public class AAWeaponTraits {
 
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> SHIFT_GRAVITY = WEAPON_TRAITS.register("shift_gravity", ShiftGravityWeaponTrait::new);
 
+	public static final DeferredHolder<WeaponTrait, WeaponTrait> LONG_POLE = WEAPON_TRAITS.register("long_pole", ()-> new ModifyInteractionRangeWeaponTrait(3.5f, 3.5f));
+
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> LIGHT_DANCE = WEAPON_TRAITS.register("light_dance", LightDanceWeaponTrait::new);
 
 	public static final DeferredHolder<WeaponTrait, WeaponTrait> BANE_UNDEAD = WEAPON_TRAITS.register("bane_undead", BaneUndeadWeaponTrait::new);

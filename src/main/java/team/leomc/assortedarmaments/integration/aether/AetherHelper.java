@@ -1,5 +1,6 @@
 package team.leomc.assortedarmaments.integration.aether;
 
+import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.combat.AetherItemTiers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +20,7 @@ public class AetherHelper implements AACompatModule {
 	public static final boolean IS_LOADED = ModList.get().isLoaded(ID);
 
 	public static final TagKey<Item> TREATED_AS_AETHER_ITEM = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ID, "treated_as_aether_item"));
+	public static final TagKey<Item> SILVER_DUNGEON_LOOT = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ID, "silver_dungeon_loot"));
 	public static final TagKey<EntityType<?>> TREATED_AS_AETHER_ENTITY = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "treated_as_aether_entity"));
 	public static final TagKey<Item> NO_SKYROOT_DOUBLE_DROPS_ITEM = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ID, "no_skyroot_double_drops"));
 	public static final TagKey<EntityType<?>> NO_SKYROOT_DOUBLE_DROPS_ENTITY = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "no_skyroot_double_drops"));
@@ -72,6 +74,18 @@ public class AetherHelper implements AACompatModule {
 		List.of(AAWeaponTraits.SHIFT_GRAVITY)
 	);
 
+	private static final AACompatMaterial VALKYRIE = new AACompatMaterial(
+		"valkyrie",
+		() -> AetherItemTiers.VALKYRIE,
+		"aether:processed/gravitite",
+		"aether:skyroot_stick",
+		"",
+		properties -> properties.rarity(AetherItems.AETHER_LOOT),
+		AACompatStyle.of("valkyrie").types(AAWeaponType.MACE, AAWeaponType.HEAVY_SHIELD),
+		List.of(AAWeaponTraits.LONG_POLE),
+		false
+	);
+
 	private static final List<AAWeaponDefinition> WEAPONS = List.of(
 		// skyroot
 		weapon(AAWeaponType.CLAYMORE, SKYROOT, 4.5f, -3f, "skyroot_claymore", "天根木大剑"),
@@ -116,7 +130,18 @@ public class AetherHelper implements AACompatModule {
 		weapon(AAWeaponType.HALBERD, GRAVITITE, 6.5f, -3.2f, "gravitite_halberd", "重力晶长戟"),
 		weapon(AAWeaponType.HEAVY_SHIELD, GRAVITITE, 1.0f, -2.8f, "gravitite_heavy_shield", "重力晶重型战盾"),
 		weapon(AAWeaponType.CLAW, GRAVITITE, 0.0f, -1.6f, "gravitite_claw", "重力晶利爪"),
-		weapon(AAWeaponType.JIAN, GRAVITITE, 3.5f, -2.8f, "gravitite_jian", "重力晶锏")
+		weapon(AAWeaponType.JIAN, GRAVITITE, 3.5f, -2.8f, "gravitite_jian", "重力晶锏"),
+		// valkyrie
+		weapon(AAWeaponType.CLAYMORE, VALKYRIE, 6.0f, -3.3f, "valkyrie_claymore", "武神大剑"),
+		weapon(AAWeaponType.MACE, VALKYRIE, 4.5f, -3.2f, "valkyrie_mace", "武神钉头锤"),
+		weapon(AAWeaponType.FLAIL, VALKYRIE, 5.0f, -3.5f, "valkyrie_flail", "武神流星锤"),
+		weapon(AAWeaponType.JAVELIN, VALKYRIE, 1.0f, -2.3f, "valkyrie_javelin", "武神标枪"),
+		weapon(AAWeaponType.PIKE, VALKYRIE, 3.0f, -3.1f, "valkyrie_pike", "武神长槊"),
+		weapon(AAWeaponType.RAPIER, VALKYRIE, 1.0f, -2.3f, "valkyrie_rapier", "武神刺剑"),
+		weapon(AAWeaponType.HALBERD, VALKYRIE, 6.5f, -3.5f, "valkyrie_halberd", "武神长戟"),
+		weapon(AAWeaponType.HEAVY_SHIELD, VALKYRIE, 1.0f, -3.1f, "valkyrie_heavy_shield", "武神重型战盾"),
+		weapon(AAWeaponType.CLAW, VALKYRIE, 0.0f, -1.9f, "valkyrie_claw", "武神利爪"),
+		weapon(AAWeaponType.JIAN, VALKYRIE, 3.5f, -3.1f, "valkyrie_jian", "武神锏")
 	);
 
 	private static AAWeaponDefinition weapon(AAWeaponType type, AACompatMaterial material, float damage, float speed, String name, String zhName) {
@@ -140,9 +165,14 @@ public class AetherHelper implements AACompatModule {
 
 	@Override
 	public void addExtraTags(AAItemTagsProvider provider) {
-		var appender = provider.tag(TREATED_AS_AETHER_ITEM);
+		var treatedAsAether = provider.tag(TREATED_AS_AETHER_ITEM);
+		var silverDungeonLoot = provider.tag(SILVER_DUNGEON_LOOT);
+
 		for (AAWeaponDefinition weapon : WEAPONS) {
-			appender.addOptional(AssortedArmaments.id(weapon.name()));
+			treatedAsAether.addOptional(AssortedArmaments.id(weapon.name()));
+			if (weapon.material() == VALKYRIE) {
+				silverDungeonLoot.addOptional(AssortedArmaments.id(weapon.name()));
+			}
 		}
 	}
 }

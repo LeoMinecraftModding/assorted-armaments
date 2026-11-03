@@ -1,0 +1,49 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aether_treasure_reforging"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "group": "valkyrie_ingot_from_smelting",
+  "ingredient": [
+    {
+      "item": "assorted_armaments:valkyrie_claymore"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_mace"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_javelin"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_flail"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_rapier"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_pike"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_halberd"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_heavy_shield"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_claw"
+    },
+    {
+      "item": "assorted_armaments:valkyrie_jian"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "aether_treasure_reforging:valkyrum_ingot"
+  }
+}

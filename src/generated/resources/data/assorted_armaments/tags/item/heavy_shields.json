@@ -41,6 +41,10 @@
     {
       "id": "assorted_armaments:gravitite_heavy_shield",
       "required": false
+    },
+    {
+      "id": "assorted_armaments:valkyrie_heavy_shield",
+      "required": false
     }
   ]
 }
