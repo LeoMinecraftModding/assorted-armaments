@@ -19,16 +19,16 @@
   },
   "max_cost": {
     "base": 20,
-    "per_level_above_first": 9
+    "per_level_above_first": 10
   },
   "max_level": 3,
   "min_cost": {
     "base": 5,
-    "per_level_above_first": 9
+    "per_level_above_first": 10
   },
   "slots": [
     "mainhand"
   ],
   "supported_items": "#assorted_armaments:enchantable/jian",
-  "weight": 2
+  "weight": 5
 }

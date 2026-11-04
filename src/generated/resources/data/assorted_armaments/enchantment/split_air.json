@@ -4,12 +4,12 @@
     "translate": "enchantment.assorted_armaments.split_air"
   },
   "max_cost": {
-    "base": 50,
+    "base": 40,
     "per_level_above_first": 0
   },
   "max_level": 1,
   "min_cost": {
-    "base": 20,
+    "base": 10,
     "per_level_above_first": 0
   },
   "slots": [
