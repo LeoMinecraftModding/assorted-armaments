@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -64,33 +65,29 @@ public class AACommonEvents {
 	@SubscribeEvent
 	private static void onJoinLevel(FinalizeSpawnEvent event) {
 		Mob living = event.getEntity();
-		ServerLevelAccessor level = event.getLevel();
+		if (living.getType().is(AAEntityTypeTags.ZOMBIES)) {
+			equipSpawnWeapon(living, event.getLevel(), AAItemTags.ZOMBIES_CAN_USE, AACommonConfig.zombieUseWeaponChance, true);
+		}
+	}
+
+	public static void equipSpawnWeapon(Mob mob, ServerLevelAccessor level, TagKey<Item> weaponTag, double chance, boolean dualWieldOffhand) {
 		RandomSource random = level.getRandom();
-		DifficultyInstance difficulty = level.getCurrentDifficultyAt(living.blockPosition());
+		DifficultyInstance difficulty = level.getCurrentDifficultyAt(mob.blockPosition());
 		double enchantChance = 0.25 * difficulty.getSpecialMultiplier();
-		if (living.getType().is(AAEntityTypeTags.ZOMBIES) && living.getRandom().nextFloat() < AACommonConfig.zombieUseWeaponChance) {
-			Optional<Holder<Item>> weapon = BuiltInRegistries.ITEM.getRandomElementOf(AAItemTags.ZOMBIES_CAN_USE, living.getRandom());
-			if (weapon.isPresent() && weapon.get().isBound()) {
-				ItemStack stack = weapon.get().value().getDefaultInstance();
-				if (!stack.isEmpty() && random.nextFloat() < enchantChance) {
-					EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
-				}
-				living.setItemInHand(InteractionHand.MAIN_HAND, stack);
-			}
+		if (mob.getRandom().nextFloat() >= chance) {
+			return;
 		}
-		if (living.getType().is(AAEntityTypeTags.PIGLINS) && living.getRandom().nextFloat() < AACommonConfig.piglinUseWeaponChance) {
-			Optional<Holder<Item>> weapon = BuiltInRegistries.ITEM.getRandomElementOf(AAItemTags.PIGLINS_CAN_USE, living.getRandom());
-			if (weapon.isPresent() && weapon.get().isBound()) {
-				ItemStack stack = weapon.get().value().getDefaultInstance();
-				if (!stack.isEmpty() && random.nextFloat() < enchantChance) {
-					EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
-				}
-				living.setItemInHand(InteractionHand.MAIN_HAND, stack);
-			}
+		Optional<Holder<Item>> weapon = BuiltInRegistries.ITEM.getRandomElementOf(weaponTag, mob.getRandom());
+		if (weapon.isEmpty() || !weapon.get().isBound()) {
+			return;
 		}
-		ItemStack mainHand = living.getMainHandItem();
-		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.DUAL_WIELD, mainHand)) {
-			living.setItemInHand(InteractionHand.OFF_HAND, mainHand.copy());
+		ItemStack stack = weapon.get().value().getDefaultInstance();
+		if (!stack.isEmpty() && random.nextFloat() < enchantChance) {
+			EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
+		}
+		mob.setItemInHand(InteractionHand.MAIN_HAND, stack);
+		if (dualWieldOffhand && WeaponTraitHelper.hasTrait(AAWeaponTraits.DUAL_WIELD, stack)) {
+			mob.setItemInHand(InteractionHand.OFF_HAND, stack.copy());
 		}
 	}
 
@@ -175,18 +172,14 @@ public class AACommonEvents {
 		LivingEntity target = event.getEntity();
 		DamageSource source = event.getSource();
 		ItemStack weaponItem = source.getWeaponItem();
-		if (source.getEntity() instanceof Player attacker && weaponItem != null) {
-			if (AAUtils.isFullAttack(attacker) && attacker.onGround()) {
-				if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, weaponItem)) {
-					StrongSweepWeaponTrait.performSweepAttack(attacker, attacker.getWeaponItem());
-				}
-				if (WeaponTraitHelper.hasTrait(AAWeaponTraits.CONCENTRATION, weaponItem)) {
-					ConcentrationWeaponTrait.onHit(attacker, target, weaponItem);
-				}
-			}
-		}
 		if (source.getDirectEntity() instanceof LivingEntity attacker) {
 			ItemStack weapon = WeaponTraitHelper.getAttackingWeapon(attacker);
+			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, weaponItem)) {
+				StrongSweepWeaponTrait.performSweepAttack(attacker);
+			}
+			if (AAUtils.isFullAttack(attacker) && attacker.onGround() && WeaponTraitHelper.hasTrait(AAWeaponTraits.CONCENTRATION, weaponItem)) {
+				ConcentrationWeaponTrait.onHit(attacker, target, weaponItem);
+			}
 			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.MUSHROOM_GIFT, weapon)) {
 				MushroomGiftWeaponTrait.onHit(attacker, target);
 			}
@@ -214,7 +207,6 @@ public class AACommonEvents {
 	private static void onSweepAttack(SweepAttackEvent event) {
 		Player player = event.getEntity();
 		if (event.isSweeping()) {
-			player.setData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK, true);
 			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, player.getWeaponItem())) {
 				StrongSweepWeaponTrait.onSweepAttack(event);
 			}
@@ -329,7 +321,6 @@ public class AACommonEvents {
 					PacketDistributor.sendToPlayer(serverPlayer, new UpdateBlockAbilityPayload(false));
 				}
 				living.setData(AADataAttachments.BLOCKING_DISABLED_TIME, Math.max(living.getData(AADataAttachments.BLOCKING_DISABLED_TIME) - 1, 0));
-				living.setData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK, false);
 			}
 			CanBlockWeaponTrait.onTick(living);
 			HeavyBlockingWeaponTrait.onTick(living);

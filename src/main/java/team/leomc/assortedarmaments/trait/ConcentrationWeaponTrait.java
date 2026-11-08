@@ -5,13 +5,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 
 public class ConcentrationWeaponTrait extends WeaponTrait {
-	public static void onHit(Player attacker, LivingEntity target, ItemStack weapon) {
+	public static void onHit(LivingEntity attacker, LivingEntity target, ItemStack weapon) {
 		if (target == attacker.getData(AADataAttachments.CONCENTRATED_TARGET) && weapon == attacker.getData(AADataAttachments.CONCENTRATED_WEAPON)) {
 			attacker.setData(AADataAttachments.LAST_CONCENTRATED_ATTACK_TIME, attacker.tickCount);
 			attacker.setData(AADataAttachments.CONCENTRATION_LEVEL, Math.min(attacker.getData(AADataAttachments.CONCENTRATION_LEVEL) + 1, 4));

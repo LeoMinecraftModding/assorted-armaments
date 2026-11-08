@@ -17,10 +17,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.leomc.assortedarmaments.AAUtils;
-import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.tags.AAItemTags;
-import team.leomc.assortedarmaments.trait.StrongSweepWeaponTrait;
 import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
 
 import javax.annotation.Nonnull;
@@ -44,14 +42,6 @@ public abstract class LivingEntityMixin {
 		ItemStack stack = entity.getItemInHand(hand);
 
 		aa$grantParryOnSwing(entity, hand, stack);
-
-		if (WeaponTraitHelper.hasTrait(AAWeaponTraits.STRONG_SWEEP, stack)) {
-			if (!entity.getData(AADataAttachments.NO_INTENTIONAL_SWEEP_ATTACK) && entity instanceof Player player && player.getAttackStrengthScale(0.5F) > 0.9f && player.onGround()) {
-				if (StrongSweepWeaponTrait.performSweepAttack(player, stack)) {
-					stack.hurtAndBreak(1, entity, entity.getEquipmentSlotForItem(stack));
-				}
-			}
-		}
 	}
 
 	@Unique

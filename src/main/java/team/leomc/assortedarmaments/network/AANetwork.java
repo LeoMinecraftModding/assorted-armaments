@@ -36,5 +36,10 @@ public class AANetwork {
 				RemoveJavelinPayload::handle
 			)
 		);
+		registrar.playToServer(
+			SwingAttackPayload.TYPE,
+			SwingAttackPayload.STREAM_CODEC,
+			SwingAttackPayload::handle
+		);
 	}
 }

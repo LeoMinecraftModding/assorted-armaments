@@ -8,6 +8,8 @@
     "ItemStackMixin",
     "LivingEntityMixin",
     "PiglinAiMixin",
+    "PiglinBruteMixin",
+    "PiglinMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
     "SlotMixin",
@@ -21,6 +23,7 @@
     "client.ItemRendererMixin",
     "client.KeyboardHandlerMixin",
     "client.LocalPlayerMixin",
+    "client.MinecraftMixin",
     "client.MouseHandlerMixin",
     "client.PlayerRendererMixin"
   ],
