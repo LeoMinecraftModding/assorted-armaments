@@ -122,9 +122,9 @@ dependencies {
     runtimeOnly "curse.maven:re-retro-damage-indicators-1456876:7921238"
     runtimeOnly "curse.maven:selene-499980:9066398"
     runtimeOnly "curse.maven:mmmmmmmmmmmm-225738:8903254"
-//    runtimeOnly "curse.maven:better-combat-by-daedelus-639842:8430183"
-//    runtimeOnly "curse.maven:playeranimator-658587:7389814"
-//    runtimeOnly "curse.maven:cloth-config-348521:5729127"
+    runtimeOnly "curse.maven:better-combat-by-daedelus-639842:8430183"
+    runtimeOnly "curse.maven:playeranimator-658587:7389814"
+    runtimeOnly "curse.maven:cloth-config-348521:5729127"
 }
 
 tasks.withType(ProcessResources).configureEach {

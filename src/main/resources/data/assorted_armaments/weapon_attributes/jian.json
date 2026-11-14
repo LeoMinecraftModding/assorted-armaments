@@ -1,6 +1,6 @@
 {
   "attributes" : {
-    "range_bonus": 0.0,
+    "range_bonus": 0.25,
     "pose": "assorted_armaments:pose_jian",
     "category": "jian",
     "attacks": [
