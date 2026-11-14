@@ -4,6 +4,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -78,6 +80,7 @@ public class JavelinItem extends TieredItem {
 				javelin.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
 			}
 			level.addFreshEntity(javelin);
+			level.playSound(null, javelin, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
 			if (!player.hasInfiniteMaterials()) {
 				player.getInventory().removeItem(stack);
 			}

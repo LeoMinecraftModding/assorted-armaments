@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/thrown_flail_zanite",
+  "textures": {
+    "flail": "assorted_armaments:item/zanite_flail_spinning",
+    "particle": "assorted_armaments:item/zanite_flail"
+  }
+}

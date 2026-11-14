@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/jian_mushroom_skewers",
+  "textures": {
+    "jian": "assorted_armaments:item/mushroom_skewers_jian"
+  }
+}

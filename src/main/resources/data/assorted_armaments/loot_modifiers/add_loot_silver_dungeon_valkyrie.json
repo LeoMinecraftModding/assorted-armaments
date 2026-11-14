@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "aether:chests/dungeon/silver/silver_dungeon_valkyrie"
+    }
+  ],
+  "table": "assorted_armaments:chests/silver_dungeon_valkyrie"
+}

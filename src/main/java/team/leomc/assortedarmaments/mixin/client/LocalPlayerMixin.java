@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.tags.AAItemTags;
+import team.leomc.assortedarmaments.trait.TorrentWeaponTrait;
 import team.leomc.assortedarmaments.trait.WeaponTraitHelper;
 
 @OnlyIn(Dist.CLIENT)
@@ -27,6 +28,15 @@ public abstract class LocalPlayerMixin {
 	private void modifyBlockingWalkSpeed(CallbackInfo ci) {
 		Player player = ((Player) (Object) this);
 		if (isUsingItem() && (WeaponTraitHelper.hasTrait(AAWeaponTraits.CAN_BLOCK, player.getUseItem()) || player.getUseItem().is(AAItemTags.HEAVY_SHIELDS))) {
+			input.forwardImpulse *= 5;
+			input.leftImpulse *= 5;
+		}
+	}
+
+	@Inject(method = "serverAiStep", at = @At("HEAD"))
+	private void modifyTorrentWalkSpeed(CallbackInfo ci) {
+		Player player = ((Player) (Object) this);
+		if (TorrentWeaponTrait.isActive(player)) {
 			input.forwardImpulse *= 5;
 			input.leftImpulse *= 5;
 		}

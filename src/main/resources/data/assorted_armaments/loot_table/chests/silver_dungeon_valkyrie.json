@@ -1,0 +1,66 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "aether"
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_claymore",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_mace",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_flail",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_javelin",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_pike",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_rapier",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_halberd",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_heavy_shield",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_claw",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "assorted_armaments:valkyrie_jian",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

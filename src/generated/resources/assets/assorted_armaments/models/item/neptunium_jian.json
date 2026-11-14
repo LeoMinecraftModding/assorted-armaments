@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "assorted_armaments:item/jian_neptunium",
   "textures": {
-    "layer0": "assorted_armaments:item/neptunium_jian"
+    "jian": "assorted_armaments:item/neptunium_jian"
   }
 }

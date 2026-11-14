@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/mace_skyroot",
+  "textures": {
+    "mace": "assorted_armaments:item/skyroot_mace"
+  }
+}

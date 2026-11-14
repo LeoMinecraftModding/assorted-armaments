@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/claw",
+  "textures": {
+    "layer0": "assorted_armaments:item/iron_claw"
+  }
+}

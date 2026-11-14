@@ -10,11 +10,17 @@ import java.util.List;
 public class ModifyInteractionRangeWeaponTrait extends WeaponTrait{
 	private final float attackRangeAmount;
 	private final float interactionRangeAmount;
+	private final boolean applyAttributes;
 
-	public ModifyInteractionRangeWeaponTrait(float interactionRangeAmount, float attackRangeAmount){
+	public ModifyInteractionRangeWeaponTrait(float interactionRangeAmount, float attackRangeAmount) {
+		this(interactionRangeAmount, attackRangeAmount, true);
+	}
+
+	public ModifyInteractionRangeWeaponTrait(float interactionRangeAmount, float attackRangeAmount, boolean applyAttributes) {
 		super();
 		this.attackRangeAmount = attackRangeAmount;
 		this.interactionRangeAmount = interactionRangeAmount;
+		this.applyAttributes = applyAttributes;
 	}
 
 	protected float attackRangeAmount() {
@@ -25,10 +31,14 @@ public class ModifyInteractionRangeWeaponTrait extends WeaponTrait{
 		return interactionRangeAmount;
 	}
 
+	@Override
 	public List<TraitAttribute> attributes() {
+		if (!applyAttributes) {
+			return List.of();
+		}
 		return List.of(
 			new TraitAttribute(Attributes.ENTITY_INTERACTION_RANGE, AttributeModifier.Operation.ADD_VALUE, attackRangeAmount()),
-		    new TraitAttribute(Attributes.BLOCK_INTERACTION_RANGE, AttributeModifier.Operation.ADD_VALUE, interactionRangeAmount())
+			new TraitAttribute(Attributes.BLOCK_INTERACTION_RANGE, AttributeModifier.Operation.ADD_VALUE, interactionRangeAmount())
 		);
 	}
 

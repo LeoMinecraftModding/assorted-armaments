@@ -8,7 +8,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -19,20 +18,26 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.Nullable;
 import team.leomc.assortedarmaments.AssortedArmaments;
+import team.leomc.assortedarmaments.client.particle.ExtractExplosionParticle;
+import team.leomc.assortedarmaments.client.particle.SyncopeStarParticle;
 import team.leomc.assortedarmaments.client.sound.FlailSpinSoundInstance;
 import team.leomc.assortedarmaments.entity.ThrownFlail;
 import team.leomc.assortedarmaments.network.RemoveJavelinPayload;
+import team.leomc.assortedarmaments.registry.AAParticleTypes;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 
 @OnlyIn(Dist.CLIENT)
@@ -42,10 +47,9 @@ public class AAClientEvents {
 
 	public static final Int2ObjectArrayMap<Vec3> PLAYER_LEFT_HAND_POS = new Int2ObjectArrayMap<>();
 	public static final Int2ObjectArrayMap<Vec3> PLAYER_RIGHT_HAND_POS = new Int2ObjectArrayMap<>();
+	public static final Int2ObjectArrayMap<Vec3> MOB_LEFT_HAND_POS = new Int2ObjectArrayMap<>();
+	public static final Int2ObjectArrayMap<Vec3> MOB_RIGHT_HAND_POS = new Int2ObjectArrayMap<>();
 	public static final Int2IntArrayMap FLAIL_LIGHT = new Int2IntArrayMap();
-
-	@Nullable
-	private static FlailSpinSoundInstance flailSpinSound;
 
 	@SubscribeEvent
 	private static void onClientTick(ClientTickEvent.Post event) {
@@ -55,20 +59,15 @@ public class AAClientEvents {
 				PacketDistributor.sendToServer(new RemoveJavelinPayload(minecraft.crosshairPickEntity.getId()));
 			}
 		}
-		updateFlailSpinSound(minecraft);
 	}
 
-	private static void updateFlailSpinSound(Minecraft minecraft) {
-		LocalPlayer player = minecraft.player;
-		boolean spinning = player != null && player.isUsingItem() && player.getUseItem().is(AAItemTags.FLAILS);
-		if (spinning) {
-			if (flailSpinSound == null || flailSpinSound.isStopped()) {
-				flailSpinSound = new FlailSpinSoundInstance(player);
-				minecraft.getSoundManager().play(flailSpinSound);
-			}
-		} else if (flailSpinSound != null) {
-			minecraft.getSoundManager().stop(flailSpinSound);
-			flailSpinSound = null;
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	private static void onStartUsingItem(LivingEntityUseItemEvent.Start event) {
+		if (event.isCanceled()) {
+			return;
+		}
+		if (event.getEntity() instanceof Player player && player == Minecraft.getInstance().player && event.getItem().is(AAItemTags.FLAILS)) {
+			Minecraft.getInstance().getSoundManager().play(new FlailSpinSoundInstance(player));
 		}
 	}
 
@@ -84,6 +83,8 @@ public class AAClientEvents {
 		if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
 			PLAYER_LEFT_HAND_POS.clear();
 			PLAYER_RIGHT_HAND_POS.clear();
+			MOB_LEFT_HAND_POS.clear();
+			MOB_RIGHT_HAND_POS.clear();
 			FLAIL_LIGHT.clear();
 		}
 
@@ -93,14 +94,16 @@ public class AAClientEvents {
 			float partialTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(Minecraft.getInstance().level != null && Minecraft.getInstance().level.tickRateManager().runsNormally());
 			for (Entity entity : level.entitiesForRendering()) {
 				if (entity instanceof ThrownFlail flail) {
-					Player owner = flail.getPlayerOwner();
+					LivingEntity owner = flail.getOwner() instanceof LivingEntity living ? living : null;
 					if (owner != null) {
 						int hand = owner.getMainArm() == HumanoidArm.RIGHT ? 1 : -1;
 						if (!owner.getMainHandItem().is(AAItemTags.FLAILS) && owner.getOffhandItem().is(AAItemTags.FLAILS)) {
 							hand = -hand;
 						}
 						boolean rightHand = (owner.getMainArm() == HumanoidArm.RIGHT && owner.getMainHandItem().is(AAItemTags.FLAILS)) || (owner.getMainArm() == HumanoidArm.LEFT && owner.getOffhandItem().is(AAItemTags.FLAILS));
-						Vec3 handPos = (rightHand ? PLAYER_RIGHT_HAND_POS : PLAYER_LEFT_HAND_POS).get(owner.getId());
+						Vec3 handPos = owner instanceof Player
+							? (rightHand ? PLAYER_RIGHT_HAND_POS : PLAYER_LEFT_HAND_POS).get(owner.getId())
+							: (rightHand ? MOB_RIGHT_HAND_POS : MOB_LEFT_HAND_POS).get(owner.getId());
 						if (entityRenderDispatcher.options.getCameraType().isFirstPerson() && owner == Minecraft.getInstance().player) {
 							Vec3 vec3 = entityRenderDispatcher.camera.getNearPlane().getPointOnPlane(hand * 1.2f, -0.6f).scale(960.0 / (double) entityRenderDispatcher.options.fov().get());
 							handPos = owner.getEyePosition(partialTicks).add(vec3);
@@ -150,5 +153,11 @@ public class AAClientEvents {
 
 	private static void flailVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, float x, float y, float z, float uvX, float uvY, int light) {
 		vertexConsumer.addVertex(pose, x, y, z).setColor(-1).setUv(uvX, uvY).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0.0F, 1.0F, 0.0F);
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void registerParticles(RegisterParticleProvidersEvent event) {
+		event.registerSpriteSet(AAParticleTypes.SYNCOPE_STAR.get(), SyncopeStarParticle.Factory::new);
+		event.registerSpriteSet(AAParticleTypes.EXTRACT_EXPLOSION.get(), ExtractExplosionParticle.Factory::new);
 	}
 }

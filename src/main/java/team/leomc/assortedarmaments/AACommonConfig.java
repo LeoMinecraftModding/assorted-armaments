@@ -13,6 +13,10 @@ public class AACommonConfig {
 		.comment("Player's walk speed when blocking with a weapon = (1 - blockWalkSpeedModifier) * original speed")
 		.defineInRange("blockWalkSpeedModifier", 0.25, 0, 1);
 
+	private static final ModConfigSpec.DoubleValue CAN_BLOCK_DAMAGE_PERCENTAGE = BUILDER
+		.comment("Melee damage blocked by a weapon with the Can Block weapon trait = canBlockDamagePercentage * the blocking weapon's attack damage")
+		.defineInRange("canBlockDamagePercentage", 0.8, 0, 1);
+
 	private static final ModConfigSpec.DoubleValue ARMOR_BASED_ATTACK_DAMAGE_PERCENTAGE = BUILDER
 		.comment("Damage caused when attacking with a weapon that deals damage according to the target's armor value = original damage + armorBasedAttackDamagePercentage * target's armor value")
 		.defineInRange("armorBasedAttackDamagePercentage", 0.25, 0, Double.MAX_VALUE);
@@ -61,6 +65,10 @@ public class AACommonConfig {
 		.comment("Armor value granted by the Ironclad weapon trait while the weapon is held")
 		.defineInRange("ironcladArmorValue", 4.0, 0, Double.MAX_VALUE);
 
+	private static final ModConfigSpec.DoubleValue GLOW_STUCK_DAMAGE_BONUS = BUILDER
+		.comment("Damage taken while a javelin with the Glow weapon trait is stuck in a target = (1 + glowStuckDamageBonus) * original damage")
+		.defineInRange("glowStuckDamageBonus", 0.2, 0, Double.MAX_VALUE);
+
 	private static final ModConfigSpec.IntValue PARRY_DURATION = BUILDER
 		.comment("Duration of the parry granted by the Parry weapon trait after a full-cooldown attack (in ticks, 20 ticks = 1 second)")
 		.defineInRange("parryDuration", 2, 0, Integer.MAX_VALUE);
@@ -68,6 +76,10 @@ public class AACommonConfig {
 	private static final ModConfigSpec.DoubleValue PARRY_MELEE_DAMAGE_REDUCTION = BUILDER
 		.comment("Melee damage taken while parrying = (1 - parryMeleeDamageReduction) * original damage")
 		.defineInRange("parryMeleeDamageReduction", 0.5, 0, 1);
+
+	private static final ModConfigSpec.DoubleValue LIGHTWEIGHT_SPRINT_SPEED_MODIFIER = BUILDER
+		.comment("Player's movement speed when sprinting while holding a weapon with the Lightweight trait = (1 + lightweightSprintSpeedModifier) * original speed")
+		.defineInRange("lightweightSprintSpeedModifier", 0.2, 0, Double.MAX_VALUE);
 
 	private static final ModConfigSpec.DoubleValue ZOMBIE_USE_WEAPON_CHANCE = BUILDER
 		.comment("What is the probability that a zombie will use a weapon from Assorted Armaments?")
@@ -79,11 +91,12 @@ public class AACommonConfig {
 
 	private static final ModConfigSpec.IntValue PIN_UP_SYNCOPE_DURATION = BUILDER
 		.comment("Duration of the syncope applied by the Pin Up enchantment when a javelin's knockback slams a target into a block (in ticks, 20 ticks = 1 second)")
-		.defineInRange("pinUpSyncopeDuration", 40, 0, Integer.MAX_VALUE);
+		.defineInRange("pinUpSyncopeDuration", 60, 0, Integer.MAX_VALUE);
 
 	public static final ModConfigSpec SPEC = BUILDER.build();
 
 	public static double blockWalkSpeedModifier;
+	public static double canBlockDamagePercentage;
 	public static double armorBasedAttackDamagePercentage;
 	public static double sprintExtraAttackDamagePercentage;
 	public static int claymoreSweepAttackCooldown;
@@ -96,8 +109,10 @@ public class AACommonConfig {
 	public static double heavyShieldFastBlockDamageReflectionPercentage;
 	public static int heavyShieldFastCounterattackTime;
 	public static double ironcladArmorValue;
+	public static double glowStuckDamageBonus;
 	public static int parryDuration;
 	public static double parryMeleeDamageReduction;
+	public static double lightweightSprintSpeedModifier;
 	public static double zombieUseWeaponChance;
 	public static double piglinUseWeaponChance;
 	public static int pinUpSyncopeDuration;
@@ -105,6 +120,7 @@ public class AACommonConfig {
 	@SubscribeEvent
 	private static void onLoad(final ModConfigEvent event) {
 		blockWalkSpeedModifier = BLOCK_WALK_SPEED_MODIFIER.get();
+		canBlockDamagePercentage = CAN_BLOCK_DAMAGE_PERCENTAGE.get();
 		armorBasedAttackDamagePercentage = ARMOR_BASED_ATTACK_DAMAGE_PERCENTAGE.get();
 		sprintExtraAttackDamagePercentage = SPRINT_EXTRA_ATTACK_DAMAGE_PERCENTAGE.get();
 		claymoreSweepAttackCooldown = CLAYMORE_SWEEP_ATTACK_COOLDOWN.get();
@@ -117,8 +133,10 @@ public class AACommonConfig {
 		heavyShieldFastBlockDamageReflectionPercentage = HEAVY_SHIELD_FAST_BLOCK_DAMAGE_REFLECTION_PERCENTAGE.get();
 		heavyShieldFastCounterattackTime = HEAVY_SHIELD_FAST_COUNTERATTACK_TIME.get();
 		ironcladArmorValue = IRONCLAD_ARMOR_VALUE.get();
+		glowStuckDamageBonus = GLOW_STUCK_DAMAGE_BONUS.get();
 		parryDuration = PARRY_DURATION.get();
 		parryMeleeDamageReduction = PARRY_MELEE_DAMAGE_REDUCTION.get();
+		lightweightSprintSpeedModifier = LIGHTWEIGHT_SPRINT_SPEED_MODIFIER.get();
 		zombieUseWeaponChance = ZOMBIE_USE_WEAPON_CHANCE.get();
 		piglinUseWeaponChance = PIGLIN_USE_WEAPON_CHANCE.get();
 		pinUpSyncopeDuration = PIN_UP_SYNCOPE_DURATION.get();

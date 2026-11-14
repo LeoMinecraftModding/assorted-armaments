@@ -5,10 +5,11 @@ import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
-import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
-import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
+import team.leomc.assortedarmaments.integration.AACompatManager;
+import team.leomc.assortedarmaments.integration.AAWeaponType;
 import team.leomc.assortedarmaments.item.*;
+
+import java.util.List;
 
 public class AAItems {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AssortedArmaments.ID);
@@ -22,9 +23,7 @@ public class AAItems {
 	public static final DeferredItem<ClaymoreItem> NETHERITE_CLAYMORE = ITEMS.register("netherite_claymore", () -> new ClaymoreItem(Tiers.NETHERITE, new Item.Properties().attributes(ClaymoreItem.createAttributes(Tiers.NETHERITE, 6f, -3f)).fireResistant()));
 
 	static {
-		EternalStarlightHelper.registerClaymores(ITEMS);
-		TwilightForestHelper.registerClaymores(ITEMS);
-		AquacultureHelper.registerClaymores(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.CLAYMORE);
 	}
 
 	// maces
@@ -36,9 +35,7 @@ public class AAItems {
 	public static final DeferredItem<MaceItem> NETHERITE_MACE = ITEMS.register("netherite_mace", () -> new MaceItem(Tiers.NETHERITE, new Item.Properties().attributes(MaceItem.createAttributes(Tiers.NETHERITE, 4.5f, -2.9f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerMace(ITEMS);
-		TwilightForestHelper.registerMace(ITEMS);
-		AquacultureHelper.registerMace(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.MACE);
 	}
 
 	// flails
@@ -50,9 +47,7 @@ public class AAItems {
 	public static final DeferredItem<FlailItem> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> new FlailItem(Tiers.NETHERITE, new Item.Properties().attributes(FlailItem.createAttributes(Tiers.NETHERITE, 5f, -3.2f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerFlail(ITEMS);
-		TwilightForestHelper.registerFlail(ITEMS);
-		AquacultureHelper.registerFlail(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.FLAIL);
 	}
 
 	// javelins
@@ -64,9 +59,7 @@ public class AAItems {
 	public static final DeferredItem<JavelinItem> NETHERITE_JAVELIN = ITEMS.register("netherite_javelin", () -> new JavelinItem(Tiers.NETHERITE, new Item.Properties().attributes(JavelinItem.createAttributes(Tiers.NETHERITE, 1f, -2f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerJavelin(ITEMS);
-		TwilightForestHelper.registerJavelin(ITEMS);
-		AquacultureHelper.registerJavelin(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.JAVELIN);
 	}
 
 	// pikes
@@ -78,9 +71,7 @@ public class AAItems {
 	public static final DeferredItem<PikeItem> NETHERITE_PIKE = ITEMS.register("netherite_pike", () -> new PikeItem(Tiers.NETHERITE, new Item.Properties().attributes(PikeItem.createAttributes(Tiers.NETHERITE, 3f, -2.8f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerPike(ITEMS);
-		TwilightForestHelper.registerPike(ITEMS);
-		AquacultureHelper.registerPike(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.PIKE);
 	}
 
 	// rapiers
@@ -92,9 +83,7 @@ public class AAItems {
 	public static final DeferredItem<RapierItem> NETHERITE_RAPIER = ITEMS.register("netherite_rapier", () -> new RapierItem(Tiers.NETHERITE, new Item.Properties().attributes(RapierItem.createAttributes(Tiers.NETHERITE, 1f, -2f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerRapier(ITEMS);
-		TwilightForestHelper.registerRapier(ITEMS);
-		AquacultureHelper.registerRapier(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.RAPIER);
 	}
 
 	// halberds
@@ -106,9 +95,7 @@ public class AAItems {
 	public static final DeferredItem<HalberdItem> NETHERITE_HALBERD = ITEMS.register("netherite_halberd", () -> new HalberdItem(Tiers.NETHERITE, new Item.Properties().attributes(HalberdItem.createAttributes(Tiers.NETHERITE, 7f, -3.2f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerHalberd(ITEMS);
-		TwilightForestHelper.registerHalberd(ITEMS);
-		AquacultureHelper.registerHalberd(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.HALBERD);
 	}
 
 	// heavy shields
@@ -120,9 +107,7 @@ public class AAItems {
 	public static final DeferredItem<HeavyShieldItem> NETHERITE_HEAVY_SHIELD = ITEMS.register("netherite_heavy_shield", () -> new HeavyShieldItem(Tiers.NETHERITE, new Item.Properties().attributes(HeavyShieldItem.createAttributes(Tiers.NETHERITE, 1f, -2.8f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerHeavyShield(ITEMS);
-		TwilightForestHelper.registerHeavyShield(ITEMS);
-		AquacultureHelper.registerHeavyShield(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.HEAVY_SHIELD);
 	}
 
 	// claws
@@ -134,9 +119,7 @@ public class AAItems {
 	public static final DeferredItem<ClawItem> NETHERITE_CLAW = ITEMS.register("netherite_claw", () -> new ClawItem(Tiers.NETHERITE, new Item.Properties().attributes(ClawItem.createAttributes(Tiers.NETHERITE, 0.0f, -1.6f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerClaw(ITEMS);
-		TwilightForestHelper.registerClaw(ITEMS);
-		AquacultureHelper.registerClaw(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.CLAW);
 	}
 
 	// jian
@@ -148,8 +131,13 @@ public class AAItems {
 	public static final DeferredItem<JianItem> NETHERITE_JIAN = ITEMS.register("netherite_jian", () -> new JianItem(Tiers.NETHERITE, new Item.Properties().attributes(JianItem.createAttributes(Tiers.NETHERITE, 4.0f, -2.8f)).fireResistant()));
 
 	static {
-//		EternalStarlightHelper.registerJian(ITEMS);
-		TwilightForestHelper.registerJian(ITEMS);
-		AquacultureHelper.registerJian(ITEMS);
+		AACompatManager.registerItems(ITEMS, AAWeaponType.JIAN);
 	}
+
+	// special weapon
+	public static final DeferredItem<ClaymoreItem> ENDER_DRAGON_CLAYMORE = ITEMS.register("ender_dragon_claymore", () -> new ClaymoreItem(AATiers.ENDERDRAGON, new Item.Properties().attributes(ClaymoreItem.createAttributes(AATiers.ENDERDRAGON, 13f, -3.0f)).fireResistant(), List.of(AAWeaponTraits.DRAGON_FIRE)));
+	public static final DeferredItem<MaceItem> GOLDEN_PUMPKIN_MACE = ITEMS.register("golden_pumpkin_mace", () -> new MaceItem(AATiers.PUMPKIN, new Item.Properties().attributes(MaceItem.createAttributes(AATiers.PUMPKIN, 10f, -2.9f)), List.of(AAWeaponTraits.GLITTERING, AAWeaponTraits.SUPER_HEAVY)));
+	public static final DeferredItem<JavelinItem> ENDER_LANTERN_JAVELIN = ITEMS.register("ender_lantern_javelin", () -> new JavelinItem(AATiers.ENDERLANTERN, new Item.Properties().attributes(JavelinItem.createAttributes(AATiers.ENDERLANTERN, 6f, -2.0f)).fireResistant(), List.of(AAWeaponTraits.GLOW, AAWeaponTraits.SHINE)));
+	public static final DeferredItem<JianItem> MUSHROOM_SKEWERS_JIAN = ITEMS.register("mushroom_skewers_jian", () -> new JianItem(AATiers.MUSHROOM, new Item.Properties().attributes(JianItem.createAttributes(AATiers.MUSHROOM, 10f, -2.8f)).fireResistant(), List.of(AAWeaponTraits.MUSHROOM_GIFT)));
+	public static final DeferredItem<FlailItem> ELDER_ROLL_FLAIL = ITEMS.register("elder_roll_flail", () -> new FlailItem(AATiers.ELDER, new Item.Properties().attributes(FlailItem.createAttributes(AATiers.ELDER, 10f, -3.2f)), List.of(AAWeaponTraits.TORRENT)));
 }

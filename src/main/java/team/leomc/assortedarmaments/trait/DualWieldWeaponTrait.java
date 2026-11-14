@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -71,15 +70,15 @@ public class DualWieldWeaponTrait extends WeaponTrait{
 		}
 	}
 
-	public static int onModifyPostAttackInvulnerabilityTicks(LivingEntity entity, DamageSource source, float amount, int ticks) {
-		if (source.isDirect() && source.getDirectEntity() != null) {
-			ItemStack weapon = source.getDirectEntity().getWeaponItem();
-			if (weapon != null && WeaponTraitHelper.hasTrait(AAWeaponTraits.DUAL_WIELD, weapon)) {
-				return Math.min(15, ticks);
-			}
-		}
-		return ticks;
-	}
+//	public static int onModifyPostAttackInvulnerabilityTicks(LivingEntity entity, DamageSource source, float amount, int ticks) {
+//		if (source.isDirect() && source.getDirectEntity() instanceof LivingEntity living) {
+//			ItemStack weapon = WeaponTraitHelper.getAttackingWeapon(living);
+//			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.DUAL_WIELD, weapon)) {
+//				return Math.min(0, ticks);
+//			}
+//		}
+//		return ticks;
+//	}
 
 	private static final ResourceLocation CROSSHAIR_ATTACK_INDICATOR_FULL_SPRITE = ResourceLocation.withDefaultNamespace("hud/crosshair_attack_indicator_full");
 	private static final ResourceLocation CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("hud/crosshair_attack_indicator_background");

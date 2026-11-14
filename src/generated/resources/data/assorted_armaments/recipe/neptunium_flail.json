@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aquaculture"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "c:rods/wooden"
+    },
+    "C": {
+      "tag": "c:chains"
+    },
+    "X": {
+      "tag": "c:ingots/neptunium"
+    }
+  },
+  "pattern": [
+    " CC",
+    "XXC",
+    "XX#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "assorted_armaments:neptunium_flail"
+  }
+}

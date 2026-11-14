@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/mace_fiery",
+  "textures": {
+    "layer": "assorted_armaments:item/fiery_layer",
+    "mace": "assorted_armaments:item/fiery_mace"
+  }
+}

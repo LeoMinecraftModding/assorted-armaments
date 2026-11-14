@@ -30,6 +30,7 @@ import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AASounds;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
+import team.leomc.assortedarmaments.trait.TorrentWeaponTrait;
 import team.leomc.assortedarmaments.trait.WeaponTrait;
 import team.leomc.assortedarmaments.trait.WeaponTraitsComponent;
 
@@ -71,23 +72,24 @@ public class FlailItem extends TieredItem {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		player.startUsingItem(hand);
-		stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(stack));
+		stack.hurtAndBreak(3, player, player.getEquipmentSlotForItem(stack));
 		return InteractionResultHolder.consume(stack);
 	}
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
-		if (!livingEntity.level().isClientSide && livingEntity instanceof Player player && !player.hasData(AADataAttachments.FLAIL)) {
-			player.stopUsingItem();
-			if (player.hasData(AADataAttachments.FLAIL_KINETIC_POWER) && player.getData(AADataAttachments.FLAIL_KINETIC_POWER) >= 2.5F) {
-				ThrownFlail flail = new ThrownFlail(level, player);
-				flail.setKineticPower(player.getData(AADataAttachments.FLAIL_KINETIC_POWER));
+		if (!level.isClientSide && !livingEntity.hasData(AADataAttachments.FLAIL)) {
+			livingEntity.stopUsingItem();
+			if (livingEntity.hasData(AADataAttachments.FLAIL_KINETIC_POWER) && livingEntity.getData(AADataAttachments.FLAIL_KINETIC_POWER) >= 2.5F) {
+				ThrownFlail flail = new ThrownFlail(level, livingEntity);
+				flail.setKineticPower(livingEntity.getData(AADataAttachments.FLAIL_KINETIC_POWER));
 				flail.setItem(stack);
-				flail.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 1.8f, 0.5f);
+				flail.setTorrentBoost(TorrentWeaponTrait.hasTrait(stack) && TorrentWeaponTrait.isEnvironmentActive(livingEntity));
+				flail.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot(), 0.0f, 1.8f, 0.5f);
 				level.addFreshEntity(flail);
-				level.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.FLAIL_THROWN.get(), player.getSoundSource(), 1.0F, 1.0F);
+				level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), AASounds.FLAIL_THROWN.get(), livingEntity.getSoundSource(), 1.0F, 1.0F);
 			}
-			player.removeData(AADataAttachments.FLAIL_KINETIC_POWER);
+			livingEntity.removeData(AADataAttachments.FLAIL_KINETIC_POWER);
 		}
 
 		super.releaseUsing(stack, level, livingEntity, timeLeft);
@@ -95,42 +97,41 @@ public class FlailItem extends TieredItem {
 
 	@Override
 	public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
-		if (livingEntity instanceof Player player && !level.isClientSide) {
-			if (!player.hasData(AADataAttachments.FLAIL)) {
-				float kineticPower = player.getData(AADataAttachments.FLAIL_KINETIC_POWER);
-				if (kineticPower <= 5) {
-					if (kineticPower == 0.0F) {
-						int initialVelocity = stack.getEnchantmentLevel(level.registryAccess().holderOrThrow(AAEnchantments.INITIAL_VELOCITY));
-						kineticPower += 0.5F * initialVelocity;
-					}
-					float previousKineticPower = kineticPower;
-					kineticPower += 0.05F;
-					player.setData(AADataAttachments.FLAIL_KINETIC_POWER, kineticPower);
-					if (previousKineticPower < 5.0F && kineticPower >= 5.0F) {
-						level.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.FLAIL_FULLY_CHARGE.get(), player.getSoundSource(), 1.0F, 1.0F);
-					}
-				}
-				if (kineticPower >= 2.5F) {
-					for (LivingEntity living : livingEntity.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
-						DamageSource source = living.damageSources().playerAttack(player);
+		if (level.isClientSide || livingEntity.hasData(AADataAttachments.FLAIL)) return;
 
-						float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) * AACommonConfig.flailSpinDamageFactor);
-						float knockback = (float) (player.getKnockback(living, source) * AACommonConfig.flailSpinKnockbackFactor);
+		float kineticPower = livingEntity.getData(AADataAttachments.FLAIL_KINETIC_POWER);
+		if (kineticPower <= 5) {
+			if (kineticPower == 0.0F) {
+				int initialVelocity = stack.getEnchantmentLevel(level.registryAccess().holderOrThrow(AAEnchantments.INITIAL_VELOCITY));
+				kineticPower += 0.5F * initialVelocity;
+			}
+			float previousKineticPower = kineticPower;
+			kineticPower += 0.05F;
+			livingEntity.setData(AADataAttachments.FLAIL_KINETIC_POWER, kineticPower);
+			if (previousKineticPower < 5.0F && kineticPower >= 5.0F) {
+				level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), AASounds.FLAIL_FULLY_CHARGE.get(), livingEntity.getSoundSource(), 1.0F, 1.0F);
+			}
+		}
 
-						if (player.level() instanceof ServerLevel serverLevel) {
-							damage = EnchantmentHelper.modifyDamage(serverLevel, player.getWeaponItem(), living, source, damage);
-							knockback = EnchantmentHelper.modifyKnockback(serverLevel, player.getWeaponItem(), living, source, knockback);
-						}
+		if (kineticPower < 2.5F) return;
 
-						if (living.hurt(source, damage) && player.level() instanceof ServerLevel serverLevel) {
-							EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, living, source, stack);
-						}
+		for (LivingEntity living : level.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
+			DamageSource source = livingEntity instanceof Player player ? living.damageSources().playerAttack(player) : living.damageSources().mobAttack(livingEntity);
 
-						if (knockback > 0.0F) {
-							living.knockback(knockback * 0.5F, Mth.sin(player.getYRot() * Mth.DEG_TO_RAD), -Mth.cos(player.getYRot() * Mth.DEG_TO_RAD));
-						}
-					}
-				}
+			float damage = (float) (livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE) * AACommonConfig.flailSpinDamageFactor);
+			float knockback = (float) (livingEntity.getKnockback(living, source) * AACommonConfig.flailSpinKnockbackFactor);
+
+			if (level instanceof ServerLevel serverLevel) {
+				damage = EnchantmentHelper.modifyDamage(serverLevel, livingEntity.getWeaponItem(), living, source, damage);
+				knockback = EnchantmentHelper.modifyKnockback(serverLevel, livingEntity.getWeaponItem(), living, source, knockback);
+			}
+
+			if (living.hurt(source, damage) && level instanceof ServerLevel serverLevel) {
+				EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, living, source, stack);
+			}
+
+			if (knockback > 0.0F) {
+				living.knockback(knockback * 0.5F, Mth.sin(livingEntity.getYRot() * Mth.DEG_TO_RAD), -Mth.cos(livingEntity.getYRot() * Mth.DEG_TO_RAD));
 			}
 		}
 	}

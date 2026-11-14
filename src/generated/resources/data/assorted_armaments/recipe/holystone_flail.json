@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aether"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "aether:skyroot_stick"
+    },
+    "C": {
+      "tag": "c:chains"
+    },
+    "X": {
+      "tag": "aether:holystone"
+    }
+  },
+  "pattern": [
+    " CC",
+    "XXC",
+    "XX#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "assorted_armaments:holystone_flail"
+  }
+}

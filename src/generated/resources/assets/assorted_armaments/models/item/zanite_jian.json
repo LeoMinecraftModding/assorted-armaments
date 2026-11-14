@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/jian",
+  "textures": {
+    "jian": "assorted_armaments:item/zanite_jian"
+  }
+}

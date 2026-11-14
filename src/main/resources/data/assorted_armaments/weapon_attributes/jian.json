@@ -1,0 +1,114 @@
+{
+  "attributes" : {
+    "range_bonus": 0.0,
+    "pose": "assorted_armaments:pose_jian",
+    "category": "jian",
+    "attacks": [
+      {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.0,
+        "angle": 90,
+        "upswing": 0.5,
+        "animation": "bettercombat:one_handed_uppercut_right",
+		"conditions": ["MAIN_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:mace_slash",
+          "randomness": 0.1
+        }
+      },
+	  {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.0,
+        "angle": 90,
+        "upswing": 0.5,
+        "animation": "bettercombat:one_handed_uppercut_right",
+		"conditions": ["OFF_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:mace_slash"
+        }
+      },
+	  {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.5,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "bettercombat:dual_handed_slash_cross",
+		"conditions": ["DUAL_WIELDING_SAME_CATEGORY","MAIN_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:mace_slash",
+          "randomness": 0.1
+        }
+      },
+	  {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.5,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "bettercombat:dual_handed_slash_uncross",
+		"conditions": ["DUAL_WIELDING_SAME_CATEGORY","OFF_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:mace_slash",
+          "randomness": 0.1
+        }
+      },
+      {
+        "hitbox": "VERTICAL_PLANE",
+        "damage_multiplier": 1.0,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "bettercombat:one_handed_slash_horizontal_left",
+		"conditions": ["MAIN_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:mace_slash"
+        }
+      },
+      {
+        "hitbox": "FORWARD_BOX",
+        "damage_multiplier": 0.75,
+        "angle": 0,
+        "upswing": 0.5,
+        "animation": "bettercombat:one_handed_stab",
+		"conditions": ["OFF_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:sword_slash",
+          "pitch": "0.3"
+        }
+      },
+      {
+        "hitbox": "VERTICAL_PLANE",
+        "damage_multiplier": 1.5,
+        "angle": 60,
+        "upswing": 0.5,
+        "animation": "bettercombat:one_handed_slam",
+        "swing_sound": {
+          "id": "bettercombat:anchor_slam",
+          "randomness": 0.1
+        }
+      },
+	  {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.5,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "bettercombat:dual_handed_slash_uncross",
+		"conditions": ["DUAL_WIELDING_SAME_CATEGORY","MAIN_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:mace_slash",
+          "randomness": 0
+        }
+      },
+	  {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.5,
+        "angle": 120,
+        "upswing": 0.5,
+        "animation": "bettercombat:dual_handed_slash_cross",
+		"conditions": ["DUAL_WIELDING_SAME_CATEGORY","OFF_HAND_ONLY"],
+        "swing_sound": {
+          "id": "bettercombat:mace_slash",
+          "randomness": 0.1
+        }
+      }
+    ]
+  }
+}

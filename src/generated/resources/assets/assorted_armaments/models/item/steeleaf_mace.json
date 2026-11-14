@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/mace_steeleaf",
+  "textures": {
+    "mace": "assorted_armaments:item/steeleaf_mace"
+  }
+}

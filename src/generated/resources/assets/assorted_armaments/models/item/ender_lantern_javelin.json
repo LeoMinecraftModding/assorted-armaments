@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/javelin",
+  "textures": {
+    "layer0": "assorted_armaments:item/ender_lantern_javelin"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/rapier_handheld_sprinting",
+  "textures": {
+    "layer0": "assorted_armaments:item/gravitite_rapier"
+  }
+}

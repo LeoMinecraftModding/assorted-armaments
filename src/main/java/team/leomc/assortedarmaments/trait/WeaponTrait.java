@@ -7,6 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
+import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 
 import java.util.List;
@@ -30,6 +33,19 @@ public class WeaponTrait {
 
 	public Object[] descriptionArgs() {
 		return new Object[0];
+	}
+
+	public boolean hidden() {
+		return false;
+	}
+
+	public void onItemAttributeModifier(ItemAttributeModifierEvent event) {
+	}
+
+	public void onMobEffectApplicable(MobEffectEvent.Applicable event) {
+	}
+
+	public void onEntityInvulnerabilityCheck(EntityInvulnerabilityCheckEvent event) {
 	}
 
 	public List<TraitAttribute> attributes() {

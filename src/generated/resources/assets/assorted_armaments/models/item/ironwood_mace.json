@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/mace_ironwood",
+  "textures": {
+    "mace": "assorted_armaments:item/ironwood_mace"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/mace_holystone",
+  "textures": {
+    "mace": "assorted_armaments:item/holystone_mace"
+  }
+}

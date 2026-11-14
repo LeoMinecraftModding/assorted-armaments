@@ -11,9 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.integration.aquaculture.AquacultureHelper;
-import team.leomc.assortedarmaments.integration.eternalstarlight.EternalStarlightHelper;
-import team.leomc.assortedarmaments.integration.twilightforest.TwilightForestHelper;
+import team.leomc.assortedarmaments.integration.AACompatManager;
 import team.leomc.assortedarmaments.registry.AAItems;
 import team.leomc.assortedarmaments.tags.AAItemTags;
 
@@ -35,7 +33,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.IRON_CLAYMORE.get(),
 			AAItems.GOLDEN_CLAYMORE.get(),
 			AAItems.DIAMOND_CLAYMORE.get(),
-			AAItems.NETHERITE_CLAYMORE.get()
+			AAItems.NETHERITE_CLAYMORE.get(),
+			AAItems.ENDER_DRAGON_CLAYMORE.get()
 		);
 		tag(AAItemTags.MACES).add(
 			AAItems.WOODEN_MACE.get(),
@@ -43,7 +42,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.IRON_MACE.get(),
 			AAItems.GOLDEN_MACE.get(),
 			AAItems.DIAMOND_MACE.get(),
-			AAItems.NETHERITE_MACE.get()
+			AAItems.NETHERITE_MACE.get(),
+			AAItems.GOLDEN_PUMPKIN_MACE.get()
 		);
 		tag(AAItemTags.FLAILS).add(
 			AAItems.WOODEN_FLAIL.get(),
@@ -51,7 +51,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.IRON_FLAIL.get(),
 			AAItems.GOLDEN_FLAIL.get(),
 			AAItems.DIAMOND_FLAIL.get(),
-			AAItems.NETHERITE_FLAIL.get()
+			AAItems.NETHERITE_FLAIL.get(),
+			AAItems.ELDER_ROLL_FLAIL.get()
 		);
 		tag(AAItemTags.JAVELINS).add(
 			AAItems.WOODEN_JAVELIN.get(),
@@ -59,7 +60,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.IRON_JAVELIN.get(),
 			AAItems.GOLDEN_JAVELIN.get(),
 			AAItems.DIAMOND_JAVELIN.get(),
-			AAItems.NETHERITE_JAVELIN.get()
+			AAItems.NETHERITE_JAVELIN.get(),
+			AAItems.ENDER_LANTERN_JAVELIN.get()
 		);
 		tag(AAItemTags.PIKES).add(
 			AAItems.WOODEN_PIKE.get(),
@@ -107,7 +109,8 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.IRON_JIAN.get(),
 			AAItems.GOLDEN_JIAN.get(),
 			AAItems.DIAMOND_JIAN.get(),
-			AAItems.NETHERITE_JIAN.get()
+			AAItems.NETHERITE_JIAN.get(),
+			AAItems.MUSHROOM_SKEWERS_JIAN.get()
 		);
 		tag(AAItemTags.TWO_HANDED)
 			.addTag(AAItemTags.CLAYMORES)
@@ -122,10 +125,12 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			.addTag(AAItemTags.CLAYMORES);
 		tag(AAItemTags.ARMOR_BASED_DAMAGE)
 			.addTag(AAItemTags.MACES)
-			.addTag(AAItemTags.FLAILS);
+			.addTag(AAItemTags.FLAILS)
+			.addTag(AAItemTags.JIANS);
 		tag(AAItemTags.DISABLES_BLOCKING_ON_ATTACK)
 			.addTag(AAItemTags.MACES)
-			.addTag(AAItemTags.FLAILS);
+			.addTag(AAItemTags.FLAILS)
+			.addTag(AAItemTags.JIANS);
 		tag(AAItemTags.DISABLED_WHEN_DISABLING_BLOCKING)
 			.addTag(AAItemTags.CAN_BLOCK)
 			.addTag(AAItemTags.HEAVY_SHIELDS)
@@ -178,7 +183,13 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 		tag(ItemTags.SHARP_WEAPON_ENCHANTABLE)
 			.addTag(AAItemTags.PIKES);
 		tag(ItemTags.SWORD_ENCHANTABLE)
-			.addTag(AAItemTags.HALBERDS);
+			.addTag(AAItemTags.CLAYMORES)
+			.addTag(AAItemTags.MACES)
+			.addTag(AAItemTags.PIKES)
+			.addTag(AAItemTags.RAPIERS)
+			.addTag(AAItemTags.HALBERDS)
+			.addTag(AAItemTags.CLAW)
+			.addTag(AAItemTags.JIANS);
 		tag(ItemTags.MACE_ENCHANTABLE)
 			.addTag(AAItemTags.MACES);
 		tag(ItemTags.DURABILITY_ENCHANTABLE)
@@ -202,11 +213,10 @@ public class AAItemTagsProvider extends ItemTagsProvider {
 			AAItems.GOLDEN_HALBERD.get(),
 			AAItems.GOLDEN_HEAVY_SHIELD.get(),
 			AAItems.GOLDEN_CLAW.get(),
-			AAItems.GOLDEN_JIAN.get()
+			AAItems.GOLDEN_JIAN.get(),
+			AAItems.GOLDEN_PUMPKIN_MACE.get()
 		);
-		EternalStarlightHelper.addTags(this);
-		TwilightForestHelper.addTags(this);
-		AquacultureHelper.addTags(this);
+		AACompatManager.addTags(this);
 	}
 
 	@Override

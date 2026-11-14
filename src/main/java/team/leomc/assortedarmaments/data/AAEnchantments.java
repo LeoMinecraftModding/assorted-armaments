@@ -48,10 +48,10 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.JIAN_ENCHANTABLE),
-						2,
+						5,
 						3,
-						Enchantment.dynamicCost(5, 9),
-						Enchantment.dynamicCost(20, 9),
+						Enchantment.dynamicCost(5, 10),
+						Enchantment.dynamicCost(20, 10),
 						4,
 						EquipmentSlotGroup.MAINHAND
 					)
@@ -88,7 +88,7 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.FLAIL_ENCHANTABLE),
-						2,
+						6,
 						3,
 						Enchantment.dynamicCost(5, 9),
 						Enchantment.dynamicCost(20, 9),
@@ -104,10 +104,10 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.FLAIL_ENCHANTABLE),
-						2,
 						3,
-						Enchantment.constantCost(20),
-						Enchantment.constantCost(50),
+						3,
+						Enchantment.dynamicCost(10, 9),
+						Enchantment.dynamicCost(30, 9),
 						4,
 						EquipmentSlotGroup.MAINHAND
 					)
@@ -121,7 +121,6 @@ public class AAEnchantments {
 						LevelBasedValue.constant(0.0F)
 					),
 					LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().of(AAEntityTypes.FLAIL.get())))
-//				.withEffect(AAEnchantmentEffectComponents.THUMP_EFFECTIVENESS.get(), new AddValue(LevelBasedValue.perLevel(1)))
 				.build(SUPER_THUMP.location())
 		);
 		context.register(
@@ -129,10 +128,10 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.FLAIL_ENCHANTABLE),
-						2,
+						5,
 						3,
-						Enchantment.constantCost(20),
-						Enchantment.constantCost(50),
+						Enchantment.dynamicCost(5, 9),
+						Enchantment.dynamicCost(25, 9),
 						4,
 						EquipmentSlotGroup.MAINHAND
 					)
@@ -144,10 +143,10 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.FLAIL_ENCHANTABLE),
+						5,
 						2,
-						2,
-						Enchantment.constantCost(20),
-						Enchantment.constantCost(50),
+						Enchantment.dynamicCost(7, 13),
+						Enchantment.dynamicCost(22, 13),
 						4,
 						EquipmentSlotGroup.MAINHAND
 					)
@@ -160,10 +159,10 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.JAVELIN_ENCHANTABLE),
-						2,
+						4,
 						1,
-						Enchantment.constantCost(20),
-						Enchantment.constantCost(50),
+						Enchantment.constantCost(10),
+						Enchantment.constantCost(40),
 						4,
 						EquipmentSlotGroup.MAINHAND
 					)
@@ -177,7 +176,7 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.JAVELIN_ENCHANTABLE),
-						2,
+						1,
 						3,
 						Enchantment.dynamicCost(5, 9),
 						Enchantment.dynamicCost(20, 9),
@@ -194,7 +193,7 @@ public class AAEnchantments {
 			Enchantment.enchantment(
 					Enchantment.definition(
 						items.getOrThrow(AAItemTags.JIAN_ENCHANTABLE),
-						2,
+						8,
 						3,
 						Enchantment.dynamicCost(5, 9),
 						Enchantment.dynamicCost(20, 9),
@@ -212,8 +211,8 @@ public class AAEnchantments {
 						items.getOrThrow(AAItemTags.JIAN_ENCHANTABLE),
 						2,
 						1,
-						Enchantment.constantCost(20),
-						Enchantment.constantCost(50),
+						Enchantment.constantCost(10),
+						Enchantment.constantCost(40),
 						4,
 						EquipmentSlotGroup.MAINHAND
 					)

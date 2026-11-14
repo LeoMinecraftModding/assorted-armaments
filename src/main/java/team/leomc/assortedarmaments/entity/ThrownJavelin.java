@@ -27,6 +27,8 @@ import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AAEntityTypes;
 import team.leomc.assortedarmaments.registry.AAItems;
 import team.leomc.assortedarmaments.registry.AASounds;
+import team.leomc.assortedarmaments.trait.GlowWeaponTrait;
+import team.leomc.assortedarmaments.trait.ShineWeaponTrait;
 
 import java.util.UUID;
 
@@ -44,6 +46,8 @@ public class ThrownJavelin extends AbstractArrow {
 	private Entity target;
 	@Nullable
 	private UUID targetId;
+
+	private boolean glowStuckApplied;
 
 	public Entity getTarget() {
 		return target;
@@ -160,11 +164,16 @@ public class ThrownJavelin extends AbstractArrow {
 					setPos(target.position().add(0, target.getBbHeight() / 2, 0));
 				}
 				if (target.isRemoved() || (target instanceof LivingEntity living && living.isDeadOrDying())) {
+					releaseGlowStuck();
 					targetId = null;
 					target = null;
 				}
 			} else {
 				setInTarget(false);
+			}
+			if (isInTarget() && target instanceof LivingEntity living) {
+				GlowWeaponTrait.onStuckTick(getItem(), living, tickCount);
+				ShineWeaponTrait.onStuckTick(getItem(), living, tickCount);
 			}
 			setNoPhysics(isInTarget());
 			setNoGravity(isInTarget());
@@ -249,6 +258,10 @@ public class ThrownJavelin extends AbstractArrow {
 							yawOffset = living.yBodyRot;
 						}
 						setFixedYaw(getYRot() + yawOffset);
+						if (entity instanceof LivingEntity living && GlowWeaponTrait.hasTrait(getItem())) {
+							GlowWeaponTrait.onStuckStart(living);
+							glowStuckApplied = true;
+						}
 					}
 				}
 			}
@@ -287,6 +300,9 @@ public class ThrownJavelin extends AbstractArrow {
 		boolean flag = entity.hurt(source, damage);
 		if (flag && level() instanceof ServerLevel serverLevel) {
 			EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, entity, directSource, getWeaponItem());
+			if (entity instanceof LivingEntity living && GlowWeaponTrait.hasTrait(getItem())) {
+				GlowWeaponTrait.onHit(living);
+			}
 		}
 		if (doKnockback && knockback > 0.0F && entity instanceof LivingEntity living && getOwner() != null) {
 			double x = getOwner().getX() - entity.getX();
@@ -341,6 +357,22 @@ public class ThrownJavelin extends AbstractArrow {
 	public Player getPlayerOwner() {
 		Entity entity = this.getOwner();
 		return entity instanceof Player ? (Player) entity : null;
+	}
+
+	private void releaseGlowStuck() {
+		if (!this.glowStuckApplied) {
+			return;
+		}
+		this.glowStuckApplied = false;
+		if (!this.level().isClientSide && this.target instanceof LivingEntity living) {
+			GlowWeaponTrait.onStuckEnd(living);
+		}
+	}
+
+	@Override
+	public void remove(Entity.RemovalReason removalReason) {
+		this.releaseGlowStuck();
+		super.remove(removalReason);
 	}
 
 	@Override

@@ -3,6 +3,9 @@ package team.leomc.assortedarmaments.entity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -28,12 +31,23 @@ import team.leomc.assortedarmaments.registry.AAItems;
 public class ThrownFlail extends ThrowableItemProjectile {
 	private static final String TAG_HIT_TARGET = "hit_target";
 	private static final String TAG_KINETIC_POWER = "kinetic_power";
+	private static final String TAG_TORRENT_BOOST = "torrent_boost";
+	private static final float TORRENT_RANGE_MULTIPLIER = 1.5F;
+	private static final EntityDataAccessor<Boolean> DATA_TORRENT_BOOST = SynchedEntityData.defineId(ThrownFlail.class, EntityDataSerializers.BOOLEAN);
 
 	private boolean hitTarget;
 	private float kineticPower = 0;
 
 	public void setKineticPower(float kineticPower) {
 		this.kineticPower = kineticPower;
+	}
+
+	public void setTorrentBoost(boolean torrentBoost) {
+		this.entityData.set(DATA_TORRENT_BOOST, torrentBoost);
+	}
+
+	public boolean hasTorrentBoost() {
+		return this.entityData.get(DATA_TORRENT_BOOST);
 	}
 
 	public ThrownFlail(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
@@ -51,18 +65,36 @@ public class ThrownFlail extends ThrowableItemProjectile {
 	}
 
 	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_TORRENT_BOOST, false);
+	}
+
+	@Override
 	public void tick() {
 		super.tick();
 		Entity owner = getOwner();
 		if (owner != null) {
-			if (owner.distanceTo(this) > Math.max(kineticPower * 2, 5) || tickCount > 200) {
+			double returnDistance = Math.max(kineticPower * 2.0F, 5.0F);
+			if (hasTorrentBoost()) {
+				returnDistance *= TORRENT_RANGE_MULTIPLIER;
+			}
+			if (owner.distanceTo(this) > returnDistance || tickCount > 200) {
 				hitTarget = true;
 			}
 			if (hitTarget) {
 				noPhysics = true;
 				Vec3 vec3 = owner.getEyePosition().subtract(this.position());
-				this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.045, this.getZ());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(0.15)));
+				if (owner instanceof Player) {
+					this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.045, this.getZ());
+					this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(0.15)));
+				} else {
+					if (vec3.lengthSqr() < 1.0) {
+						discard();
+						return;
+					}
+					this.setDeltaMovement(vec3.scale(0.35));
+				}
 			}
 		} else {
 			discard();
@@ -189,19 +221,18 @@ public class ThrownFlail extends ThrowableItemProjectile {
 	@Override
 	public void recreateFromPacket(ClientboundAddEntityPacket packet) {
 		super.recreateFromPacket(packet);
-		if (this.getPlayerOwner() == null) {
+		if (this.getOwner() == null) {
 			this.kill();
 		}
 	}
 
 	private void updateOwnerInfo(@Nullable ThrownFlail flail) {
-		Player player = this.getPlayerOwner();
-		if (player != null) {
-			if (flail != null) {
-				player.setData(AADataAttachments.FLAIL, flail);
-			} else {
-				player.removeData(AADataAttachments.FLAIL);
-			}
+		if (!(this.getOwner() instanceof LivingEntity owner)) return;
+
+		if (flail != null) {
+			owner.setData(AADataAttachments.FLAIL, flail);
+		} else {
+			owner.removeData(AADataAttachments.FLAIL);
 		}
 	}
 
@@ -216,6 +247,7 @@ public class ThrownFlail extends ThrowableItemProjectile {
 		super.readAdditionalSaveData(compound);
 		this.hitTarget = compound.getBoolean(TAG_HIT_TARGET);
 		this.kineticPower = compound.getFloat(TAG_KINETIC_POWER);
+		this.setTorrentBoost(compound.getBoolean(TAG_TORRENT_BOOST));
 	}
 
 	@Override
@@ -223,5 +255,6 @@ public class ThrownFlail extends ThrowableItemProjectile {
 		super.addAdditionalSaveData(compound);
 		compound.putBoolean(TAG_HIT_TARGET, this.hitTarget);
 		compound.putFloat(TAG_KINETIC_POWER, this.kineticPower);
+		compound.putBoolean(TAG_TORRENT_BOOST, this.hasTorrentBoost());
 	}
 }

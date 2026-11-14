@@ -1,0 +1,15 @@
+{
+  "parent": "assorted_armaments:item/heavy_shield_ironwood",
+  "overrides": [
+    {
+      "model": "assorted_armaments:item/ironwood_heavy_shield_blocking",
+      "predicate": {
+        "assorted_armaments:blocking": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "particle": "assorted_armaments:item/ironwood_heavy_shield_inventory",
+    "shield": "assorted_armaments:item/ironwood_heavy_shield"
+  }
+}

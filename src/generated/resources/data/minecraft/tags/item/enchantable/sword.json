@@ -1,5 +1,11 @@
 {
   "values": [
-    "#assorted_armaments:halberds"
+    "#assorted_armaments:claymores",
+    "#assorted_armaments:maces",
+    "#assorted_armaments:pikes",
+    "#assorted_armaments:rapiers",
+    "#assorted_armaments:halberds",
+    "#assorted_armaments:claw",
+    "#assorted_armaments:jians"
   ]
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/heavy_shield_blocking",
+  "textures": {
+    "particle": "assorted_armaments:item/gravitite_heavy_shield_inventory",
+    "shield": "assorted_armaments:item/gravitite_heavy_shield"
+  }
+}

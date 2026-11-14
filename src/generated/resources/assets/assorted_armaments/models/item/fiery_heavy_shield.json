@@ -1,0 +1,16 @@
+{
+  "parent": "assorted_armaments:item/heavy_shield_fiery",
+  "overrides": [
+    {
+      "model": "assorted_armaments:item/fiery_heavy_shield_blocking",
+      "predicate": {
+        "assorted_armaments:blocking": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer": "assorted_armaments:item/fiery_layer",
+    "particle": "assorted_armaments:item/fiery_heavy_shield_inventory",
+    "shield": "assorted_armaments:item/fiery_heavy_shield"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:item/thrown_javelin_zanite",
+  "textures": {
+    "javelin": "assorted_armaments:item/zanite_javelin_thrown",
+    "particle": "assorted_armaments:item/zanite_javelin"
+  }
+}

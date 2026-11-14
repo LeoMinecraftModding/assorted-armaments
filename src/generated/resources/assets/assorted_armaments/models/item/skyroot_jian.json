@@ -1,0 +1,6 @@
+{
+  "parent": "assorted_armaments:item/jian_skyroot",
+  "textures": {
+    "jian": "assorted_armaments:item/skyroot_jian"
+  }
+}

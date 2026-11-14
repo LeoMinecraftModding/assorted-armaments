@@ -7,16 +7,23 @@
   "mixins": [
     "ItemStackMixin",
     "LivingEntityMixin",
-    "MobMixin",
+    "PiglinAiMixin",
+    "PiglinBruteMixin",
+    "PiglinMixin",
     "PlayerMixin",
-    "SlotMixin"
+    "ServerPlayerMixin",
+    "SlotMixin",
+    "ThrowableProjectileMixin",
+    "ZombieMixin"
   ],
   "client": [
+    "client.AbstractZombieModelMixin",
     "client.ItemInHandLayerMixin",
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
     "client.KeyboardHandlerMixin",
     "client.LocalPlayerMixin",
+    "client.MinecraftMixin",
     "client.MouseHandlerMixin",
     "client.PlayerRendererMixin"
   ],

@@ -7,6 +7,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AASounds;
+import team.leomc.assortedarmaments.tags.AAItemTags;
 
 public class FlailSpinSoundInstance extends AbstractTickableSoundInstance {
 	public static final float MAX_KINETIC_POWER = 5.0F;
@@ -28,7 +29,7 @@ public class FlailSpinSoundInstance extends AbstractTickableSoundInstance {
 
 	@Override
 	public void tick() {
-		if (this.player.isRemoved()) {
+		if (this.player.isRemoved() || !this.player.isUsingItem() || !this.player.getUseItem().is(AAItemTags.FLAILS)) {
 			this.stop();
 			return;
 		}

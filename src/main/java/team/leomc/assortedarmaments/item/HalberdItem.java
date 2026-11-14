@@ -36,6 +36,7 @@ public class HalberdItem extends AxeItem {
 			WeaponTraitsComponent.EMPTY
 				.withTraitAdded(AAWeaponTraits.TWO_HANDED)
 				.withTraitAdded(AAWeaponTraits.LONG_WEAPON)
+				.withTraitAdded(AAWeaponTraits.STAB)
 				.withTraitAdded(AAWeaponTraits.CAN_BLOCK)
 				.withTraitAdded(AAWeaponTraits.AXE)
 				.withExtraTraitAdded(extraTraits)));
