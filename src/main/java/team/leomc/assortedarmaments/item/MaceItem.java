@@ -2,8 +2,6 @@ package team.leomc.assortedarmaments.item;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -18,11 +16,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AAEffects;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
@@ -124,14 +120,6 @@ public class MaceItem extends net.minecraft.world.item.MaceItem {
 		} else {
 			return 22.0F + fallDistance - 8.0F;
 		}
-	}
-
-	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
-		super.appendHoverText(stack, context, tooltips, flags);
-		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
-		AAUtils.addKnightMetalTooltip(stack, tooltips);
-		AAUtils.addFieryTooltip(path, tooltips);
 	}
 
 	public boolean canSmashAttackWithSuperHeavy(LivingEntity entity) {

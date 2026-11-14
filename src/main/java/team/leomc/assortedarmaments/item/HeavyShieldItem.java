@@ -2,8 +2,6 @@ package team.leomc.assortedarmaments.item;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -25,7 +23,6 @@ import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import team.leomc.assortedarmaments.AACommonConfig;
-import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AADataComponents;
@@ -105,14 +102,6 @@ public class HeavyShieldItem extends TieredItem implements Equipable {
 	@Override
 	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
 		return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(ability) || ability == ItemAbilities.SHIELD_BLOCK;
-	}
-
-	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
-		super.appendHoverText(stack, context, tooltips, flags);
-		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
-		AAUtils.addKnightMetalTooltip(stack, tooltips);
-		AAUtils.addFieryTooltip(path, tooltips);
 	}
 
 	@NotNull

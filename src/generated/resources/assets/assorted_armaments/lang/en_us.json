@@ -272,7 +272,7 @@
   "weapon_trait.assorted_armaments.long_weapon": "Long Weapon",
   "weapon_trait.assorted_armaments.mushroom_gift": "Mushroom Gift",
   "weapon_trait.assorted_armaments.mushroom_gift.desc": "Fully charged attacks randomly trigger one of: Poison II for 6s, restore 1 hunger and saturation, set the target on fire for 12s, or a 1.5-block spore explosion dealing 50% weapon damage",
-  "weapon_trait.assorted_armaments.neptunes_might": "Neptune's Grace",
+  "weapon_trait.assorted_armaments.neptunes_might": "Neptune's Might",
   "weapon_trait.assorted_armaments.neptunes_might.desc": "Increases damage against enemies underwater",
   "weapon_trait.assorted_armaments.parry": "Parry",
   "weapon_trait.assorted_armaments.parry.desc": "Attacking at full cooldown grants a brief parry that prevents damage knockback and reduces melee damage taken by %s%%",

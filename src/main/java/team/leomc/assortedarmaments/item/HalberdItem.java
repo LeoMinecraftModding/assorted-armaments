@@ -1,8 +1,6 @@
 package team.leomc.assortedarmaments.item;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
-import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.trait.WeaponTrait;
@@ -86,14 +83,5 @@ public class HalberdItem extends AxeItem {
 	@Override
 	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
 		return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(ability) || ItemAbilities.DEFAULT_AXE_ACTIONS.contains(ability) || ability == ItemAbilities.SHIELD_BLOCK;
-	}
-
-	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
-		super.appendHoverText(stack, context, tooltips, flags);
-		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
-		AAUtils.addKnightMetalTooltip(stack, tooltips);
-		AAUtils.addFieryTooltip(path, tooltips);
-		AAUtils.addFierySmeltingTooltip(path, tooltips);
 	}
 }

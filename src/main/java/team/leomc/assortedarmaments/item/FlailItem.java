@@ -2,8 +2,6 @@ package team.leomc.assortedarmaments.item;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -17,13 +15,15 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import team.leomc.assortedarmaments.AACommonConfig;
-import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.data.AAEnchantments;
 import team.leomc.assortedarmaments.entity.ThrownFlail;
 import team.leomc.assortedarmaments.registry.AADataAttachments;
@@ -116,6 +116,10 @@ public class FlailItem extends TieredItem {
 		if (kineticPower < 2.5F) return;
 
 		for (LivingEntity living : level.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
+
+			if (living.isPassengerOfSameVehicle(livingEntity)) continue;
+			if (living.getPassengers().contains(livingEntity)) continue;
+
 			DamageSource source = livingEntity instanceof Player player ? living.damageSources().playerAttack(player) : living.damageSources().mobAttack(livingEntity);
 
 			float damage = (float) (livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE) * AACommonConfig.flailSpinDamageFactor);
@@ -144,13 +148,5 @@ public class FlailItem extends TieredItem {
 	@Override
 	public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-	}
-
-	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
-		super.appendHoverText(stack, context, tooltips, flags);
-		String path = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
-		AAUtils.addKnightMetalTooltip(stack, tooltips);
-		AAUtils.addFieryTooltip(path, tooltips);
 	}
 }

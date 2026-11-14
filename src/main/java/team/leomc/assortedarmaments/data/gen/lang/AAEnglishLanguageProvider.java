@@ -108,7 +108,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".shine", "Shine");
 		add("weapon_trait." + AssortedArmaments.ID + ".shine.desc", "A javelin stuck in a target explodes when the target dies, passing this effect on");
 
-		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "Neptune's Grace");
+		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might", "Neptune's Might");
 		add("weapon_trait." + AssortedArmaments.ID + ".neptunes_might.desc", "Increases damage against enemies underwater");
 
 		add("weapon_trait." + AssortedArmaments.ID + ".grace", "Grace");

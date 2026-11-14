@@ -14,12 +14,15 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -30,7 +33,9 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import team.leomc.assortedarmaments.AAUtils;
 import team.leomc.assortedarmaments.AssortedArmaments;
 import team.leomc.assortedarmaments.client.particle.ExtractExplosionParticle;
 import team.leomc.assortedarmaments.client.particle.SyncopeStarParticle;
@@ -39,6 +44,8 @@ import team.leomc.assortedarmaments.entity.ThrownFlail;
 import team.leomc.assortedarmaments.network.RemoveJavelinPayload;
 import team.leomc.assortedarmaments.registry.AAParticleTypes;
 import team.leomc.assortedarmaments.tags.AAItemTags;
+
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = AssortedArmaments.ID, value = Dist.CLIENT)
@@ -57,6 +64,23 @@ public class AAClientEvents {
 		if (AAClientSetupEvents.KEY_MAPPING_REMOVE_JAVELIN.consumeClick()) {
 			if (minecraft.crosshairPickEntity != null) {
 				PacketDistributor.sendToServer(new RemoveJavelinPayload(minecraft.crosshairPickEntity.getId()));
+			}
+		}
+	}
+
+	@SubscribeEvent
+	private static void onTooltip(ItemTooltipEvent event) {
+		List<Component> tooltip = event.getToolTip();
+		ItemStack stack = event.getItemStack();
+		ResourceLocation resourceLocation = BuiltInRegistries.ITEM.getKey(stack.getItem());
+		String path = resourceLocation.getPath();
+		if (!tooltip.isEmpty()) {
+			if (resourceLocation.getNamespace().equals(AssortedArmaments.ID)) {
+				AAUtils.addKnightMetalTooltip(stack, tooltip);
+				AAUtils.addFieryTooltip(path, tooltip);
+				if (stack.is(AAItemTags.HALBERDS)) {
+					AAUtils.addFierySmeltingTooltip(path, tooltip);
+				}
 			}
 		}
 	}

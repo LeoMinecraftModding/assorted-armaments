@@ -19,21 +19,21 @@ import java.util.List;
 public class AAUtils {
 	public static void addKnightMetalTooltip(ItemStack stack, List<Component>tooltips){
 		if (stack.is(AAItemTags.KNIGHTMETAL_WEAPON)) {
-			tooltips.add(Component.translatable("tooltip." + AssortedArmaments.ID + ".knightmetal_weapon").withStyle(ChatFormatting.GRAY));
+			tooltips.add(1,  Component.translatable("tooltip." + AssortedArmaments.ID + ".knightmetal_weapon").withStyle(ChatFormatting.GRAY));
 		} else if (stack.is(AAItemTags.KNIGHTMETAL_TOOL)) {
-			tooltips.add(Component.translatable("tooltip." + AssortedArmaments.ID + ".knightmetal_tool").withStyle(ChatFormatting.GRAY));
+			tooltips.add(1, Component.translatable("tooltip." + AssortedArmaments.ID + ".knightmetal_tool").withStyle(ChatFormatting.GRAY));
 		}
 	}
 
 	public static void addFieryTooltip(String path, List<Component>tooltips){
 		if (isFiery(path)) {
-			tooltips.add(Component.translatable("tooltip." + AssortedArmaments.ID + ".fiery_weapon").withStyle(ChatFormatting.GRAY));
+			tooltips.add(1, Component.translatable("tooltip." + AssortedArmaments.ID + ".fiery_weapon").withStyle(ChatFormatting.GRAY));
 		}
 	}
 
 	public static void addFierySmeltingTooltip(String path, List<Component>tooltips){
 		if (isFiery(path)) {
-			tooltips.add(Component.translatable("tooltip." + AssortedArmaments.ID + ".fiery_smelting").withStyle(ChatFormatting.GRAY));
+			tooltips.add(2, Component.translatable("tooltip." + AssortedArmaments.ID + ".fiery_smelting").withStyle(ChatFormatting.GRAY));
 		}
 	}
 
