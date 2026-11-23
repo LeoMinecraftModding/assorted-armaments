@@ -34,7 +34,8 @@ public class AAEnchantmentTagsProvider extends EnchantmentTagsProvider {
 				AAEnchantments.DEEP_WOUND,
 				AAEnchantments.PIN_UP,
 				AAEnchantments.WITHSTAND,
-				AAEnchantments.SPLIT_AIR
+				AAEnchantments.SPLIT_AIR,
+				AAEnchantments.QUICK_DEFENSE
 			);
 		tag(EnchantmentTags.IN_ENCHANTING_TABLE)
 			.add(
@@ -46,7 +47,8 @@ public class AAEnchantmentTagsProvider extends EnchantmentTagsProvider {
 				AAEnchantments.DEEP_WOUND,
 				AAEnchantments.PIN_UP,
 				AAEnchantments.WITHSTAND,
-				AAEnchantments.SPLIT_AIR
+				AAEnchantments.SPLIT_AIR,
+				AAEnchantments.QUICK_DEFENSE
 			);
 		tag(EnchantmentTags.NON_TREASURE)
 			.add(
@@ -58,7 +60,8 @@ public class AAEnchantmentTagsProvider extends EnchantmentTagsProvider {
 				AAEnchantments.DEEP_WOUND,
 				AAEnchantments.PIN_UP,
 				AAEnchantments.WITHSTAND,
-				AAEnchantments.SPLIT_AIR
+				AAEnchantments.SPLIT_AIR,
+				AAEnchantments.QUICK_DEFENSE
 			);
 	}
 }

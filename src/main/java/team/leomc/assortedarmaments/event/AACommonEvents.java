@@ -86,7 +86,7 @@ public class AACommonEvents {
 			EnchantmentHelper.enchantItemFromProvider(stack, level.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, difficulty, random);
 		}
 		mob.setItemInHand(InteractionHand.MAIN_HAND, stack);
-		if (dualWieldOffhand && WeaponTraitHelper.hasTrait(AAWeaponTraits.DUAL_WIELD, stack)) {
+		if (dualWieldOffhand && WeaponTraitHelper.getTraits(stack).hasTrait(AAWeaponTraits.DUAL_WIELD)) {
 			mob.setItemInHand(InteractionHand.OFF_HAND, stack.copy());
 		}
 	}
@@ -127,7 +127,7 @@ public class AACommonEvents {
 				IgnitWeaponTrait.onIncomingDamage(event);
 			}
 			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.KNIGHT, attackerWeapon)) {
-				KnightWeaponTrait.onIncomingDamage(event);
+				KnightWeaponTrait.onIncomingDamage(event, attackerWeapon);
 			}
 			if (WeaponTraitHelper.hasTrait(AAWeaponTraits.NEPTUNES_MIGHT, attackerWeapon)) {
 				NeptunesMightWeaponTrait.onIncomingDamage(event);

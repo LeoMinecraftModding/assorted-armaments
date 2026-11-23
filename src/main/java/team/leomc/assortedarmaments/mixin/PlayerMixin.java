@@ -87,4 +87,12 @@ public abstract class PlayerMixin extends LivingEntity {
 			original.call(instance);
 		}
 	}
+
+	@WrapOperation(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setSprinting(Z)V"))
+	private void keepSprintingOnClawAttack(Player instance, boolean sprinting, Operation<Void> original) {
+		if (!sprinting && WeaponTraitHelper.getAttackingWeapon(instance).is(AAItemTags.CLAW)) {
+			return;
+		}
+		original.call(instance, sprinting);
+	}
 }

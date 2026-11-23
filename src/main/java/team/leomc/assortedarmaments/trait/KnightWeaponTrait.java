@@ -14,12 +14,8 @@ public class KnightWeaponTrait extends WeaponTrait {
 		return true;
 	}
 
-	public static void onIncomingDamage(LivingIncomingDamageEvent event) {
+	public static void onIncomingDamage(LivingIncomingDamageEvent event, ItemStack weapon) {
 		LivingEntity target = event.getEntity();
-		ItemStack weapon = event.getSource().getWeaponItem();
-		if (weapon == null) {
-			return;
-		}
 		DamageContainer container = event.getContainer();
 		if (weapon.is(AAItemTags.KNIGHTMETAL_WEAPON) && target.getArmorValue() > 0) {
 			if (target.getArmorCoverPercentage() > 0.0F) {

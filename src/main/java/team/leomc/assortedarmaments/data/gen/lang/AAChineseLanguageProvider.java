@@ -69,7 +69,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".concentration", "专注");
 		add("weapon_trait." + AssortedArmaments.ID + ".concentration.desc", "持续攻击同一目标会逐渐提升攻击伤害与攻击速度");
 		add("weapon_trait." + AssortedArmaments.ID + ".lightweight", "轻巧");
-		add("weapon_trait." + AssortedArmaments.ID + ".lightweight.desc", "疾跑时提高移动速度");
+		add("weapon_trait." + AssortedArmaments.ID + ".lightweight.desc", "疾跑时提高移动速度且攻击不减速");
 		add("weapon_trait." + AssortedArmaments.ID + ".dual_wield", "双持");
 		add("weapon_trait." + AssortedArmaments.ID + ".dual_wield.desc", "可双持且两把武器的攻击冷却独立计算");
 		add("weapon_trait." + AssortedArmaments.ID + ".quick_attack", "快攻");
@@ -79,7 +79,7 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking", "重防");
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking.desc", "右键可像盾牌一样格挡，但不会被斧或监守者的攻击禁用");
 		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry", "盾反");
-		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "开始举盾的短时间内格挡近战攻击会对攻击者造成伤害；使用它格挡伤害并在短时间内使用它伤害攻击者可以将挡下的伤害反还给攻击者");
+		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "开始举盾的短时间内格挡近战攻击会返还攻击者伤害");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad", "铁壁");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad.desc", "手持时增加 %s 护甲值和等同于武器伤害100%%的盔甲韧性");
 		add("weapon_trait." + AssortedArmaments.ID + ".parry", "招架");
@@ -232,6 +232,8 @@ public class AAChineseLanguageProvider extends LanguageProvider {
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.WITHSTAND.location()) + ".desc", "每级增加0.05秒招架时间");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.SPLIT_AIR.location()), "破空");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.SPLIT_AIR.location()) + ".desc", "招架期间弹开前方飞来的弹射物");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.QUICK_DEFENSE.location()), "快速防御");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.QUICK_DEFENSE.location()) + ".desc", "每级减少0.05秒重盾格挡前摇");
 
 		add(AAAttributes.CRITICAL_ATTACK_DAMAGE_MULTIPLIER.get().getDescriptionId(), "暴击伤害倍率");
 

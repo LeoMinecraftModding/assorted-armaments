@@ -25,14 +25,6 @@ public class AACommonConfig {
 		.comment("Damage caused when attacking with a weapon that deals extra damage when the attacker is sprinting = (1 + sprintExtraAttackDamagePercentage) * original damage")
 		.defineInRange("sprintExtraAttackDamagePercentage", 0.15, 0, Double.MAX_VALUE);
 
-	private static final ModConfigSpec.IntValue CLAYMORE_SWEEP_ATTACK_COOLDOWN = BUILDER
-		.comment("Claymores' intentional sweep attack cooldown (in ticks, 20 ticks = 1 second)")
-		.defineInRange("claymoreSweepAttackCooldown", 100, 0, Integer.MAX_VALUE);
-
-	private static final ModConfigSpec.IntValue FLAIL_TIME_PER_POWER_LEVEL = BUILDER
-		.comment("When using a flail, every flailTimePerPowerLevel ticks, the power level of the flail increases. This is also the minimum time a player needs to use a flail in order to throw it (in ticks, 20 ticks = 1 second)")
-		.defineInRange("flailTimePerPowerLevel", 20, 0, Integer.MAX_VALUE);
-
 	private static final ModConfigSpec.DoubleValue FLAIL_SPIN_DAMAGE_FACTOR = BUILDER
 		.comment("Damage caused when attacking with a spinning flail = original damage * flailSpinDamageFactor")
 		.defineInRange("flailSpinDamageFactor", 0.5, 0, 1);
@@ -55,11 +47,7 @@ public class AACommonConfig {
 
 	private static final ModConfigSpec.DoubleValue HEAVY_SHIELD_FAST_BLOCK_DAMAGE_REFLECTION_PERCENTAGE = BUILDER
 		.comment("Blocking a melee attack within the first heavyShieldFastBlockTime ticks of using a heavy shield will deal (heavyShieldFastBlockDamageReflectionPercentage * weapon attack damage) damage to the attacker")
-		.defineInRange("heavyShieldFastBlockDamageReflectionPercentage", 1.2, 0, Double.MAX_VALUE);
-
-	private static final ModConfigSpec.IntValue HEAVY_SHIELD_FAST_COUNTERATTACK_TIME = BUILDER
-		.comment("Using a heavy shield to block damage and then using it to damage the attacker heavyShieldFastCounterattackTime ticks later allows the blocked damage to be returned to the attacker (in ticks, 20 ticks = 1 second)")
-		.defineInRange("heavyShieldFastCounterattackTime", 5, 0, Integer.MAX_VALUE);
+		.defineInRange("heavyShieldFastBlockDamageReflectionPercentage", 1.0, 0, Double.MAX_VALUE);
 
 	private static final ModConfigSpec.DoubleValue IRONCLAD_ARMOR_VALUE = BUILDER
 		.comment("Armor value granted by the Ironclad weapon trait while the weapon is held")
@@ -99,15 +87,12 @@ public class AACommonConfig {
 	public static double canBlockDamagePercentage;
 	public static double armorBasedAttackDamagePercentage;
 	public static double sprintExtraAttackDamagePercentage;
-	public static int claymoreSweepAttackCooldown;
-	public static int flailTimePerPowerLevel;
 	public static double flailSpinDamageFactor;
 	public static double flailSpinKnockbackFactor;
 	public static double heavyShieldBlockWalkSpeedModifier;
 	public static double heavyShieldBlockAttackDamageModifier;
 	public static int heavyShieldFastBlockTime;
 	public static double heavyShieldFastBlockDamageReflectionPercentage;
-	public static int heavyShieldFastCounterattackTime;
 	public static double ironcladArmorValue;
 	public static double glowStuckDamageBonus;
 	public static int parryDuration;
@@ -123,15 +108,12 @@ public class AACommonConfig {
 		canBlockDamagePercentage = CAN_BLOCK_DAMAGE_PERCENTAGE.get();
 		armorBasedAttackDamagePercentage = ARMOR_BASED_ATTACK_DAMAGE_PERCENTAGE.get();
 		sprintExtraAttackDamagePercentage = SPRINT_EXTRA_ATTACK_DAMAGE_PERCENTAGE.get();
-		claymoreSweepAttackCooldown = CLAYMORE_SWEEP_ATTACK_COOLDOWN.get();
-		flailTimePerPowerLevel = FLAIL_TIME_PER_POWER_LEVEL.get();
 		flailSpinDamageFactor = FLAIL_SPIN_DAMAGE_FACTOR.get();
 		flailSpinKnockbackFactor = FLAIL_SPIN_KNOCKBACK_FACTOR.get();
 		heavyShieldBlockWalkSpeedModifier = HEAVY_SHIELD_BLOCK_WALK_SPEED_MODIFIER.get();
 		heavyShieldBlockAttackDamageModifier = HEAVY_SHIELD_BLOCK_ATTACK_DAMAGE_MODIFIER.get();
 		heavyShieldFastBlockTime = HEAVY_SHIELD_FAST_BLOCK_TIME.get();
 		heavyShieldFastBlockDamageReflectionPercentage = HEAVY_SHIELD_FAST_BLOCK_DAMAGE_REFLECTION_PERCENTAGE.get();
-		heavyShieldFastCounterattackTime = HEAVY_SHIELD_FAST_COUNTERATTACK_TIME.get();
 		ironcladArmorValue = IRONCLAD_ARMOR_VALUE.get();
 		glowStuckDamageBonus = GLOW_STUCK_DAMAGE_BONUS.get();
 		parryDuration = PARRY_DURATION.get();

@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
 import team.leomc.assortedarmaments.AACommonConfig;
@@ -16,22 +17,16 @@ import team.leomc.assortedarmaments.tags.AAItemTags;
 
 public class HeavyBlockingWeaponTrait extends WeaponTrait {
 	public static void onShieldBlock(LivingShieldBlockEvent event, LivingEntity blocker, DamageSource source) {
-		if (blocker.getTicksUsingItem() <= AACommonConfig.heavyShieldFastBlockTime && source.getDirectEntity() instanceof LivingEntity living) {
-			double damage = 0;
-			AttributeInstance damageInstance = blocker.getAttribute(Attributes.ATTACK_DAMAGE);
-			if (damageInstance != null) {
-				damage = damageInstance.getValue();
+		ItemStack shield = blocker.getUseItem();
+		if (blocker.getTicksUsingItem() <= AACommonConfig.heavyShieldFastBlockTime && source.getDirectEntity() instanceof LivingEntity attacker) {
+			float damage = event.getDamageContainer().getNewDamage();
+			DamageSource damageSource = blocker instanceof Player player ? blocker.damageSources().playerAttack(player) : blocker.damageSources().mobAttack(blocker);
+			blocker.setData(AADataAttachments.PARRY_WEAPON, shield);
+			if (attacker.hurt(damageSource, (float) (damage * AACommonConfig.heavyShieldFastBlockDamageReflectionPercentage)) && blocker.level() instanceof ServerLevel serverLevel) {
+				EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, attacker, damageSource, shield);
 			}
-			DamageSource damageSource = blocker instanceof Player player ? blocker.damageSources().playerAttack(player) : blocker.damageSources().mobAttack(living);
-			if (blocker.level() instanceof ServerLevel serverLevel) {
-				damage = EnchantmentHelper.modifyDamage(serverLevel, blocker.getWeaponItem(), living, damageSource, (float) damage);
-			}
-			if (living.hurt(damageSource, (float) (damage * AACommonConfig.heavyShieldFastBlockDamageReflectionPercentage)) && blocker.level() instanceof ServerLevel serverLevel) {
-				EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, living, damageSource, blocker.getWeaponItem());
-			}
+			blocker.setData(AADataAttachments.PARRY_WEAPON, ItemStack.EMPTY);
 		}
-		blocker.setData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE, event.getDamageContainer().getNewDamage());
-		blocker.setData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE_TIME, blocker.tickCount);
 	}
 
 	public static void onTick(LivingEntity living) {

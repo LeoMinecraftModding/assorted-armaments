@@ -72,7 +72,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".concentration", "Concentration");
 		add("weapon_trait." + AssortedArmaments.ID + ".concentration.desc", "Continuously attacking the same target gradually increases attack damage and speed");
 		add("weapon_trait." + AssortedArmaments.ID + ".lightweight", "Lightweight");
-		add("weapon_trait." + AssortedArmaments.ID + ".lightweight.desc", "Increases movement speed when sprinting");
+		add("weapon_trait." + AssortedArmaments.ID + ".lightweight.desc", "Increases movement speed when sprinting and attacking does not slow you down.");
 		add("weapon_trait." + AssortedArmaments.ID + ".dual_wield", "Dual Wield");
 		add("weapon_trait." + AssortedArmaments.ID + ".dual_wield.desc", "Can be dual wielded with separated attack cooldowns");
 		add("weapon_trait." + AssortedArmaments.ID + ".quick_attack", "Quick Attack");
@@ -82,7 +82,7 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking", "Heavy Blocking");
 		add("weapon_trait." + AssortedArmaments.ID + ".heavy_blocking.desc", "Can be used to block like a shield, but cannot be disabled by axes or the Warden's attack");
 		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry", "Shield Parry");
-		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "Blocking a melee attack within a short time of starting to use a heavy shield will deal some damage back to the attacker; Using it to block damage and then using it to damage the attacker a short time later allows the blocked damage to be returned to the attacker");
+		add("weapon_trait." + AssortedArmaments.ID + ".shield_parry.desc", "Blocking a melee attack within a short time of starting to use a heavy shield will reflect damage back to the attacker");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad", "Ironclad");
 		add("weapon_trait." + AssortedArmaments.ID + ".ironclad.desc", "Increases armor by %s and armor toughness equal to 100%% of the weapon's damage while held");
 		add("weapon_trait." + AssortedArmaments.ID + ".parry", "Parry");
@@ -160,6 +160,8 @@ public class AAEnglishLanguageProvider extends LanguageProvider {
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.WITHSTAND.location()) + ".desc", "Increases parry duration by 0.05 seconds per level");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.SPLIT_AIR.location()), "Split Air");
 		add(Util.makeDescriptionId("enchantment", AAEnchantments.SPLIT_AIR.location()) + ".desc", "Deflects projectiles when parrying");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.QUICK_DEFENSE.location()), "Quick Defense");
+		add(Util.makeDescriptionId("enchantment", AAEnchantments.QUICK_DEFENSE.location()) + ".desc", "Reduces the heavy shield block delay by 0.05 seconds per level");
 
 		add(AAAttributes.CRITICAL_ATTACK_DAMAGE_MULTIPLIER.get().getDescriptionId(), "Critical Attack Damage Multiplier");
 

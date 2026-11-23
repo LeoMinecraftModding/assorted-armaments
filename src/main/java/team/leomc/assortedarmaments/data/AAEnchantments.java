@@ -40,6 +40,7 @@ public class AAEnchantments {
 	public static final ResourceKey<Enchantment> PIN_UP = create("pin_up");
 	public static final ResourceKey<Enchantment> WITHSTAND = create("withstand");
 	public static final ResourceKey<Enchantment> SPLIT_AIR = create("split_air");
+	public static final ResourceKey<Enchantment> QUICK_DEFENSE = create("quick_defense");
 
 	public static void bootstrap(BootstrapContext<Enchantment> context) {
 		HolderGetter<Item> items = context.lookup(Registries.ITEM);
@@ -218,6 +219,21 @@ public class AAEnchantments {
 					)
 				)
 				.build(SPLIT_AIR.location())
+		);
+		context.register(
+			QUICK_DEFENSE,
+			Enchantment.enchantment(
+					Enchantment.definition(
+						items.getOrThrow(AAItemTags.HEAVY_SHIELDS),
+						1,
+						3,
+						Enchantment.dynamicCost(6, 9),
+						Enchantment.dynamicCost(23, 9),
+						4,
+						EquipmentSlotGroup.HAND
+					)
+				)
+				.build(QUICK_DEFENSE.location())
 		);
 	}
 

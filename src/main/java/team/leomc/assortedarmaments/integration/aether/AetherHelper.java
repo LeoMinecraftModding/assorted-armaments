@@ -59,7 +59,7 @@ public class AetherHelper implements AACompatModule {
 		"aether:skyroot_stick",
 		"",
 		properties -> properties,
-		AACompatStyle.of("zanite").types(AAWeaponType.MACE, AAWeaponType.FLAIL, AAWeaponType.JAVELIN, AAWeaponType.HEAVY_SHIELD),
+		AACompatStyle.of("zanite").types(AAWeaponType.MACE, AAWeaponType.FLAIL, AAWeaponType.JAVELIN, AAWeaponType.HEAVY_SHIELD, AAWeaponType.JIAN),
 		List.of(AAWeaponTraits.SHARPEN)
 	);
 
@@ -81,7 +81,8 @@ public class AetherHelper implements AACompatModule {
 		"aether:skyroot_stick",
 		"",
 		properties -> properties.rarity(AetherItems.AETHER_LOOT),
-		AACompatStyle.of("valkyrie").types(AAWeaponType.MACE, AAWeaponType.HEAVY_SHIELD),
+		AACompatStyle.of("valkyrie").types(AAWeaponType.MACE, AAWeaponType.HEAVY_SHIELD, AAWeaponType.JIAN)
+			.model(AAWeaponType.JIAN, "zanite"),
 		List.of(AAWeaponTraits.LONG_POLE),
 		false
 	);

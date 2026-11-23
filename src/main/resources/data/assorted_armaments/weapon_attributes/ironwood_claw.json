@@ -1,0 +1,7 @@
+{
+  "parent": "assorted_armaments:claw",
+  "attributes": {
+    "range_bonus": -0.5,
+    "category": "claw"
+  }
+}

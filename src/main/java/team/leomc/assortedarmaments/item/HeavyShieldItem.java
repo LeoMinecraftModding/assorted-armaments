@@ -5,10 +5,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,9 +18,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
-import team.leomc.assortedarmaments.AACommonConfig;
 import team.leomc.assortedarmaments.AssortedArmaments;
-import team.leomc.assortedarmaments.registry.AADataAttachments;
 import team.leomc.assortedarmaments.registry.AADataComponents;
 import team.leomc.assortedarmaments.registry.AAWeaponTraits;
 import team.leomc.assortedarmaments.trait.WeaponTrait;
@@ -75,28 +69,6 @@ public class HeavyShieldItem extends TieredItem implements Equipable {
 		ItemStack stack = player.getItemInHand(hand);
 		player.startUsingItem(hand);
 		return InteractionResultHolder.consume(stack);
-	}
-
-	@Override
-	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		return true;
-	}
-
-	@Override
-	public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-		if (attacker.isUsingItem() && attacker.getUseItem().is(this)) {
-			target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 0));
-		}
-	}
-
-	@Override
-	public float getAttackDamageBonus(Entity target, float damage, DamageSource damageSource) {
-		Entity directEntity = damageSource.getDirectEntity();
-		if (directEntity != null && directEntity.tickCount - directEntity.getData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE_TIME) < AACommonConfig.heavyShieldFastCounterattackTime) {
-			return directEntity.getData(AADataAttachments.LAST_HEAVY_SHIELD_BLOCKED_DAMAGE);
-		}
-		return super.getAttackDamageBonus(target, damage, damageSource);
 	}
 
 	@Override

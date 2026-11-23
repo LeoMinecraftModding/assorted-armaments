@@ -35,6 +35,10 @@ public class WeaponTraitHelper {
 	}
 
 	public static ItemStack getAttackingWeapon(LivingEntity entity) {
+		ItemStack parryWeapon = entity.getData(AADataAttachments.PARRY_WEAPON);
+		if (!parryWeapon.isEmpty()) {
+			return parryWeapon;
+		}
 		return entity instanceof Player player && player.getData(AADataAttachments.OFFHAND_ATTACK) ? player.getOffhandItem() : entity.getMainHandItem();
 	}
 
