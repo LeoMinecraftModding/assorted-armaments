@@ -117,8 +117,15 @@ public class FlailItem extends TieredItem {
 
 		for (LivingEntity living : level.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, livingEntity, livingEntity.getBoundingBox().inflate(2))) {
 
-			if (living.isPassengerOfSameVehicle(livingEntity)) continue;
-			if (living.getPassengers().contains(livingEntity)) continue;
+			if (!livingEntity.canAttack(living) || livingEntity.isAlliedTo(living)) {
+				continue;
+			}
+			if (living.isPassengerOfSameVehicle(livingEntity)) {
+				continue;
+			}
+			if (living.getPassengers().contains(livingEntity)) {
+				continue;
+			}
 
 			DamageSource source = livingEntity instanceof Player player ? living.damageSources().playerAttack(player) : living.damageSources().mobAttack(livingEntity);
 

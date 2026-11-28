@@ -1,6 +1,7 @@
 package team.leomc.assortedarmaments.registry;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -135,9 +136,9 @@ public class AAItems {
 	}
 
 	// special weapon
-	public static final DeferredItem<ClaymoreItem> ENDER_DRAGON_CLAYMORE = ITEMS.register("ender_dragon_claymore", () -> new ClaymoreItem(AATiers.ENDERDRAGON, new Item.Properties().attributes(ClaymoreItem.createAttributes(AATiers.ENDERDRAGON, 13f, -3.0f)).fireResistant(), List.of(AAWeaponTraits.DRAGON_FIRE)));
-	public static final DeferredItem<MaceItem> GOLDEN_PUMPKIN_MACE = ITEMS.register("golden_pumpkin_mace", () -> new MaceItem(AATiers.PUMPKIN, new Item.Properties().attributes(MaceItem.createAttributes(AATiers.PUMPKIN, 10f, -2.9f)), List.of(AAWeaponTraits.GLITTERING, AAWeaponTraits.SUPER_HEAVY)));
-	public static final DeferredItem<JavelinItem> ENDER_LANTERN_JAVELIN = ITEMS.register("ender_lantern_javelin", () -> new JavelinItem(AATiers.ENDERLANTERN, new Item.Properties().attributes(JavelinItem.createAttributes(AATiers.ENDERLANTERN, 6f, -2.0f)).fireResistant(), List.of(AAWeaponTraits.GLOW, AAWeaponTraits.SHINE)));
-	public static final DeferredItem<JianItem> MUSHROOM_SKEWERS_JIAN = ITEMS.register("mushroom_skewers_jian", () -> new JianItem(AATiers.MUSHROOM, new Item.Properties().attributes(JianItem.createAttributes(AATiers.MUSHROOM, 10f, -2.8f)).fireResistant(), List.of(AAWeaponTraits.MUSHROOM_GIFT)));
-	public static final DeferredItem<FlailItem> ELDER_ROLL_FLAIL = ITEMS.register("elder_roll_flail", () -> new FlailItem(AATiers.ELDER, new Item.Properties().attributes(FlailItem.createAttributes(AATiers.ELDER, 10f, -3.2f)), List.of(AAWeaponTraits.TORRENT)));
+	public static final DeferredItem<ClaymoreItem> ENDER_DRAGON_CLAYMORE = ITEMS.register("ender_dragon_claymore", () -> new ClaymoreItem(AATiers.ENDERDRAGON, new Item.Properties().attributes(ClaymoreItem.createAttributes(AATiers.ENDERDRAGON, 13f, -3.0f)).fireResistant().rarity(Rarity.EPIC), List.of(AAWeaponTraits.DRAGON_FIRE)));
+	public static final DeferredItem<MaceItem> GOLDEN_PUMPKIN_MACE = ITEMS.register("golden_pumpkin_mace", () -> new MaceItem(AATiers.PUMPKIN, new Item.Properties().attributes(MaceItem.createAttributes(AATiers.PUMPKIN, 10f, -2.9f)).rarity(Rarity.EPIC), List.of(AAWeaponTraits.GLITTERING, AAWeaponTraits.SUPER_HEAVY)));
+	public static final DeferredItem<JavelinItem> ENDER_LANTERN_JAVELIN = ITEMS.register("ender_lantern_javelin", () -> new JavelinItem(AATiers.ENDERLANTERN, new Item.Properties().attributes(JavelinItem.createAttributes(AATiers.ENDERLANTERN, 6f, -2.0f)).fireResistant().rarity(Rarity.EPIC), List.of(AAWeaponTraits.GLOW, AAWeaponTraits.SHINE)));
+	public static final DeferredItem<JianItem> MUSHROOM_SKEWERS_JIAN = ITEMS.register("mushroom_skewers_jian", () -> new JianItem(AATiers.MUSHROOM, new Item.Properties().attributes(JianItem.createAttributes(AATiers.MUSHROOM, 10f, -2.8f)).fireResistant().rarity(Rarity.EPIC), List.of(AAWeaponTraits.MUSHROOM_GIFT)));
+	public static final DeferredItem<FlailItem> ELDER_ROLL_FLAIL = ITEMS.register("elder_roll_flail", () -> new FlailItem(AATiers.ELDER, new Item.Properties().attributes(FlailItem.createAttributes(AATiers.ELDER, 10f, -3.2f)).rarity(Rarity.EPIC), List.of(AAWeaponTraits.TORRENT)));
 }
